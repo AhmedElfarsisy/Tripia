@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_4">@dimen/_4sdp</dimen>
+    <dimen name="margin_8">@dimen/_8sdp</dimen>
+    <dimen name="margin_16">@dimen/_16sdp</dimen>
+    <dimen name="margin_24">@dimen/_24sdp</dimen>
+    <dimen name="margin_32">@dimen/_32sdp</dimen>
+
+    <!--    padding values-->
+    <dimen name="padding_4">@dimen/_4sdp</dimen>
+    <dimen name="padding_8">@dimen/_8sdp</dimen>
+    <dimen name="padding_16">@dimen/_16sdp</dimen>
+    <dimen name="padding_24">@dimen/_24sdp</dimen>
+    <dimen name="padding_32">@dimen/_32sdp</dimen>
+
+    <!--    text size-->
+    <dimen name="big_title_size">@dimen/_32ssp</dimen>
+    <dimen name="title_size">@dimen/_24sdp</dimen>
+    <dimen name="btn_txt">@dimen/_22sdp</dimen>
+    <dimen name="paragraph">@dimen/_18sdp</dimen>
+    <dimen name="edit_text">@dimen/_16sdp</dimen>
+</resources>
