@@ -1,5 +1,6 @@
 package com.iti.mad41.tripia.ui.fragment.register;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -13,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.iti.mad41.tripia.R;
+import com.iti.mad41.tripia.databinding.RegisterFragmentBinding;
 
 public class RegisterFragment extends Fragment {
 
     private RegisterViewModel mViewModel;
+    RegisterFragmentBinding binding;
 
     public static RegisterFragment newInstance() {
         return new RegisterFragment();
@@ -25,13 +28,16 @@ public class RegisterFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.register_fragment, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.register_fragment, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+        binding.setRegisterViewModel(mViewModel);
+        binding.setLifecycleOwner(this);
         // TODO: Use the ViewModel
     }
 
