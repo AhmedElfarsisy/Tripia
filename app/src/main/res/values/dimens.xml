@@ -19,4 +19,6 @@
     <dimen name="btn_txt">@dimen/_22sdp</dimen>
     <dimen name="paragraph">@dimen/_18sdp</dimen>
     <dimen name="edit_text">@dimen/_16sdp</dimen>
+
+    <dimen name="header_height">@dimen/_150sdp</dimen>
 </resources>

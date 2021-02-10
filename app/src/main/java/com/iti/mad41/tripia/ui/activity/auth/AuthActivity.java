@@ -21,5 +21,6 @@ public class AuthActivity extends AppCompatActivity {
         binding.setAuthViewModel(authViewModel);
         binding.setLifecycleOwner(this);
 
+
     }
 }
