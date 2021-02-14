@@ -14,11 +14,13 @@
     <dimen name="padding_32">@dimen/_32sdp</dimen>
 
     <!--    text size-->
-    <dimen name="big_title_size">@dimen/_32ssp</dimen>
-    <dimen name="title_size">@dimen/_24sdp</dimen>
-    <dimen name="btn_txt">@dimen/_22sdp</dimen>
-    <dimen name="paragraph">@dimen/_18sdp</dimen>
-    <dimen name="edit_text">@dimen/_16sdp</dimen>
+    <dimen name="big_title_size">@dimen/_28ssp</dimen>
+    <dimen name="title_size">@dimen/_20ssp</dimen>
+    <dimen name="btn_txt">@dimen/_14ssp</dimen>
+    <dimen name="paragraph">@dimen/_14ssp</dimen>
+    <dimen name="edit_text">@dimen/_12ssp</dimen>
+    <dimen name="small_text">@dimen/_10ssp</dimen>
 
-    <dimen name="header_height">@dimen/_150sdp</dimen>
+
+    <dimen name="header_height">@dimen/_120sdp</dimen>
 </resources>
