@@ -1,4 +1,4 @@
-package com.iti.mad41.tripia.ui.fragment.main;
+package com.iti.mad41.tripia.ui.fragment.main.upcomingTrips;
 
 import android.os.Bundle;
 
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.iti.mad41.tripia.R;
-import com.iti.mad41.tripia.adapter.UpcomingTripsAdapter;
+import com.iti.mad41.tripia.adapters.UpcomingTripsAdapter;
 import com.iti.mad41.tripia.model.TripsRepo;
 
 public class UpcomingTripsFragment extends Fragment {

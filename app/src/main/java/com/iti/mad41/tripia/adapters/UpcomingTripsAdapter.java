@@ -1,4 +1,4 @@
-package com.iti.mad41.tripia.adapter;
+package com.iti.mad41.tripia.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

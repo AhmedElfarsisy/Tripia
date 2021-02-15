@@ -1,4 +1,4 @@
-package com.iti.mad41.tripia.ui.fragment.main;
+package com.iti.mad41.tripia.ui.fragment.main.previousTrips;
 
 import android.os.Bundle;
 
@@ -11,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.iti.mad41.tripia.R;
-import com.iti.mad41.tripia.adapter.PreviousTripsAdapter;
+import com.iti.mad41.tripia.adapters.PreviousTripsAdapter;
 import com.iti.mad41.tripia.model.TripsRepo;
+import com.iti.mad41.tripia.ui.fragment.main.upcomingTrips.UpcomingTripsFragment;
 
 public class PreviousTripsFragment extends Fragment {
     private static final String TAG = UpcomingTripsFragment.class.getSimpleName();
