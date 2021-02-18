@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Tripia</string>
+    <string name="tripForm">Trip Form</string>
+    <string name="hint_tripTitle">Enter trip title</string>
+    <string name="hint_startPoint">Enter start point</string>
+    <string name="hint_endPoint">Enter end point</string>
+    <string name="hint_startDate">Enter start date</string>
+    <string name="text_repeat">Repeat</string>
+    <string name="hint_startTime">Enter start time</string>
+    <string name="btn_onWayTrip">on way trip</string>
+    <string name="btn_roundTrip">Round trip</string>
+    <string name="btn_next">Next</string>
+    <string name="note_header">Notes</string>
+    <string name="hint_addNewNote">Add new note</string>
+    <string name="skip">Skip</string>
+    <string name="done">Done</string>
+    <string name="more">More</string>
+    <string name="welcome">Welcome</string>
+    <string name="text_editprofile">Edit Profile</string>
+    <string name="text_logout">Logout</string>
+    <string name="profile">Profile</string>
+    <string name="hint_changeName">Enter your name</string>
 </resources>

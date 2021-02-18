@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+    <variable
+        name="formViewModel"
+        type="com.iti.mad41.tripia.ui.fragment.form.FormViewModel" />
+
+        <import type="android.view.View"
+            />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        tools:context=".ui.fragment.form.FormFragment">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/header_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="1dp">
+
+                <TextView
+                    android:id="@+id/profileTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_16"
+                    android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginTop="@dimen/margin_32"
+                    android:layout_marginBottom="@dimen/margin_16"
+                    android:text="@string/tripForm"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/big_title_size"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_gray"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="?attr/actionBarTheme"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:navigationIcon="@drawable/ic_arrow" />
+
+                />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/textView_startDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:background="@drawable/btn_radius"
+            android:backgroundTint="@color/white"
+            android:drawableEnd="@drawable/ic_calendar"
+            android:hint="@string/hint_startDate"
+            android:textSize="@dimen/edit_text"
+            app:layout_constraintBottom_toTopOf="@+id/textView_startTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_endPoint" />
+
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_24"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_24"
+            android:background="@drawable/btn_radius"
+            android:backgroundTint="@color/blue"
+            android:text="@string/btn_next"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_onWayTrip"
+            android:onClick="@{()->formViewModel.navigateToNotes()}"
+            />
+
+        <EditText
+            android:id="@+id/editText_tripTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:background="@drawable/btn_radius"
+            android:backgroundTint="@color/white"
+            android:hint="@string/hint_tripTitle"
+
+            android:text="@{()->formViewModel.setTitle()}"
+            android:inputType="textPersonName"
+            android:textSize="@dimen/edit_text"
+            app:layout_constraintBottom_toTopOf="@+id/startPointTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+        <Button
+            android:id="@+id/button_roundTrip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_4"
+            android:layout_marginEnd="@dimen/padding_16"
+            android:background="@drawable/btn_radius"
+            android:text="@string/btn_roundTrip"
+            android:textColor="@color/black"
+            app:backgroundTint="@color/white"
+            app:layout_constraintBaseline_toBaselineOf="@+id/button_onWayTrip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_onWayTrip" />
+
+        <Button
+            android:id="@+id/button_onWayTrip"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_16"
+            android:background="@drawable/btn_radius"
+            android:text="@string/btn_onWayTrip"
+            android:textColor="#FFFFFF"
+            app:backgroundTint="@color/sky_blue"
+            app:layout_constraintEnd_toStartOf="@+id/button_roundTrip"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/textView_startTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_16"
+            android:background="@drawable/btn_radius"
+            android:backgroundTint="@color/white"
+            android:drawableEnd="@drawable/ic_clock"
+            android:hint="@string/hint_startTime"
+            android:textSize="@dimen/edit_text"
+            app:layout_constraintBottom_toTopOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_startDate" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginBottom="21dp"
+            android:text="@string/text_repeat"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/button_onWayTrip"
+            app:layout_constraintEnd_toStartOf="@+id/switch_repeat"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Switch
+            android:id="@+id/switch_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:background="@color/light_gray"
+            android:hapticFeedbackEnabled="false"
+            android:textColorHint="#FFFFFF"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/textView_endPoint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:background="@drawable/btn_radius"
+            android:backgroundTint="@color/white"
+            android:drawableEnd="@drawable/ic_pin"
+            android:hint="@string/hint_endPoint"
+            android:textSize="@dimen/edit_text"
+            app:layout_constraintBottom_toTopOf="@+id/textView_startDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/startPointTextView" />
+
+        <TextView
+
+            android:id="@+id/startPointTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_4"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:background="@drawable/btn_radius"
+            android:backgroundTint="@color/white"
+            android:drawableEnd="@drawable/ic_pin"
+            android:hint="@string/hint_startPoint"
+
+            android:textSize="@dimen/edit_text"
+            app:layout_constraintBottom_toTopOf="@+id/textView_endPoint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/editText_tripTitle" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

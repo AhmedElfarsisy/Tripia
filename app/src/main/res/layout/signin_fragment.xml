@@ -3,19 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="signinViewModel"
             type="com.iti.mad41.tripia.ui.fragment.signin.SigninViewModel" />
     </data>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.fragment.signin.SigninFragment"
         android:background="@drawable/background">
-
-
-
     </FrameLayout>
 </layout>

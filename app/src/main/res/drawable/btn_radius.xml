@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="@dimen/margin_32" />
+
+<!--
+<solid android:color="@color/white" />
+    <stroke
+        android:color="@color/blue"
+        android:width="@dimen/_2ssp" />
+-->
+
+    <padding
+        android:bottom="@dimen/padding_8"
+        android:left="@dimen/padding_8"
+        android:right="@dimen/padding_8"
+        android:top= "@dimen/padding_8" />
+    </shape>
+    <!--
+    <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <item>
+
+            <shape>
+            <corners android:radius="@dimen/margin_64" />
+            <solid android:color="@color/light_gray"/>
+
+            <size
+                android:width="@dimen/margin_84"
+                android:height="@dimen/margin_32" />
+            <padding
+                android:bottom="@dimen/padding_8"
+                android:left="@dimen/padding_8"
+                android:right="@dimen/padding_8"
+                android:top="@dimen/padding_8" />
+            </shape>
+        </item>
+
+        <item android:right="1dp" android:left="1dp" android:bottom="2dp">
+            <shape>
+                <corners android:radius="@dimen/margin_64" />
+                <solid android:color="@color/white"/>
+
+                <size
+                    android:width="@dimen/margin_84"
+                    android:height="@dimen/margin_32" />
+                <padding
+                    android:bottom="@dimen/padding_8"
+                    android:left="@dimen/padding_8"
+                    android:right="@dimen/padding_8"
+                    android:top="@dimen/padding_8" />
+            </shape>
+
+        </item>
+        </layer-list>-->

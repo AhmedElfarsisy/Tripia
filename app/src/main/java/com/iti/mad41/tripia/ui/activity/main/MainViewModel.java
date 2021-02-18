@@ -6,10 +6,6 @@ public class MainViewModel extends ViewModel {
     public MainViewModel() {
     }
 
-
-
-
-
     @Override
     protected void onCleared() {
         super.onCleared();
