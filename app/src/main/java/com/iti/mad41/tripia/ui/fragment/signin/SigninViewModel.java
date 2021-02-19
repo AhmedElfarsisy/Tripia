@@ -1,7 +1,6 @@
 package com.iti.mad41.tripia.ui.fragment.signin;
 
 import android.util.Log;
-import android.util.Pair;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -39,6 +38,7 @@ public class SigninViewModel extends ViewModel implements FirebaseDelegate {
 
             }
         } else {
+
         }
 
     }
@@ -90,4 +90,7 @@ public class SigninViewModel extends ViewModel implements FirebaseDelegate {
         isSignedinFailure.setValue("");
         navigateToSignup.setValue(false);
     }
+
+
+
 }
