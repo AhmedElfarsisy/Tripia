@@ -2,12 +2,19 @@ package com.iti.mad41.tripia.ui.activity.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.ActivityMainBinding;
+
+import com.iti.mad41.tripia.ui.fragment.form.FormFragment;
+import com.iti.mad41.tripia.ui.fragment.notes.NotesFragment;
+
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -16,9 +23,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+       // setContentView(R.layout.activity_main);
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_main);
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         binding.setMainViewModel(mainViewModel);
         binding.setLifecycleOwner(this);
+
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.fragment_container_view,new FormFragment()).commit();
+
     }
 }

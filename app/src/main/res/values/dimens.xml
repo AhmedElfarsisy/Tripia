@@ -5,6 +5,8 @@
     <dimen name="margin_16">@dimen/_16sdp</dimen>
     <dimen name="margin_24">@dimen/_24sdp</dimen>
     <dimen name="margin_32">@dimen/_32sdp</dimen>
+    <dimen name="margin_64">@dimen/_64sdp</dimen>
+    <dimen name="margin_84">@dimen/_84sdp</dimen>
 
     <!--    padding values-->
     <dimen name="padding_4">@dimen/_4sdp</dimen>
@@ -16,6 +18,7 @@
     <!--    text size-->
     <dimen name="big_title_size">@dimen/_28ssp</dimen>
     <dimen name="title_size">@dimen/_20ssp</dimen>
+
     <dimen name="btn_txt">@dimen/_14ssp</dimen>
     <dimen name="paragraph">@dimen/_14ssp</dimen>
     <dimen name="edit_text">@dimen/_12ssp</dimen>
