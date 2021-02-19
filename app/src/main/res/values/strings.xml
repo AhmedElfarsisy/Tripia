@@ -27,4 +27,11 @@
     <string name="profile">Profile</string>
     <string name="hint_changeName">Enter your name</string>
 
+    <string name="bottom_tab_home_title">Home</string>
+    <string name="bottom_tab_menu_title">More</string>
+    <string name="trip_canceled_label">Canceled</string>
+    <string name="upcoming_card_start_button">Start</string>
+    <string name="top_tab_upcoming_title">Upcoming</string>
+    <string name="top_tab_previous_title">Previous</string>
+    <string name="home_screen_header_title">Home</string>
 </resources>

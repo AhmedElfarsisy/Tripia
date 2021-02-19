@@ -11,11 +11,12 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.activity.main.MainActivity">
+
 
 
 
@@ -29,5 +30,125 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/header_height"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginBottom="12dp"
+                        android:text="Home"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_28ssp"
+                        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="40dp"
+                            android:layout_marginVertical="12dp"
+                            app:cardCornerRadius="15dp">
+
+                            <com.google.android.material.tabs.TabLayout
+                                android:id="@+id/tripTabLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                app:tabGravity="fill"
+                                app:tabIndicatorColor="@color/blue"
+                                app:tabIndicatorGravity="stretch"
+                                app:tabMaxWidth="0dp"
+                                app:tabMode="fixed"
+                                app:tabSelectedTextColor="@android:color/white"
+                                app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+                                app:tabTextColor="@color/black">
+
+                                <com.google.android.material.tabs.TabItem
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/top_tab_upcoming_title" />
+
+                                <com.google.android.material.tabs.TabItem
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/top_tab_previous_title" />
+
+                            </com.google.android.material.tabs.TabLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/tripViewPager"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView"
+                android:background="@drawable/background"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:backgroundTint="@color/white"
+            app:fabAlignmentMode="center"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp">
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigation"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:backgroundTint="@android:color/transparent"
+                app:elevation="0dp"
+                app:menu="@menu/bottom_bar_menu" />
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_add"
+            app:backgroundTint="@color/blue"
+            app:layout_anchor="@id/bottomAppBar"
+            app:maxImageSize="@dimen/_15sdp"
+            app:tint="@color/white"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

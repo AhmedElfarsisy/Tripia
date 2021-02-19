@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iti.mad41.tripia">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,8 +17,9 @@
             android:name=".ui.activity.auth.AuthActivity"
             android:theme="@style/FullScreen"></activity>
 
-        <activity android:name=".ui.activity.SplashActivity">
-        </activity>
+        <activity
+            android:name=".ui.activity.SplashActivity"
+            android:theme="@style/FullScreen"></activity>
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:theme="@style/FullScreen">
