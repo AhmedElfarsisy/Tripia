@@ -1,5 +1,7 @@
 package com.iti.mad41.tripia.repository.firebase;
 
+import com.google.firebase.auth.FirebaseUser;
+
 public interface FirebaseDelegate {
     default void onSigninSuccess() {
     }
@@ -13,5 +15,20 @@ public interface FirebaseDelegate {
     default void onRegisterFailure(String localizedMessage) {
     }
 
+    default void onHandleFacebookTokenSuccess(FirebaseUser user){
+
+    }
+
+    default void onHandleFacebookTokenFailure(Exception exception){
+
+    }
+
+    default void onHandleGoogleTokenSuccess(FirebaseUser user){
+
+    }
+
+    default void onHandleGoogleTokenFailure(Exception exception){
+
+    }
 
 }

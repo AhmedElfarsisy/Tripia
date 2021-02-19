@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Tripia</string>
+    <string name="facebook_app_id" translatable="false">263992315198396</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb263992315198396</string>
     <string name="password_hint">Enter your Password</string>
     <string name="email_hint">Enter your Email</string>
     <string name="login">Login</string>

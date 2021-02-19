@@ -1,33 +1,42 @@
 {
   "project_info": {
-    "project_number": "356950189252",
-    "project_id": "tripia-8a41b",
-    "storage_bucket": "tripia-8a41b.appspot.com"
+    "project_number": "444795866056",
+    "firebase_url": "https://tripia-1613516469171-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tripia-1613516469171",
+    "storage_bucket": "tripia-1613516469171.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:356950189252:android:02721d5f1f107b78119591",
+        "mobilesdk_app_id": "1:444795866056:android:cd178bc9752b7fb9bccefd",
         "android_client_info": {
           "package_name": "com.iti.mad41.tripia"
         }
       },
       "oauth_client": [
         {
-          "client_id": "356950189252-aruludgu9ctc2nka5toibdne2k9j9q8t.apps.googleusercontent.com",
+          "client_id": "444795866056-oaqvk8crd4lg4bik4gmamji6rirvcnth.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iti.mad41.tripia",
+            "certificate_hash": "f5286e0004188d519ebbe3586b0a488991ed3f33"
+          }
+        },
+        {
+          "client_id": "444795866056-gc5pfr0bt6uej2b2kmgo8l2dh1im1gmm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDPXyDXvKz4hS2httgRzWvbyUXrakvnmlI"
+          "current_key": "AIzaSyB-gyNNtuwbb3R6Tol4dLusctU1uPYhJag"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "356950189252-aruludgu9ctc2nka5toibdne2k9j9q8t.apps.googleusercontent.com",
+              "client_id": "444795866056-gc5pfr0bt6uej2b2kmgo8l2dh1im1gmm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="signinViewModel"
             type="com.iti.mad41.tripia.ui.fragment.signin.SigninViewModel" />
@@ -151,6 +150,23 @@
             app:layout_constraintStart_toEndOf="@+id/divider"
             app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
 
+
+<!--        <com.facebook.login.widget.LoginButton-->
+<!--            android:id="@+id/siginFacebookBtn"-->
+<!--            style="@style/signin_btn_style"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:background="@drawable/auth_rounded_btns"-->
+<!--            android:backgroundTint="@color/dark_blue"-->
+<!--            android:textSize="@dimen/btn_txt"-->
+<!--            android:text="Sign in with Facebook"-->
+<!--            android:drawableLeft="@drawable/ic_facebook"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:paddingVertical="@dimen/padding_8"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/textView3"-->
+<!--            />-->
+
         <Button
             android:id="@+id/siginFacebookBtn"
             style="@style/signin_btn_style"
@@ -160,12 +176,13 @@
             android:text="Sign in with Facebook"
             android:textAllCaps="false"
             android:textSize="@dimen/btn_txt"
+            android:onClick="@{() -> signinViewModel.handleUseFacebookRegistration()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/siginGoogleBtn"
             style="@style/signin_btn_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -175,9 +192,19 @@
             android:text="Sign in with Google"
             android:textAllCaps="false"
             android:textSize="@dimen/btn_txt"
+            android:onClick="@{() -> signinViewModel.handleUseGoogleRegistration()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/siginFacebookBtn" />
+
+<!--        <com.google.android.gms.common.SignInButton-->
+<!--            android:id="@+id/sign_in_button"-->
+<!--            style="@style/signin_btn_style"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:drawableLeft="@drawable/ic_plus"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/button3"-->
+<!--            tools:layout_editor_absoluteX="56dp" />-->
 
         <TextView
             android:id="@+id/textView4"

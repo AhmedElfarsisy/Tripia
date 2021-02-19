@@ -4,6 +4,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,21 +17,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.SigninFragmentBinding;
 import com.iti.mad41.tripia.helper.Constants;
+import com.iti.mad41.tripia.repository.facebook.FacebookRepo;
 import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
+import com.iti.mad41.tripia.repository.google.GoogleRepo;
 import com.iti.mad41.tripia.ui.activity.main.MainActivity;
 import com.iti.mad41.tripia.ui.fragment.register.RegisterFragment;
 
-public class SigninFragment extends Fragment {
+import java.util.Arrays;
 
+public class SigninFragment extends Fragment {
+    private static final String TAG = "SigninFragment";
     private SigninViewModel mViewModel;
     SigninFragmentBinding binding;
     String email;
     String password;
+    private CallbackManager callbackManager;
+    private FirebaseRepo firebaseRepo;
+    private FacebookRepo facebookRepo;
+    private GoogleRepo googleRepo;
 
     public static SigninFragment newInstance() {
         return new SigninFragment();
@@ -46,8 +68,11 @@ public class SigninFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        FirebaseRepo firebaseRepo = new FirebaseRepo();
-        mViewModel = new ViewModelProvider(this, new SiginViewModelFactory(firebaseRepo)).get(SigninViewModel.class);
+        firebaseRepo = new FirebaseRepo(getActivity());
+        callbackManager = CallbackManager.Factory.create();
+        facebookRepo = new FacebookRepo(this, callbackManager);
+        googleRepo = new GoogleRepo(getActivity());
+        mViewModel = new ViewModelProvider(this, new SiginViewModelFactory(firebaseRepo, facebookRepo, googleRepo)).get(SigninViewModel.class);
         binding.setSigninViewModel(mViewModel);
         binding.setLifecycleOwner(this);
 
@@ -74,6 +99,12 @@ public class SigninFragment extends Fragment {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 
