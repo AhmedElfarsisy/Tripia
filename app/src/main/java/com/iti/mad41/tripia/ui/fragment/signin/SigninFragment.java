@@ -32,7 +32,6 @@ public class SigninFragment extends Fragment {
 
         return binding.getRoot();
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

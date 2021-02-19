@@ -11,7 +11,6 @@
         <import type="android.view.View"
             />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -111,7 +110,6 @@
             android:background="@drawable/btn_radius"
             android:backgroundTint="@color/white"
             android:hint="@string/hint_tripTitle"
-
             android:text="@{()->formViewModel.setTitle()}"
             android:inputType="textPersonName"
             android:textSize="@dimen/edit_text"

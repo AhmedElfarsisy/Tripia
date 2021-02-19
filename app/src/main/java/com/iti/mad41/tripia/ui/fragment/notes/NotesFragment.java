@@ -35,4 +35,15 @@ public class NotesFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+
+
+    /*notesToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getActivity().onBackPressed();
+        }
+    });
+*/
+
+    // notesToolbar.setNavigationOnClickListener(v -> {getActivity().onBackPressed(); });
 }
