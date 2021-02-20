@@ -8,10 +8,26 @@ import java.util.List;
 
 public class TripWithNotes {
     @Embedded
-    public UpComingTrip upComingTrip;
+    private UpComingTrip upComingTrip;
     @Relation(
-            parentColumn = "upComingTripId",
-            entityColumn = "NotesId"
+            parentColumn = "upcoming_id",
+            entityColumn = "note_id"
     )
-    public List<Notes> notesList;
+    private List<Notes> notesList;
+
+    public List<Notes> getNotesList() {
+        return notesList;
+    }
+
+    public void setNotesList(List<Notes> notesList) {
+        this.notesList = notesList;
+    }
+
+    public UpComingTrip getUpComingTrip() {
+        return upComingTrip;
+    }
+
+    public void setUpComingTrip(UpComingTrip upComingTrip) {
+        this.upComingTrip = upComingTrip;
+    }
 }

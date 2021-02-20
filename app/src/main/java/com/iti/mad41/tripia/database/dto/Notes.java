@@ -8,7 +8,37 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "trip_notes")
 public class Notes {
     @PrimaryKey(autoGenerate = true)
-    public int notesId;
+    @ColumnInfo(name = "note_id")
+    private int notesId;
+    private int upComingTripId;
     @ColumnInfo(name = "note_body")
-    public String noteBody;
+    private String noteBody;
+
+    public Notes(String noteBody) {
+        this.noteBody = noteBody;
+    }
+
+    public int getNotesId() {
+        return notesId;
+    }
+
+    public void setNotesId(int notesId) {
+        this.notesId = notesId;
+    }
+
+    public int getUpComingTripId() {
+        return upComingTripId;
+    }
+
+    public void setUpComingTripId(int upComingTripId) {
+        this.upComingTripId = upComingTripId;
+    }
+
+    public String getNoteBody() {
+        return noteBody;
+    }
+
+    public void setNoteBody(String noteBody) {
+        this.noteBody = noteBody;
+    }
 }

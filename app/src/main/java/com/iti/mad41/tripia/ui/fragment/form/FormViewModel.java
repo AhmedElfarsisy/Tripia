@@ -33,18 +33,14 @@ public class FormViewModel extends ViewModel {
 
         this.context=context;
     }
+
     public  void  navigateToNotes () {
         mutableLiveData.setValue(true);
         Log.i(TAG, "navigateToNotes: "+title);
     }
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle( @NonNull String title) {
-        this.title = title;
-    }
+
 
     public void onDisplayTimerDialogClick()
     {
