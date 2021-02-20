@@ -79,7 +79,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_endPoint" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_endPoint"
+            android:onClick="@{()->formViewModel.onDisplayDateDialogClick()}"/>
 
         <Button
             android:id="@+id/button_next"
@@ -111,15 +112,14 @@
             android:background="@drawable/btn_radius"
             android:backgroundTint="@color/white"
             android:hint="@string/hint_tripTitle"
-
-            android:text="@{()->formViewModel.setTitle()}"
             android:inputType="textPersonName"
             android:textSize="@dimen/edit_text"
             app:layout_constraintBottom_toTopOf="@+id/startPointTextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView2"
+            />
 
         <Button
             android:id="@+id/button_roundTrip"
@@ -167,7 +167,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_startDate" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_startDate"
+            android:onClick="@{()->formViewModel.onDisplayTimerDialogClick()}"/>
 
         <TextView
             android:id="@+id/textView7"

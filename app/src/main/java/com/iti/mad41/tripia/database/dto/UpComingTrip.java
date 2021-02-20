@@ -1,4 +1,4 @@
-package com.iti.mad41.tripia.database.dto;
+    package com.iti.mad41.tripia.database.dto;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tripia</string>
-<<<<<<< HEAD
     <string name="tripForm">Trip Form</string>
     <string name="hint_tripTitle">Enter trip title</string>
     <string name="hint_startPoint">Enter start point</string>
@@ -21,7 +20,7 @@
     <string name="text_logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="hint_changeName">Enter your name</string>
-=======
+
     <string name="bottom_tab_home_title">الرئيسية</string>
     <string name="bottom_tab_menu_title">المزيد</string>
     <string name="trip_canceled_label">ألغيت</string>
@@ -29,5 +28,10 @@
     <string name="top_tab_upcoming_title">القادم</string>
     <string name="top_tab_previous_title">السابق</string>
     <string name="home_screen_header_title">الرئيسية</string>
->>>>>>> UpcomingAndPreviousTrips
+    <string name="hint_addNewNote">Add new note</string>
+    <string name="password_hint">Enter your Password</string>
+    <string name="email_hint">Enter your Email</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="signup_here">Signup here</string>
 </resources>
