@@ -13,6 +13,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -69,4 +70,12 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    //Login with Facebook
+    implementation 'com.facebook.android:facebook-android-sdk:8.1.0'
+
+    //Login with Google
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
+    implementation "androidx.multidex:multidex:2.0.1"
 }
