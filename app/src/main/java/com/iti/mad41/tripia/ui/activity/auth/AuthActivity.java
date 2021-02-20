@@ -27,17 +27,14 @@ import com.iti.mad41.tripia.ui.fragment.signin.SigninViewModel;
 public class AuthActivity extends AppCompatActivity {
     private static final String TAG = "AuthActivity";
     ActivityAuthBinding binding;
-    AuthViewModel authViewModel;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     SigninFragment signinFragment;
-    private FirebaseRepo firebaseRepo;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        firebaseRepo = new FirebaseRepo(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
@@ -48,25 +45,13 @@ public class AuthActivity extends AppCompatActivity {
         } else {
             signinFragment = (SigninFragment) fragmentManager.findFragmentByTag(Constants.SIGNIN_FRAGMENT);
         }
-
-        authViewModel = new ViewModelProvider(this, new AuthFactory(firebaseRepo)).get(AuthViewModel.class);
-        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
-        binding.setAuthViewModel(authViewModel);
-        binding.setLifecycleOwner(this);
-
-        authViewModel.isSignedinSuccessed.observe(this, isSignedin -> {
-            if (isSignedin) {
-                startActivity(new Intent(this, MainActivity.class));
-            }
-        });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GoogleRepo.RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            authViewModel.handleSignInResult(task);
-        }
+        fragmentManager.findFragmentByTag(Constants.SIGNIN_FRAGMENT).onActivityResult(requestCode, resultCode, data);
+        if(fragmentManager.findFragmentByTag(Constants.SIGNUP_FRAGMENT) != null)
+                fragmentManager.findFragmentByTag(Constants.SIGNUP_FRAGMENT).onActivityResult(requestCode, resultCode, data);
     }
 }

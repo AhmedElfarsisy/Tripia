@@ -16,10 +16,18 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.iti.mad41.tripia.model.User;
 
 public class FirebaseRepo implements IFirebaseRepo {
-    FirebaseDelegate delegate;
-    Activity activity;
+    private FirebaseDelegate delegate;
+    private Activity activity;
+    private DatabaseReference mDatabase;
 
     public FirebaseRepo(Activity activity) {
         this.activity = activity;
@@ -81,5 +89,25 @@ public class FirebaseRepo implements IFirebaseRepo {
                 delegate.onHandleGoogleTokenFailure(task.getException());
             }
         });
+    }
+
+    @Override
+    public void writeNewUser(User user) {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userNameRef = rootRef.child("users");
+        Query queries=userNameRef.orderByChild("userName").equalTo(user.getUserName());
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()) {
+                    mDatabase = FirebaseDatabase.getInstance().getReference();
+                    mDatabase.child("users").push().setValue(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        };
+        queries.addListenerForSingleValueEvent(eventListener);
     }
 }

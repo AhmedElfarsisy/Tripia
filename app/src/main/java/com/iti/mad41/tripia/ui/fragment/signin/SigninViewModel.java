@@ -7,24 +7,30 @@ import androidx.lifecycle.ViewModel;
 
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
-import com.iti.mad41.tripia.helper.Constants;
+import com.iti.mad41.tripia.helper.Validations;
+import com.iti.mad41.tripia.model.User;
 import com.iti.mad41.tripia.repository.facebook.FacebookDelegate;
 import com.iti.mad41.tripia.repository.facebook.IFacebookRepo;
 import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
 import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
 import com.iti.mad41.tripia.repository.google.GoogleDelegate;
-import com.iti.mad41.tripia.repository.google.GoogleRepo;
 import com.iti.mad41.tripia.repository.google.IGoogleRepo;
 
 public class SigninViewModel extends ViewModel implements FirebaseDelegate, FacebookDelegate, GoogleDelegate {
-    FirebaseDelegate delegate;
     public MutableLiveData<Boolean> doSignin = new MutableLiveData<>();
     public MutableLiveData<Boolean> isSignedinSuccessed = new MutableLiveData<>();
-
-    public MutableLiveData<Boolean> isPasswordValid = new MutableLiveData<>();
-    public MutableLiveData<Boolean> isEmailValid = new MutableLiveData<>();
     public MutableLiveData<String> isSignedinFailure = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isSignedinCanceled = new MutableLiveData<>();
+    public MutableLiveData<User> isSocialSuccessed = new MutableLiveData<>();
+    public MutableLiveData<String> isSocialFailure = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isSocialCanceled = new MutableLiveData<>();
+
+    public MutableLiveData<Boolean> isPasswordNotValid = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isEmailNotValid = new MutableLiveData<>();
 
     //    public MutableLiveData<Pair<String, Boolean>> isSignedinFailure = new MutableLiveData<>();
     public MutableLiveData<Boolean> navigateToSignup = new MutableLiveData<>();
@@ -45,15 +51,33 @@ public class SigninViewModel extends ViewModel implements FirebaseDelegate, Face
 
 
     public void signinUser(String email, String password) {
-        if (isValidEmail(email)) {
-            if (isValidPassword(password)) {
+        if (Validations.isValidEmail(email)) {
+            if (Validations.isValidPassword(password)) {
                 firebaseRepo.loginWithFirebase(email, password);
             } else {
-
+                isPasswordNotValid.setValue(true);
             }
         } else {
+            isEmailNotValid.setValue(true);
         }
 
+    }
+
+    public void writeNewUser(User user){
+        firebaseRepo.writeNewUser(user);
+    }
+
+    public void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            firebaseRepo.handleGoogleToken(account);
+            // Signed in successfully, show authenticated UI.
+
+        } catch (ApiException e) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            isSocialFailure.setValue(e.getMessage());
+        }
     }
 
     public void handleUseFacebookRegistration(){
@@ -95,43 +119,41 @@ public class SigninViewModel extends ViewModel implements FirebaseDelegate, Face
 
     @Override
     public void onFacebookRegistrationCancel() {
-
+        isSignedinCanceled.setValue(true);
     }
 
     @Override
     public void onFacebookRegistrationError(FacebookException error) {
-
+        isSignedinFailure.setValue(error.getMessage());
     }
 
     @Override
     public void onHandleFacebookTokenSuccess(FirebaseUser user) {
-        isSignedinSuccessed.setValue(true);
+        isSocialSuccessed.setValue(new User(user.getDisplayName(), user.getEmail(), ""));
+    }
+
+    @Override
+    public void onHandleFacebookTokenFailure(Exception exception) {
+        isSignedinFailure.setValue(exception.getMessage());
     }
 
     @Override
     public void onHandleGoogleTokenSuccess(FirebaseUser user) {
-        isSignedinSuccessed.setValue(true);
-        Log.i("EMAIL_FROM_FACEBOOK", user.getEmail());
+        isSocialSuccessed.setValue(new User(user.getDisplayName(), user.getEmail(), ""));
     }
 
-    private boolean isValidPassword(String password) {
-        boolean matches = password.matches(Constants.VALIDATION_REGEX_PASS);
-        isPasswordValid.setValue(matches);
-        return matches;
-    }
-
-    private boolean isValidEmail(String email) {
-        boolean matches = email.matches(Constants.VALIDATION_REGEX_EMIAL);
-        isEmailValid.setValue(matches);
-        return matches;
+    @Override
+    public void onHandleGoogleTokenFailure(Exception exception) {
+        isSignedinFailure.setValue(exception.getMessage());
     }
 
     private void initBooleanValues() {
         doSignin.setValue(false);
-        isEmailValid.setValue(false);
-        isPasswordValid.setValue(false);
         isSignedinSuccessed.setValue(false);
         isSignedinFailure.setValue("");
+        isSignedinCanceled.setValue(false);
+        isEmailNotValid.setValue(false);
+        isPasswordNotValid.setValue(false);
         navigateToSignup.setValue(false);
     }
 }

@@ -4,7 +4,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,30 +17,17 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.SigninFragmentBinding;
 import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.repository.facebook.FacebookRepo;
-import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
-import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
 import com.iti.mad41.tripia.repository.google.GoogleRepo;
 import com.iti.mad41.tripia.ui.activity.main.MainActivity;
 import com.iti.mad41.tripia.ui.fragment.register.RegisterFragment;
-
-import java.util.Arrays;
 
 public class SigninFragment extends Fragment {
     private static final String TAG = "SigninFragment";
@@ -83,30 +69,58 @@ public class SigninFragment extends Fragment {
                 mViewModel.signinUser(email, password);
             }
         });
+
         mViewModel.navigateToSignup.observe(getViewLifecycleOwner(), isNavigate -> {
-            if (isNavigate) {
-                navigateToSignUp();
-            }
+            if (isNavigate) navigateToSignUp();
+        });
+
+        mViewModel.isEmailNotValid.observe(getViewLifecycleOwner(), isNotValid -> {
+            if(isNotValid) showEmailError("Email syntax is incorrect");
+        });
+
+        mViewModel.isPasswordNotValid.observe(getViewLifecycleOwner(), isNotValid -> {
+            if(isNotValid) showPasswordError("Password syntax is incorrect");
         });
 
         mViewModel.isSignedinSuccessed.observe(getViewLifecycleOwner(), isSignedin -> {
-            if (isSignedin) {
+            if (isSignedin) getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
+        });
+
+        mViewModel.isSignedinFailure.observe(getViewLifecycleOwner(), message -> {
+            if(message == null) showToast(message);
+        });
+
+        mViewModel.isSignedinCanceled.observe(getViewLifecycleOwner(), isCanceled -> {
+            if(isCanceled) showToast("Sign in Canceled!");
+        });
+
+        mViewModel.isSocialSuccessed.observe(getViewLifecycleOwner(), user -> {
+            if (user != null) {
+                Log.i(TAG, user.toString());
+                mViewModel.writeNewUser(user);
                 getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
             }
         });
-        mViewModel.isSignedinFailure.observe(getViewLifecycleOwner(), message -> {
-            Log.i("myapp", "onActivityCreated: ====" + message);
-            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
 
+        mViewModel.isSocialFailure.observe(getViewLifecycleOwner(), message -> {
+            if(message !=  null) showToast(message);
+        });
+
+        mViewModel.isSocialCanceled.observe(getViewLifecycleOwner(), isCanceled -> {
+            if(isCanceled) showToast("Sign in Canceled!");
         });
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GoogleRepo.RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            mViewModel.handleSignInResult(task);
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
-
 
     private void navigateToSignUp() {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.auth_fragment_container_view,
@@ -114,14 +128,19 @@ public class SigninFragment extends Fragment {
         mViewModel.setNavigateToSignupComplete();
     }
 
-
-    private void showError() {
-        binding.passwordInputLayout.setError("something, went wrong");
-        binding.passwordInputLayout.setErrorIconDrawable(R.drawable.ic_outline_error_outline_24);
-        binding.emailInputLayout.setError("please, input correct Email");
+    private void showEmailError(String msgText){
+        binding.emailInputLayout.setError(msgText);
         binding.emailInputLayout.setErrorIconDrawable(R.drawable.ic_outline_error_outline_24);
     }
 
+    private void showPasswordError(String message){
+        binding.passwordInputLayout.setError(message);
+        binding.passwordInputLayout.setErrorIconDrawable(R.drawable.ic_outline_error_outline_24);
+    }
+
+    private void showToast(String message){
+        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
 
 }
 
