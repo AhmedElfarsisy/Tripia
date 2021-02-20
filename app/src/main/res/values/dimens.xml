@@ -18,9 +18,12 @@
     <!--    text size-->
     <dimen name="big_title_size">@dimen/_28ssp</dimen>
     <dimen name="title_size">@dimen/_20ssp</dimen>
-    <dimen name="btn_txt">@dimen/_12ssp</dimen>
+
+    <dimen name="btn_txt">@dimen/_14ssp</dimen>
     <dimen name="paragraph">@dimen/_14ssp</dimen>
     <dimen name="edit_text">@dimen/_12ssp</dimen>
+    <dimen name="small_text">@dimen/_10ssp</dimen>
+    <dimen name="tiny_text">@dimen/_9ssp</dimen>
 
     <dimen name="header_height">@dimen/_120sdp</dimen>
 </resources>

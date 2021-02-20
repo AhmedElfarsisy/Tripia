@@ -1,5 +1,6 @@
 package com.iti.mad41.tripia.ui.fragment.register;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -29,6 +30,11 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.register_fragment, container, false);
+        Toolbar signupToolbar = binding.signupToolbar;
+        signupToolbar.setNavigationIcon(R.drawable.ic_arrow);
+        signupToolbar.setNavigationOnClickListener(v -> {getActivity().onBackPressed();
+        });
+
         return binding.getRoot();
     }
 

@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Tripia</string>
+
+    <string name="password_hint">Enter your Password</string>
+    <string name="email_hint">Enter your Email</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="signup_here">Signup here</string>
     <string name="tripForm">Trip Form</string>
     <string name="hint_tripTitle">Enter trip title</string>
     <string name="hint_startPoint">Enter start point</string>
@@ -20,4 +26,12 @@
     <string name="text_logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="hint_changeName">Enter your name</string>
+
+    <string name="bottom_tab_home_title">Home</string>
+    <string name="bottom_tab_menu_title">More</string>
+    <string name="trip_canceled_label">Canceled</string>
+    <string name="upcoming_card_start_button">Start</string>
+    <string name="top_tab_upcoming_title">Upcoming</string>
+    <string name="top_tab_previous_title">Previous</string>
+    <string name="home_screen_header_title">Home</string>
 </resources>

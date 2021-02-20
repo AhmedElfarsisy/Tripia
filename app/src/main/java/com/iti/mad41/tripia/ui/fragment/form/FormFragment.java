@@ -1,7 +1,6 @@
 package com.iti.mad41.tripia.ui.fragment.form;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -35,6 +34,7 @@ public class FormFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(FormViewModel.class);
         binding.setFormViewModel(mViewModel);
+        mViewModel.setContext(getActivity());
         binding.setLifecycleOwner(this);
         mViewModel.mutableLiveData.observe(getViewLifecycleOwner(),isNavigate -> {
             if(isNavigate) {
@@ -45,5 +45,8 @@ public class FormFragment extends Fragment {
                         .commit();
             }
         });
+
+
+
     }
 }
