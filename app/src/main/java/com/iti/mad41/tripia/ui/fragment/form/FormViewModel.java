@@ -18,18 +18,13 @@ public class FormViewModel extends ViewModel {
     public FormViewModel() {
         mutableLiveData.setValue(false);
     }
-    public  void  navigateToNotes (View view) {
+    public  void  navigateToNotes () {
         mutableLiveData.setValue(true);
         Log.i(TAG, "navigateToNotes: "+title);
     }
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle( @NonNull String title) {
-        this.title = title;
-    }
+
 
 
 

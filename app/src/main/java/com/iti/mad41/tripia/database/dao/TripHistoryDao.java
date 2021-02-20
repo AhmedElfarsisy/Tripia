@@ -15,12 +15,12 @@ public interface TripHistoryDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(TripHistory tr);
 
-    @Query("DELETE FROM trip_notes")
+    @Query("DELETE FROM history_trip")
     void deleteAll();
 
-    @Query("DELETE FROM trip_notes WHERE notesId Like :noteId")
-    void deleteNote(int noteId);
+    @Query("DELETE FROM history_trip WHERE history_id = :tripId")
+    void deleteTripFromHistory(int tripId);
 
-    @Query("SELECT * FROM trip_notes ORDER BY notesId ASC")
-    List<Notes> getAlphabetizedWords();
+    @Query("SELECT * FROM history_trip ORDER BY history_id ASC")
+    List<TripHistory> getAllTripsHistory();
 }

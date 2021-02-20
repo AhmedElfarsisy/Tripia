@@ -15,13 +15,9 @@ public interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Notes notes);
 
-    @Query("DELETE FROM trip_notes")
-    void deleteAll();
-
-    @Query("DELETE FROM trip_notes WHERE notesId Like :noteId")
+    @Query("DELETE FROM trip_notes WHERE note_id = :noteId")
     void deleteNote(int noteId);
 
-    @Query("SELECT * FROM trip_notes ORDER BY notesId ASC")
-    List<Notes> getallTripNotes();
+
 
 }
