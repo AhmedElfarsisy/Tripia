@@ -57,11 +57,7 @@ public class RegisterFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.register_fragment, container, false);
         Toolbar signupToolbar = binding.signupToolbar;
         signupToolbar.setNavigationIcon(R.drawable.ic_arrow);
-        signupToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
+        signupToolbar.setNavigationOnClickListener(v -> {getActivity().onBackPressed();
         });
 
         return binding.getRoot();

@@ -156,4 +156,7 @@ public class SigninViewModel extends ViewModel implements FirebaseDelegate, Face
         isPasswordNotValid.setValue(false);
         navigateToSignup.setValue(false);
     }
+
+
+
 }

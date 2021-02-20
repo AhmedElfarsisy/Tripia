@@ -10,6 +10,7 @@ public interface FirebaseDelegate {
     }
 
     default void onRegisterSuccess() {
+
     }
 
     default void onRegisterFailure(String localizedMessage) {
