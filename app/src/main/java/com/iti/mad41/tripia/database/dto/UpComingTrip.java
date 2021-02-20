@@ -1,4 +1,4 @@
-package com.iti.mad41.tripia.database.dto;
+    package com.iti.mad41.tripia.database.dto;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
@@ -6,31 +6,125 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity(tableName = "upcoming_trip")
 public class UpComingTrip {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    public int upComingTripId;
+    @ColumnInfo(name = "upcoming_id")
+    private int upComingTripId;
+    private String tripTitle;
+    private String startLongitude;
+    private String startLatitude;
 
-    @Embedded
-    public Notes tripNotes;
+    private String destinationLongitude;
+    private String destinationLatitude;
 
-    public String tripTitle;
-    public String startLongitude;
-    public String startLatitude;
+    private String startAddress;
+    private String destinationAddress;
 
-    public String destinationLongitude;
-    public String destinationLatitude;
+    private String tripDate;
 
-    public String startAddress;
-    public String destinationAddress;
+    private boolean isRepeatable;
 
-    public Calendar tripDate;
+    private boolean isRoundTrip;
+    private boolean isUploadedtofirebase;
 
-    public boolean isRepeatable;
 
-    public boolean isRoundTrip;
-    public boolean isUploadedtofirebase;
+    public int getUpComingTripId() {
+        return upComingTripId;
+    }
 
+    public void setUpComingTripId(int upComingTripId) {
+        this.upComingTripId = upComingTripId;
+    }
+
+
+    public String getTripTitle() {
+        return tripTitle;
+    }
+
+    public void setTripTitle(String tripTitle) {
+        this.tripTitle = tripTitle;
+    }
+
+    public String getStartLongitude() {
+        return startLongitude;
+    }
+
+    public void setStartLongitude(String startLongitude) {
+        this.startLongitude = startLongitude;
+    }
+
+    public String getStartLatitude() {
+        return startLatitude;
+    }
+
+    public void setStartLatitude(String startLatitude) {
+        this.startLatitude = startLatitude;
+    }
+
+    public String getDestinationLongitude() {
+        return destinationLongitude;
+    }
+
+    public void setDestinationLongitude(String destinationLongitude) {
+        this.destinationLongitude = destinationLongitude;
+    }
+
+    public String getDestinationLatitude() {
+        return destinationLatitude;
+    }
+
+    public void setDestinationLatitude(String destinationLatitude) {
+        this.destinationLatitude = destinationLatitude;
+    }
+
+    public String getStartAddress() {
+        return startAddress;
+    }
+
+    public void setStartAddress(String startAddress) {
+        this.startAddress = startAddress;
+    }
+
+    public String getDestinationAddress() {
+        return destinationAddress;
+    }
+
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
+    }
+
+    public String getTripDate() {
+        return tripDate;
+    }
+
+    public void setTripDate(String tripDate) {
+        this.tripDate = tripDate;
+    }
+
+    public boolean isRepeatable() {
+        return isRepeatable;
+    }
+
+    public void setRepeatable(boolean repeatable) {
+        isRepeatable = repeatable;
+    }
+
+    public boolean isRoundTrip() {
+        return isRoundTrip;
+    }
+
+    public void setRoundTrip(boolean roundTrip) {
+        isRoundTrip = roundTrip;
+    }
+
+    public boolean isUploadedtofirebase() {
+        return isUploadedtofirebase;
+    }
+
+    public void setUploadedtofirebase(boolean uploadedtofirebase) {
+        isUploadedtofirebase = uploadedtofirebase;
+    }
 }
