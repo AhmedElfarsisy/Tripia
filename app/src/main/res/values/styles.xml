@@ -2,6 +2,7 @@
 <resources>
 
 
+
     <style name="signin_text_input_layout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -26,5 +27,8 @@
         <item name="background">@drawable/auth_rounded_btns</item>
         <item name="backgroundColor">@color/blue</item>
     </style>
+
+
+
 
 </resources>
