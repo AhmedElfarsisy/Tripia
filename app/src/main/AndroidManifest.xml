@@ -41,7 +41,7 @@
             android:theme="@style/FullScreen"></activity>
         <activity
             android:name=".ui.activity.main.MainActivity"
-            android:theme="@style/FullScreen">
+            android:theme="@style/MainScreenThem">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

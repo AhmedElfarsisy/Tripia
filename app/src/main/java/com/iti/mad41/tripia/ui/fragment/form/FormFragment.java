@@ -40,7 +40,7 @@ public class FormFragment extends Fragment {
         binding.setLifecycleOwner(this);
         mViewModel.mutableLiveData.observe(getViewLifecycleOwner(),isNavigate -> {
             if(isNavigate) {
-                if(Validations.isEmpty())
+//                if(Validations.isEmpty())
                         getActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()
