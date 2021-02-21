@@ -27,7 +27,8 @@ public class TripHistory {
 
     private boolean isUploadedToFirebase;
 
-    public TripHistory(String tripTitle, String startLongitude, String startLatitude, String destinationLongitude, String destinationLatitude, String startAddress, String destinationAddress, String tripDate, String tripState, boolean isUploadedToFirebase) {
+    public TripHistory(int historyTripId, String tripTitle, String startLongitude, String startLatitude, String destinationLongitude, String destinationLatitude, String startAddress, String destinationAddress, String tripDate, String tripState, boolean isUploadedToFirebase) {
+        this.historyTripId = historyTripId;
         this.tripTitle = tripTitle;
         this.startLongitude = startLongitude;
         this.startLatitude = startLatitude;

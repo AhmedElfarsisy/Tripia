@@ -14,9 +14,13 @@ public class Notes {
     @ColumnInfo(name = "note_body")
     private String noteBody;
 
-    public Notes(String noteBody) {
+    public Notes(int notesId, int upComingTripId, String noteBody) {
+        this.notesId = notesId;
+        this.upComingTripId = upComingTripId;
         this.noteBody = noteBody;
     }
+
+
 
     public int getNotesId() {
         return notesId;

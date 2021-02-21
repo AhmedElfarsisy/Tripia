@@ -30,6 +30,20 @@ public class UpComingTrip {
     private boolean isRoundTrip;
     private boolean isUploadedtofirebase;
 
+    public UpComingTrip(int upComingTripId, String tripTitle, String startLongitude, String startLatitude, String destinationLongitude, String destinationLatitude, String startAddress, String destinationAddress, String tripDate, boolean isRepeatable, boolean isRoundTrip, boolean isUploadedtofirebase) {
+        this.upComingTripId = upComingTripId;
+        this.tripTitle = tripTitle;
+        this.startLongitude = startLongitude;
+        this.startLatitude = startLatitude;
+        this.destinationLongitude = destinationLongitude;
+        this.destinationLatitude = destinationLatitude;
+        this.startAddress = startAddress;
+        this.destinationAddress = destinationAddress;
+        this.tripDate = tripDate;
+        this.isRepeatable = isRepeatable;
+        this.isRoundTrip = isRoundTrip;
+        this.isUploadedtofirebase = isUploadedtofirebase;
+    }
 
     public int getUpComingTripId() {
         return upComingTripId;
