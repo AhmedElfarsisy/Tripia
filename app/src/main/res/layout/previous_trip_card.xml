@@ -73,7 +73,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="10"
                             android:gravity="center_vertical"
-                            android:text="@{previousTrips.title}"
+                            android:text="@{previousTrips.tripTitle}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/paragraph"
                             tools:text="Business trip" />
@@ -113,7 +113,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/_4sdp"
                                 android:layout_marginRight="@dimen/_4sdp"
-                                android:text="@{previousTrips.startLocation}"
+                                android:text="@{previousTrips.startAddress}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/edit_text"
                                 tools:text="Elshrouk city" />
@@ -133,7 +133,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/_4sdp"
                                 android:layout_marginRight="@dimen/_4sdp"
-                                android:text="@{previousTrips.endLocation}"
+                                android:text="@{previousTrips.destinationAddress}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/edit_text"
                                 tools:text="Smart village, ITI" />

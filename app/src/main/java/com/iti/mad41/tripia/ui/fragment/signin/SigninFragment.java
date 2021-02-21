@@ -50,7 +50,6 @@ public class SigninFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.signin_fragment, container, false);
         return binding.getRoot();
     }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

@@ -26,7 +26,6 @@ public class UpComingTrip {
     private String tripDate;
 
     private boolean isRepeatable;
-
     private boolean isRoundTrip;
     private boolean isUploadedtofirebase;
 

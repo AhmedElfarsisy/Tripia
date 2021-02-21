@@ -11,7 +11,6 @@
 
         <import type="android.view.View" />
     </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -194,7 +193,9 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/textView7" />
+            app:layout_constraintStart_toEndOf="@+id/textView7"
+            android:backgroundTintMode="@color/blue"
+            />
 
         <TextView
             android:id="@+id/textView_endPoint"

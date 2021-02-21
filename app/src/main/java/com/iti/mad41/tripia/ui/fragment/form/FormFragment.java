@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.FormFragmentBinding;
+import com.iti.mad41.tripia.helper.Validations;
 import com.iti.mad41.tripia.ui.fragment.notes.NotesFragment;
 
 public class FormFragment extends Fragment {
@@ -28,6 +29,7 @@ public class FormFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.form_fragment, container, false);
         return binding.getRoot();
+
     }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class FormFragment extends Fragment {
         binding.setLifecycleOwner(this);
         mViewModel.mutableLiveData.observe(getViewLifecycleOwner(),isNavigate -> {
             if(isNavigate) {
+//                if(Validations.isEmpty())
                         getActivity()
                         .getSupportFragmentManager()
                         .beginTransaction()

@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.UpcomingTripCardBinding;
 import com.iti.mad41.tripia.model.Trip;
 
@@ -24,8 +26,7 @@ public class UpcomingTripsAdapter extends RecyclerView.Adapter<UpcomingTripHolde
     @NonNull
     @Override
     public UpcomingTripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        UpcomingTripCardBinding upcomingTripCardBinding = UpcomingTripCardBinding.inflate(layoutInflater, parent, false);
+        UpcomingTripCardBinding upcomingTripCardBinding  = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.upcoming_trip_card, parent, false);
         return new UpcomingTripHolder(upcomingTripCardBinding);
     }
 

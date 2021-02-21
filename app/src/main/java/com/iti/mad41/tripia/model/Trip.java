@@ -1,27 +1,31 @@
 package com.iti.mad41.tripia.model;
 
-import android.widget.ImageView;
-
-import androidx.databinding.BindingAdapter;
-
-import com.bumptech.glide.Glide;
-
 public class Trip {
     private int id;
-    private String title;
-    private String startLocation;
-    private String endLocation;
+    private String tripTitle;
+    private String startAddress;
+    private String destinationAddress;
+
     private String dateTime;
     private String imageUrl;
 
-    public Trip(int id, String title, String startLocation, String endLocation, String dateTime, String imageUrl) {
+
+    private String startLongitude;
+    private String startLatitude;
+
+    private String destinationLongitude;
+    private String destinationLatitude;
+
+
+    public Trip(int id, String tripTitle, String startAddress, String destinationAddress, String dateTime, String imageUrl) {
         this.id = id;
-        this.title = title;
-        this.startLocation = startLocation;
-        this.endLocation = endLocation;
+        this.tripTitle = tripTitle;
+        this.startAddress = startAddress;
+        this.destinationAddress = destinationAddress;
         this.dateTime = dateTime;
         this.imageUrl = imageUrl;
     }
+
 
     public int getId() {
         return id;
@@ -31,28 +35,28 @@ public class Trip {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTripTitle() {
+        return tripTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTripTitle(String tripTitle) {
+        this.tripTitle = tripTitle;
     }
 
-    public String getStartLocation() {
-        return startLocation;
+    public String getStartAddress() {
+        return startAddress;
     }
 
-    public void setStartLocation(String startLocation) {
-        this.startLocation = startLocation;
+    public void setStartAddress(String startAddress) {
+        this.startAddress = startAddress;
     }
 
-    public String getEndLocation() {
-        return endLocation;
+    public String getDestinationAddress() {
+        return destinationAddress;
     }
 
-    public void setEndLocation(String endLocation) {
-        this.endLocation = endLocation;
+    public void setDestinationAddress(String destinationAddress) {
+        this.destinationAddress = destinationAddress;
     }
 
     public String getDateTime() {
@@ -69,5 +73,37 @@ public class Trip {
 
     public void setImageUrl(String imageUrl) {
         this.dateTime = imageUrl;
+    }
+
+    public String getStartLongitude() {
+        return startLongitude;
+    }
+
+    public void setStartLongitude(String startLongitude) {
+        this.startLongitude = startLongitude;
+    }
+
+    public String getStartLatitude() {
+        return startLatitude;
+    }
+
+    public void setStartLatitude(String startLatitude) {
+        this.startLatitude = startLatitude;
+    }
+
+    public String getDestinationLongitude() {
+        return destinationLongitude;
+    }
+
+    public void setDestinationLongitude(String destinationLongitude) {
+        this.destinationLongitude = destinationLongitude;
+    }
+
+    public String getDestinationLatitude() {
+        return destinationLatitude;
+    }
+
+    public void setDestinationLatitude(String destinationLatitude) {
+        this.destinationLatitude = destinationLatitude;
     }
 }
