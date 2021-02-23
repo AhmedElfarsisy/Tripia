@@ -29,7 +29,15 @@ public class FormViewModel extends ViewModel {
     private static final String TAG = "FormViewModel";
     private String title = "1234";
     public MutableLiveData<Boolean> mutableLiveData = new MutableLiveData<>();
-    public MutableLiveData<String> mutableLiveDataDate = new MutableLiveData<>();
+    public MutableLiveData<Double> startLongitude = new MutableLiveData<>();
+    public MutableLiveData<Double> startLatitude = new MutableLiveData<>();
+    public MutableLiveData<String> startAddress = new MutableLiveData<>();
+    public MutableLiveData<Double> destinationLongitude = new MutableLiveData<>();
+    public MutableLiveData<Double> destinationLatitude = new MutableLiveData<>();
+    public MutableLiveData<String> destinationAddress = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isNavigateFromStartAddress = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isNavigateFromDestinationAddress = new MutableLiveData<>();
+
 
 
     //  public MutableLiveData<Boolean> mutableLiveData = new MutableLiveData<>();
@@ -43,7 +51,26 @@ public class FormViewModel extends ViewModel {
 
     public void navigateToNotes() {
         mutableLiveData.setValue(true);
-        Log.i(TAG, "navigateToNotes: " + title);
+    }
+
+    public void navigateFromStartAddress() {
+        isNavigateFromStartAddress.setValue(true);
+    }
+
+    public void navigateFromDestinationAddress() {
+        isNavigateFromDestinationAddress.setValue(true);
+    }
+
+    public void setStartAddressData(String address, Double latitude, Double longitude){
+        startAddress.setValue(address);
+        startLatitude.setValue(latitude);
+        startLongitude.setValue(longitude);
+    }
+
+    public void setDestinationAddressData(String address, Double latitude, Double longitude){
+        destinationAddress.setValue(address);
+        destinationLatitude.setValue(latitude);
+        destinationLongitude.setValue(longitude);
     }
 
 

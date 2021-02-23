@@ -36,7 +36,6 @@ public class FacebookRepo implements IFacebookRepo {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.i("FACEBOOK_RESULT", loginResult.getAccessToken().toString());
                 delegate.onFacebookRegistrationSuccess(loginResult);
             }
 
@@ -47,7 +46,6 @@ public class FacebookRepo implements IFacebookRepo {
 
             @Override
             public void onError(FacebookException error) {
-                Log.i("EMAIL_FROM_FACEBOOK", error.toString());
                 delegate.onFacebookRegistrationError(error);
             }
         });

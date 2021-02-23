@@ -2,6 +2,7 @@ package com.iti.mad41.tripia.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -17,10 +18,15 @@ import java.util.List;
 public class UpcomingTripsAdapter extends RecyclerView.Adapter<UpcomingTripHolder> {
     private List<Trip> tripsList;
     private Context context;
+    private onUpcomingTripsClickCallback onUpcomingTripsClickCallback;
 
     public UpcomingTripsAdapter(Context _context, List<Trip> tripsList) {
         this.context = _context;
         this.tripsList = tripsList;
+    }
+
+    public void setOnUpcomingTripClickCallback(onUpcomingTripsClickCallback onUpcomingTripsClickCallback){
+        this.onUpcomingTripsClickCallback = onUpcomingTripsClickCallback;
     }
 
     @NonNull
@@ -34,6 +40,12 @@ public class UpcomingTripsAdapter extends RecyclerView.Adapter<UpcomingTripHolde
     public void onBindViewHolder(@NonNull UpcomingTripHolder holder, int position) {
         Trip trip = tripsList.get(position);
         holder.bind(trip);
+        holder.upcomingTripCardBinding.startButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                onUpcomingTripsClickCallback.onStartClick(trip);
+            }
+        });
     }
 
     @Override

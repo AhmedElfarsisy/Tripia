@@ -34,4 +34,9 @@
     <style name="Theme.Tripia.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Tripia.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MainScreenThem" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
 </resources>
