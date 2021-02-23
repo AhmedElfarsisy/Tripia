@@ -38,13 +38,12 @@ public class FirebaseRepo implements IFirebaseRepo {
     }
 
 
-
     @Override
     public void loginWithFirebase(String email, String password) {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(authResult -> {
-                    Log.i("myapp", "loginWithFirebase: success ");
+                            Log.i("myapp", "loginWithFirebase: success ");
                             delegate.onSigninSuccess();
                         }
                 ).addOnFailureListener(e -> {
@@ -68,7 +67,7 @@ public class FirebaseRepo implements IFirebaseRepo {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(activity, task -> {
-            if(task.isSuccessful()){
+            if (task.isSuccessful()) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 delegate.onHandleFacebookTokenSuccess(user);
             } else {
@@ -82,7 +81,7 @@ public class FirebaseRepo implements IFirebaseRepo {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         AuthCredential credential = GoogleAuthProvider.getCredential(googleSignInAccount.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(activity, task -> {
-            if(task.isSuccessful()){
+            if (task.isSuccessful()) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 delegate.onHandleGoogleTokenSuccess(user);
             } else {
@@ -95,19 +94,28 @@ public class FirebaseRepo implements IFirebaseRepo {
     public void writeNewUser(User user) {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference userNameRef = rootRef.child("users");
-        Query queries=userNameRef.orderByChild("userName").equalTo(user.getUserName());
+        Query queries = userNameRef.orderByChild("userName").equalTo(user.getUserName());
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()) {
+                if (!dataSnapshot.exists()) {
                     mDatabase = FirebaseDatabase.getInstance().getReference();
                     mDatabase.child("users").push().setValue(user);
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         };
         queries.addListenerForSingleValueEvent(eventListener);
     }
+
+
+    @Override
+    public void signOut() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuth.signOut();
+    }
+
 }

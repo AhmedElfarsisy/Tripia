@@ -45,13 +45,6 @@ public class AuthActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
 
 
-        //        TripsDataRepository repository = TripsDataRepository.getINSTANCE(getApplicationContext());
-//        repository.insertDummyData();
-//        repository.getUpComingTripDummy();
-////        Log.i("myDatabase", "onCreate:  === go insert " );
-////        TripHistory tripHistory = new TripHistory(0, "HistTitle1", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", "Canceld", false);
-////        DatabaseRoom.getInstance(this).tripHistoryDao().insert(tripHistory);
-////        Log.i("myDatabase", "onCreate:  === insertedddddddddddddddddddddddd " );
 
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {

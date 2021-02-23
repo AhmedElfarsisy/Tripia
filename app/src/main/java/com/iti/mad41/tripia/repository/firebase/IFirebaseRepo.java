@@ -17,4 +17,6 @@ public interface IFirebaseRepo {
 
     void setDelegate(FirebaseDelegate delegate);
 
+    void signOut();
+
 }
