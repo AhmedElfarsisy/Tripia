@@ -39,17 +39,16 @@ public class NotesFragment extends Fragment {
     NotesFragmentBinding binding;
     private NotesViewModel mViewModel;
     List<Note> noteList = new ArrayList<>();
-    NotesAdapter  notesAdapter ;
+    NotesAdapter  notesAdapter;
     Trip trip;
-    FirebaseRepo firebaseRepo  ;
+
     public static NotesFragment newInstance() {
         return new NotesFragment();
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-       trip =(Trip) getArguments().getParcelable("Trip");
-        Log.i(TAG, "onCreateView "+ trip.getTripTitle() + trip.getDestinationAddress() + " timeStamp"+ trip.getDateTime());
+        trip = (Trip)getArguments().getParcelable("Trip");
         binding = DataBindingUtil.inflate(inflater, R.layout.notes_fragment, container, false);
         return binding.getRoot();
     }

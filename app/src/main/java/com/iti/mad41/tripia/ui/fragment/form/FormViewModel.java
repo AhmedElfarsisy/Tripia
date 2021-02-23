@@ -7,15 +7,10 @@ import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.Pair;
-import android.view.ActionMode;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
-import androidx.annotation.CallSuper;
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.databinding.BindingMethod;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -23,9 +18,7 @@ import com.iti.mad41.tripia.helper.Validations;
 import com.iti.mad41.tripia.model.Trip;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class FormViewModel extends ViewModel {
 

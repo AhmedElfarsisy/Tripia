@@ -44,18 +44,11 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         binding.setMainViewModel(mainViewModel);
         binding.setLifecycleOwner(this);
-
-/*
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.fragment_container_view, new FormFragment()).commit();
-*/
         tripViewPager = binding.tripViewPager;
         tripTabLayout = binding.tripTabLayout;
-        mainViewModel.isNavigateToForm.observe(this,navigateResult -> {
-            if (navigateResult)
-            {
-                Log.i(TAG, "onCreate: ********"+navigateResult);
-              //  getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,new FormFragment()).commit();
+        mainViewModel.isNavigateToForm.observe(this, navigateResult -> {
+            if (navigateResult) {
+                Log.i(TAG, "onCreate: ********" + navigateResult);
 
                 startActivity(new Intent(MainActivity.this, FormActivity.class));
             }

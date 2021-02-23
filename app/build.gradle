@@ -94,4 +94,8 @@ dependencies {
     //Google places and location Apis
     implementation 'com.google.android.libraries.places:places:2.4.0'
     'com.google.android.gms:play-services-location:17.1.0'
+
+    def work_version = "2.5.0"
+    // (Java only)
+    implementation "androidx.work:work-runtime:$work_version"
 }

@@ -222,8 +222,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/startPointTextView"
-            android:textColor="@color/black"
-            android:text="@{formViewModel.destinationAddress}"/>
+            android:textColor="@color/black"/>
 
         <TextView
 
@@ -245,8 +244,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/editText_tripTitle"
-            android:text="@{formViewModel.startAddress}"/>
+            app:layout_constraintTop_toBottomOf="@+id/editText_tripTitle"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
