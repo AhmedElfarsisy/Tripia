@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.model.User;
 
 public class FirebaseRepo implements IFirebaseRepo {
@@ -31,6 +32,9 @@ public class FirebaseRepo implements IFirebaseRepo {
 
     public FirebaseRepo(Activity activity) {
         this.activity = activity;
+    }
+
+    public FirebaseRepo() {
     }
 
     public void setDelegate(FirebaseDelegate delegate) {
@@ -110,4 +114,16 @@ public class FirebaseRepo implements IFirebaseRepo {
         };
         queries.addListenerForSingleValueEvent(eventListener);
     }
+
+    @Override
+    public void writeTrip(Trip trip) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(currentUser.getUid()).push().setValue(trip);
+    }
+
+
+
+
+
 }

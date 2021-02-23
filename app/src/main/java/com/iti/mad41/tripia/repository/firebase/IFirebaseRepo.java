@@ -2,6 +2,7 @@ package com.iti.mad41.tripia.repository.firebase;
 
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.model.User;
 
 public interface IFirebaseRepo {
@@ -16,5 +17,7 @@ public interface IFirebaseRepo {
     void writeNewUser(User user);
 
     void setDelegate(FirebaseDelegate delegate);
+
+    void writeTrip(Trip trip);
 
 }
