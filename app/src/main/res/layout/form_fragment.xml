@@ -55,7 +55,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:navigationIcon="@drawable/ic_arrow" />
+                    app:navigationIcon="@drawable/ic_arrow"
+                    />
 
                 />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -79,7 +80,9 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_endPoint"
-            android:onClick="@{()->formViewModel.onDisplayDateDialogClick()}"/>
+            android:onClick="@{()->formViewModel.onDisplayDateDialogClick()}"
+            android:text="@{formViewModel.startDate}"
+            android:textColor="@color/black"/>
 
         <Button
             android:id="@+id/button_next"
@@ -132,7 +135,8 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/button_onWayTrip"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button_onWayTrip" />
+            app:layout_constraintStart_toEndOf="@+id/button_onWayTrip"
+            />
 
         <Button
             android:id="@+id/button_onWayTrip"
@@ -149,7 +153,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-        <TextView
+         <TextView
             android:id="@+id/textView_startTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -166,7 +170,9 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView_startDate"
-            android:onClick="@{()->formViewModel.onDisplayTimerDialogClick()}"/>
+            android:onClick="@{()->formViewModel.onDisplayTimerDialogClick()}"
+             android:textColor="@color/black"
+             android:text="@{formViewModel.startTime}"/>
 
         <TextView
             android:id="@+id/textView7"
@@ -215,7 +221,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/startPointTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/startPointTextView"
+            android:textColor="@color/black"
+            android:text="@{formViewModel.destinationAddress}"/>
 
         <TextView
 
@@ -236,8 +244,9 @@
             app:layout_constraintBottom_toTopOf="@+id/textView_endPoint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintTop_toBottomOf="@+id/editText_tripTitle" />
+            android:textColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@+id/editText_tripTitle"
+            android:text="@{formViewModel.startAddress}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

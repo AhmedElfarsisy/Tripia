@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.util.Pair;
+import android.view.ActionMode;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -17,6 +19,9 @@ import androidx.databinding.BindingMethod;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.iti.mad41.tripia.helper.Validations;
+import com.iti.mad41.tripia.model.Trip;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -24,10 +29,12 @@ import java.util.TimeZone;
 
 public class FormViewModel extends ViewModel {
 
-
+    Calendar calendar;
     Context context;
     private static final String TAG = "FormViewModel";
-    private String title = "1234";
+    Trip  trip = new Trip();
+    String checkDayOfMonth = "";
+    String checkSelectedHour = "";
     public MutableLiveData<Boolean> mutableLiveData = new MutableLiveData<>();
     public MutableLiveData<Double> startLongitude = new MutableLiveData<>();
     public MutableLiveData<Double> startLatitude = new MutableLiveData<>();
@@ -37,18 +44,21 @@ public class FormViewModel extends ViewModel {
     public MutableLiveData<String> destinationAddress = new MutableLiveData<>();
     public MutableLiveData<Boolean> isNavigateFromStartAddress = new MutableLiveData<>();
     public MutableLiveData<Boolean> isNavigateFromDestinationAddress = new MutableLiveData<>();
+    public MutableLiveData<Pair<Boolean,Trip>> mutableLiveDataDate = new MutableLiveData<>();
+    int yearV,monthV,dayV,hourV,minutesV;
 
+    Calendar selectedDate = Calendar.getInstance();
 
+    public MutableLiveData<String> startDate = new MutableLiveData<>();
+    public MutableLiveData<String> startTime = new MutableLiveData<>();
 
-    //  public MutableLiveData<Boolean> mutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<Long> timeStamp = new MutableLiveData<>();
     public FormViewModel() {
         mutableLiveData.setValue(false);
     }
-
     public void setContext(Context context) {
         this.context = context;
     }
-
     public void navigateToNotes() {
         mutableLiveData.setValue(true);
     }
@@ -72,59 +82,60 @@ public class FormViewModel extends ViewModel {
         destinationLatitude.setValue(latitude);
         destinationLongitude.setValue(longitude);
     }
-
-
     public void onDisplayTimerDialogClick() {
-
-        Calendar mcurrentTime = Calendar.getInstance();
-        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-        int minute = mcurrentTime.get(Calendar.MINUTE);
+         calendar = Calendar.getInstance();
         TimePickerDialog mTimePicker;
         mTimePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                //eReminderTime.setText( selectedHour + ":" + selectedMinute);
                 Log.i(TAG, "onTimeSet: " + selectedHour + ":" + selectedMinute);
+                checkSelectedHour = ""+selectedHour;
+                hourV=selectedHour;
+                minutesV=selectedMinute;
+                selectedDate.set(yearV, monthV, dayV, hourV, minutesV);
+                startTime.setValue( String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+                if (!Validations.isEmpty(checkDayOfMonth)) {
+                    calendar.set(yearV, monthV, dayV, hourV, minutesV);
+                    Log.i(TAG, "onTimeSet:if valid and set  Calender and time stamp is  "+calendar.getTimeInMillis()+" "+yearV+ " "+monthV+ " "+dayV+ " "+hourV + " "+minutesV);
+                    timeStamp.setValue(calendar.getTimeInMillis());
+                }
             }
-        }, hour, minute, false);//Yes 24 hour time
+        }, selectedDate.get(Calendar.HOUR), selectedDate.get(Calendar.MINUTE), false);//Yes 24 hour time
         mTimePicker.setTitle("Select Time");
         mTimePicker.show();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onDisplayDateDialogClick() {
-        Calendar calendar =Calendar.getInstance();
-                //new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        //calendar.set(2000, 5, 5);
-        //calendar.getTimeInMillis()
-        //Calendar calendar =  Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH );
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        calendar =Calendar.getInstance();
         DatePickerDialog dd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Log.i(TAG, "onDateSet: " + year + " " + month + " " + dayOfMonth);
-                calendar.set(year, month, dayOfMonth);
-                //mutableLiveDataDate.setValue();
-
+                startDate.setValue(dayOfMonth + " / " + month + " / " + year);
+                dayV=dayOfMonth;
+                monthV=month;
+                yearV=year;
+                calendar.set(Calendar.YEAR,yearV);
+                calendar.set(Calendar.MONTH,monthV);
+                calendar.set(Calendar.DAY_OF_MONTH,dayV);
+                checkDayOfMonth = ""+month;
+                selectedDate.set(yearV, monthV, dayV);
+                if (!Validations.isEmpty(checkSelectedHour)) {
+                    calendar.set(yearV, monthV, dayV, hourV, minutesV);
+                    String r =parseTimeStamp(calendar.getTimeInMillis());
+                    Log.i(TAG, "onDateSet:if valid and set Calender and time stamp is  "+r+" " +calendar.getTimeInMillis()+" "+yearV+ " "+monthV+ " "+dayV+ " "+hourV + " "+minutesV);
+                    timeStamp.setValue(calendar.getTimeInMillis());
+                }
             }
-        },year,month,day);
+        },selectedDate.get(Calendar.YEAR),selectedDate.get(Calendar.MONTH),selectedDate.get(Calendar.DATE));
         dd.show();
-        //dd.setMinDate(long minDate);
-        //setMaxDate(long maxDate)
-    }
-
-    public void set(CharSequence charSequence) {
 
     }
-
     private String parseTimeStamp(long postDate) {
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(postDate);
         String date = DateFormat.format("dd-MM-yyy ,hh:mm", calendar).toString();
         return date;
     }
-
 }

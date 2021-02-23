@@ -128,13 +128,13 @@ public class SigninFragment extends Fragment {
     }
 
     private void showEmailError(String msgText){
-        binding.emailInputLayout.setError(msgText);
-        binding.emailInputLayout.setErrorIconDrawable(R.drawable.ic_outline_error_outline_24);
+        binding.inpuTextEmail.setError(msgText);
+    //.setErrorIconDrawable(R.drawable.ic_outline_error_outline_24);
     }
 
     private void showPasswordError(String message){
-        binding.passwordInputLayout.setError(message);
-        binding.passwordInputLayout.setErrorIconDrawable(R.drawable.ic_outline_error_outline_24);
+        binding.inputTextPassword.setError(message);
+
     }
 
     private void showToast(String message){

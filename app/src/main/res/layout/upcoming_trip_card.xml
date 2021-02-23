@@ -164,7 +164,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="9"
-                            android:text="@{upcomingTrips.dateTime}"
+                            android:text="@{upcomingTrips.dateTime.toString()}"
                             android:textColor="@color/dark_gray"
                             android:textSize="@dimen/tiny_text"
                             tools:text="12 May 2020 08:03 PM" />

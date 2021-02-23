@@ -20,7 +20,6 @@ public class PreviousTripsAdapter extends RecyclerView.Adapter<PreviousTripHolde
             this.context = _context;
             this.tripsList = tripsList;
     }
-
     @NonNull
     @Override
     public PreviousTripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,7 +33,6 @@ public class PreviousTripsAdapter extends RecyclerView.Adapter<PreviousTripHolde
         Trip trip = tripsList.get(position);
         holder.bind(trip);
     }
-
     @Override
     public void onViewDetachedFromWindow(@NonNull PreviousTripHolder holder) {
         super.onViewDetachedFromWindow(holder);
