@@ -22,11 +22,11 @@ public class TripsDataRepository implements ITripDataRepo {
         List<TripHistory> list = new ArrayList<>();
         List<UpComingTrip> upcomminglist = new ArrayList<>();
 
-        upcomminglist.add(new UpComingTrip(0, "Trip1", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", false, false, false));
-        upcomminglist.add(new UpComingTrip(1, "myTrip2", "32.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", false, true, false));
-        upcomminglist.add(new UpComingTrip(2, "upcomingTitle2", "33.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", false, false, false));
-        upcomminglist.add(new UpComingTrip(3, "upcomingTitle3", "34.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", true, true, true));
-        upcomminglist.add(new UpComingTrip(4, "upcomingTitle4", "35.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", true, true, false));
+//        upcomminglist.add(new UpComingTrip(0, "Trip1", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", , false, false, false));
+//        upcomminglist.add(new UpComingTrip(1, "myTrip2", "32.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", false, true, false));
+//        upcomminglist.add(new UpComingTrip(2, "upcomingTitle2", "33.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", false, false, false));
+//        upcomminglist.add(new UpComingTrip(3, "upcomingTitle3", "34.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", true, true, true));
+//        upcomminglist.add(new UpComingTrip(4, "upcomingTitle4", "35.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", true, true, false));
 
 
 //        list.add(new TripHistory(0, "HistTitle1", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", "Canceld", false));
@@ -89,7 +89,9 @@ public class TripsDataRepository implements ITripDataRepo {
 
     //History of Trips  DEAL with DB METHODS
     public void insertTripHistory(TripHistory trip) {
-        databaseRoom.tripHistoryDao().insert(trip);
+        databaseRoom.databaseWriteExecutor.execute(() -> {
+            databaseRoom.tripHistoryDao().insert(trip);
+        });
     }
 
     public List<TripHistory> getAllTripsHistory() {

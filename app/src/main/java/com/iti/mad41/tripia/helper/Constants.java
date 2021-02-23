@@ -9,4 +9,11 @@ public class Constants {
     public static String VALIDATION_REGEX_EMIAL = "^[A-Za-z0-9+_.-]+@(.+)$";
     public static String VALIDATION_REGEX_USER = "\\b[a-zA-Z][a-zA-Z0-9\\-._]{6,}\\b";
 
+    public static final String TRIP_TITLE_KEY = "tripTitle";
+    public static final String TRIP_DATE_KEY = "tripDate";
+    public static final String TRIP_START_LAT_KEY = "tripStartLat";
+    public static final String TRIP_START_Log_KEY = "tripStartLog";
+    public static final String TRIP_DESTINATION_Log_KEY = "tripDestinationLog";
+    public static final String TRIP_DESTINATION_Lat_KEY = "tripDestinationLat";
+
 }

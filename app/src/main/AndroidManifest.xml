@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iti.mad41.tripia">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
@@ -12,6 +16,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tripia">
+        <activity
+            android:name=".ui.activity.tripservice.TripAlarm"
+            android:theme="@style/FullScreen"></activity>
+
+        <service
+            android:name=".services.AlarmTripService"
+            android:exported="false" />
+
+        <receiver android:name=".broadcast.TripBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -34,13 +52,13 @@
         </activity>
         <activity
             android:name=".ui.activity.form.FormActivity"
-            android:theme="@style/FullScreen"></activity>
+            android:theme="@style/FullScreen" />
         <activity
             android:name=".ui.activity.auth.AuthActivity"
             android:theme="@style/FullScreen" />
         <activity
             android:name=".ui.activity.SplashActivity"
-            android:theme="@style/FullScreen"></activity>
+            android:theme="@style/FullScreen" />
         <activity
             android:name=".ui.activity.main.MainActivity"
             android:theme="@style/MainScreenThem">

@@ -19,9 +19,9 @@ import java.util.concurrent.Executors;
 @Database(entities = {UpComingTrip.class, TripHistory.class, Notes.class}, version = 1)
 public abstract class DatabaseRoom extends RoomDatabase {
     private static volatile DatabaseRoom INSTANCE;
-//    private static final int NUMBER_OF_THREADS = 4;
-//    static final ExecutorService databaseWriteExecutor =
-//            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    private static final int NUMBER_OF_THREADS = 4;
+    public static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public abstract NoteDao NoteDao();
 

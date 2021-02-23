@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,8 @@ import com.iti.mad41.tripia.ui.fragment.signin.SiginViewModelFactory;
 import com.iti.mad41.tripia.ui.fragment.signin.SigninFragment;
 import com.iti.mad41.tripia.ui.fragment.signin.SigninViewModel;
 
+import java.util.Calendar;
+
 public class AuthActivity extends AppCompatActivity {
     private static final String TAG = "AuthActivity";
     ActivityAuthBinding binding;
@@ -40,7 +43,9 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
-//        TripsDataRepository repository = TripsDataRepository.getINSTANCE(getApplicationContext());
+
+
+        //        TripsDataRepository repository = TripsDataRepository.getINSTANCE(getApplicationContext());
 //        repository.insertDummyData();
 //        repository.getUpComingTripDummy();
 ////        Log.i("myDatabase", "onCreate:  === go insert " );

@@ -1,9 +1,19 @@
-    package com.iti.mad41.tripia.database.dto;
+package com.iti.mad41.tripia.database.dto;
+
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.iti.mad41.tripia.broadcast.TripBroadcastReceiver;
+import com.iti.mad41.tripia.helper.Constants;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -23,13 +33,13 @@ public class UpComingTrip {
     private String startAddress;
     private String destinationAddress;
 
-    private String tripDate;
+    private Long tripDate;
 
     private boolean isRepeatable;
     private boolean isRoundTrip;
     private boolean isUploadedtofirebase;
 
-    public UpComingTrip(int upComingTripId, String tripTitle, String startLongitude, String startLatitude, String destinationLongitude, String destinationLatitude, String startAddress, String destinationAddress, String tripDate, boolean isRepeatable, boolean isRoundTrip, boolean isUploadedtofirebase) {
+    public UpComingTrip(int upComingTripId, String tripTitle, String startLongitude, String startLatitude, String destinationLongitude, String destinationLatitude, String startAddress, String destinationAddress, Long tripDate, boolean isRepeatable, boolean isRoundTrip, boolean isUploadedtofirebase) {
         this.upComingTripId = upComingTripId;
         this.tripTitle = tripTitle;
         this.startLongitude = startLongitude;
@@ -109,11 +119,11 @@ public class UpComingTrip {
         this.destinationAddress = destinationAddress;
     }
 
-    public String getTripDate() {
+    public Long getTripDate() {
         return tripDate;
     }
 
-    public void setTripDate(String tripDate) {
+    public void setTripDate(Long tripDate) {
         this.tripDate = tripDate;
     }
 
@@ -140,4 +150,37 @@ public class UpComingTrip {
     public void setUploadedtofirebase(boolean uploadedtofirebase) {
         isUploadedtofirebase = uploadedtofirebase;
     }
+
+
+    public void schedule(Context context) {
+        Log.i("myTrip", "onscheduleFrist: onClick ");
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+        Intent intent = new Intent(context, TripBroadcastReceiver.class);
+        intent.putExtra(Constants.TRIP_TITLE_KEY, tripTitle);
+        intent.putExtra(Constants.TRIP_START_LAT_KEY, startLatitude);
+        intent.putExtra(Constants.TRIP_START_Log_KEY, startLongitude);
+        intent.putExtra(Constants.TRIP_DESTINATION_Lat_KEY, destinationLatitude);
+        intent.putExtra(Constants.TRIP_DESTINATION_Log_KEY, destinationLongitude);
+        intent.putExtra(Constants.TRIP_DATE_KEY, tripDate);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, upComingTripId, intent, 0);
+
+        Log.i("myTrip", "====: ==== after BroadCast  ");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Log.i("myTrip", "====:before ====  setExact  ");
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, tripDate, pendingIntent);
+            Log.i("myTrip", "====: ==== after setExact  ");
+
+        }
+    }
+
+    public void cancelAlarm(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, TripBroadcastReceiver.class);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, upComingTripId, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
+
+    }
+
 }
