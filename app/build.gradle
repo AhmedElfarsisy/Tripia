@@ -19,6 +19,16 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // Set the properties within `local.properties` into a `Properties` class so that values
+        // within `local.properties` (e.g. Maps API key) are accessible in this file.
+        Properties properties = new Properties()
+        if (rootProject.file("local.properties").exists()) {
+            properties.load(rootProject.file("local.properties").newDataInputStream())
+        }
+
+        // Inject the Maps API key into the manifest
+        manifestPlaceholders = [ mapsApiKey : properties.getProperty("MAPS_API_KEY", "") ]
     }
 
 
@@ -74,7 +84,7 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
-
+//
     //Login with Facebook
     implementation 'com.facebook.android:facebook-android-sdk:8.1.0'
 
@@ -83,6 +93,9 @@ dependencies {
 
     implementation "androidx.multidex:multidex:2.0.1"
 
+    //Google places and location Apis
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+    'com.google.android.gms:play-services-location:17.1.0'
 
     def work_version = "2.5.0"
     // (Java only)
