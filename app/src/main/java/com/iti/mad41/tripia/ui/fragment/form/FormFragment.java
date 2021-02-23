@@ -31,8 +31,11 @@ import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.FormFragmentBinding;
 import com.iti.mad41.tripia.helper.Validations;
 import com.iti.mad41.tripia.model.Trip;
+import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.ui.activity.main.MainActivity;
 import com.iti.mad41.tripia.ui.fragment.notes.NotesFragment;
+import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModel;
+import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModelFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,11 +53,19 @@ public class FormFragment extends Fragment {
     private PlacesClient placesClient;
     private List<Place.Field> fields;
     private Place place;
-    boolean isFormComplete = false;
-    String startDate ;
-    String startTime ;
-    Trip trip ;
+    private boolean isFormComplete = false;
+    private String startDate ;
+    private String startTime ;
+    private Trip trip ;
     private String title;
+    private Double startLatitude;
+    private Double startLongitude;
+    private String startAddress;
+    private Double destinationLatitude;
+    private Double destinationLongitude;
+    private String destinationAddress;
+    private String imgB64;
+    private FirebaseRepo firebaseRepo;
     long timeStampValue;
 
     public static FormFragment newInstance() {
@@ -79,20 +90,12 @@ public class FormFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(FormViewModel.class);
+        firebaseRepo = new FirebaseRepo(getActivity());
+        mViewModel = new ViewModelProvider(this, new FormViewModelFactory(firebaseRepo)).get(FormViewModel.class);
         binding.setFormViewModel(mViewModel);
         mViewModel.setContext(getActivity());
         binding.setLifecycleOwner(this);
         initGooglePlaces();
-        mViewModel.mutableLiveData.observe(getViewLifecycleOwner(),isNavigate -> {
-            if(isNavigate) {
-                getActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container_view,new NotesFragment())
-                .commit();
-            }
-        });
 
         mViewModel.isNavigateFromStartAddress.observe(getViewLifecycleOwner(), isNavigate -> {
             if (isNavigate) {
@@ -121,18 +124,63 @@ public class FormFragment extends Fragment {
             timeStampValue = aLong;
         });
 
+        mViewModel.startAddress.observe(getViewLifecycleOwner(), address -> {
+            if (!Validations.isEmpty(address))
+                startAddress = address;
+        });
+
+        mViewModel.destinationAddress.observe(getViewLifecycleOwner(), address -> {
+            if (!Validations.isEmpty(address))
+                destinationAddress = address;
+        });
+
+        mViewModel.startAddress.observe(getViewLifecycleOwner(), address -> {
+            if (!Validations.isEmpty(address))
+                startAddress = address;
+        });
+
+        mViewModel.startLatitude.observe(getViewLifecycleOwner(), latitude -> {
+            startLatitude = latitude;
+        });
+
+        mViewModel.startLongitude.observe(getViewLifecycleOwner(), longitude -> {
+            startLongitude = longitude;
+        });
+
+        mViewModel.destinationAddress.observe(getViewLifecycleOwner(), address -> {
+            if (!Validations.isEmpty(address))
+                destinationAddress = address;
+        });
+
+        mViewModel.destinationLatitude.observe(getViewLifecycleOwner(), latitude -> {
+            destinationLatitude = latitude;
+        });
+
+        mViewModel.destinationLongitude.observe(getViewLifecycleOwner(), longitude -> {
+            destinationLongitude = longitude;
+        });
+
+        mViewModel.addressImageB64.observe(getViewLifecycleOwner(), img -> {
+            imgB64 = img;
+        });
+
         binding.toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(getActivity(), MainActivity.class));
         });
 
         binding.textViewEndPoint.setOnClickListener(v -> binding.textViewEndPoint.setText("sss"));
-        mViewModel.mutableLiveData.observe(getViewLifecycleOwner(), isNavigate -> {
+
+        mViewModel.isNavigateToNotes.observe(getViewLifecycleOwner(), isNavigate -> {
             if (isNavigate) {
 
                 title = binding.editTextTripTitle.getText().toString();
-                isFormComplete = Validations.isFormComplete(startTime, startTime, new String("s"), new String("s"));
+                isFormComplete = Validations.isNull(startTime) &&
+                        Validations.isNull(startDate) &&
+                        Validations.isNull(title) &&
+                        Validations.isNull(startAddress) &&
+                        Validations.isNull(destinationAddress);
                 if (!Validations.isEmpty(title) && isFormComplete) {
-                    trip = new Trip(22, title, "giza", "haram", timeStampValue, "https://images.unsplash.com/photo-1563857256304-d943ffb54ca8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80");
+                    trip = new Trip(title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, timeStampValue, imgB64);
                     NotesFragment notesFragment = NotesFragment.newInstance();
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("Trip", trip);
@@ -161,8 +209,6 @@ public class FormFragment extends Fragment {
                 scheduleUpdateAfterOnActivityResult(data, bundle -> {
                     mViewModel.setStartAddressData(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
                 });
-                place.getPhotoMetadatas().get(0).getAttributions();
-                //fetchPhoto(place.getPhotoMetadatas());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -176,7 +222,8 @@ public class FormFragment extends Fragment {
                 scheduleUpdateAfterOnActivityResult(data, bundle -> {
                     mViewModel.setDestinationAddressData(place.getName(), place.getLatLng().latitude, place.getLatLng().longitude);
                 });
-                place.getPhotoMetadatas().get(0).getAttributions();
+                mViewModel.fetchPhoto(place.getPhotoMetadatas());
+                //Log.i("imgimgimgimg", img);
                 //fetchPhoto(place.getPhotoMetadatas());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.

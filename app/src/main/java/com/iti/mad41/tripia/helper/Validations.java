@@ -21,4 +21,8 @@ public class Validations {
         return startDate !=null&& startTime !=null&&startAddress !=null&& destinationAddress !=null;
 
     }
+
+    public static boolean isNull(String str){
+        return str != null;
+    }
 }

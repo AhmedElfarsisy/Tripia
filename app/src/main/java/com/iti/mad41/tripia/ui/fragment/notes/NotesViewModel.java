@@ -5,18 +5,19 @@ import androidx.lifecycle.ViewModel;
 
 import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
+import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
 
 public class NotesViewModel extends ViewModel {
     MutableLiveData<Boolean> addTitle = new MutableLiveData<>();
     MutableLiveData<Boolean> isClickSkip = new MutableLiveData<>();
     MutableLiveData<Boolean> isClickDone = new MutableLiveData<>();
-    FirebaseRepo firebaseRepo;
+    IFirebaseRepo firebaseRepo;
 
 
-    public NotesViewModel() {
+    public NotesViewModel(IFirebaseRepo firebaseRepo) {
         addTitle.setValue(false);
         isClickSkip.setValue(false);
-        firebaseRepo = new FirebaseRepo();
+        this.firebaseRepo = firebaseRepo;
     }
 
     public void clickOnAddTitle() {

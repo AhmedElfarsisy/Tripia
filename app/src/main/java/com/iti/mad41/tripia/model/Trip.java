@@ -15,15 +15,27 @@ public class Trip implements Parcelable {
     private String imageUrl;
 
 
-    private String startLongitude;
-    private String startLatitude;
+    private Double startLongitude;
+    private Double startLatitude;
 
-    private String destinationLongitude;
-    private String destinationLatitude;
-   private List<Note> noteList;
+    private Double destinationLongitude;
+    private Double destinationLatitude;
+    private List<Note> noteList;
 
 
     public Trip() {
+    }
+
+    public Trip(String tripTitle, String startAddress, Double startLongitude, Double startLatitude, String destinationAddress, Double destinationLongitude, Double destinationLatitude, Long dateTime, String imageUrl) {
+        this.tripTitle = tripTitle;
+        this.startAddress = startAddress;
+        this.startLongitude = startLongitude;
+        this.startLatitude = startLatitude;
+        this.destinationAddress = destinationAddress;
+        this.destinationLongitude = destinationLongitude;
+        this.destinationLatitude = destinationLatitude;
+        this.dateTime = dateTime;
+        this.imageUrl = imageUrl;
     }
 
     public Trip(int id, String tripTitle, String startAddress, String destinationAddress, Long dateTime, String imageUrl) {
@@ -47,10 +59,10 @@ public class Trip implements Parcelable {
             dateTime = in.readLong();
         }
         imageUrl = in.readString();
-        startLongitude = in.readString();
-        startLatitude = in.readString();
-        destinationLongitude = in.readString();
-        destinationLatitude = in.readString();
+        startLongitude = in.readDouble();
+        startLatitude = in.readDouble();
+        destinationLongitude = in.readDouble();
+        destinationLatitude = in.readDouble();
     }
 
     public static final Creator<Trip> CREATOR = new Creator<Trip>() {
@@ -112,35 +124,35 @@ public class Trip implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    public String getStartLongitude() {
+    public Double getStartLongitude() {
         return startLongitude;
     }
 
-    public void setStartLongitude(String startLongitude) {
+    public void setStartLongitude(Double startLongitude) {
         this.startLongitude = startLongitude;
     }
 
-    public String getStartLatitude() {
+    public Double getStartLatitude() {
         return startLatitude;
     }
 
-    public void setStartLatitude(String startLatitude) {
+    public void setStartLatitude(Double startLatitude) {
         this.startLatitude = startLatitude;
     }
 
-    public String getDestinationLongitude() {
+    public Double getDestinationLongitude() {
         return destinationLongitude;
     }
 
-    public void setDestinationLongitude(String destinationLongitude) {
+    public void setDestinationLongitude(Double destinationLongitude) {
         this.destinationLongitude = destinationLongitude;
     }
 
-    public String getDestinationLatitude() {
+    public Double getDestinationLatitude() {
         return destinationLatitude;
     }
 
-    public void setDestinationLatitude(String destinationLatitude) {
+    public void setDestinationLatitude(Double destinationLatitude) {
         this.destinationLatitude = destinationLatitude;
     }
 
@@ -171,9 +183,9 @@ public class Trip implements Parcelable {
             dest.writeLong(dateTime);
         }
         dest.writeString(imageUrl);
-        dest.writeString(startLongitude);
-        dest.writeString(startLatitude);
-        dest.writeString(destinationLongitude);
-        dest.writeString(destinationLatitude);
+        dest.writeDouble(startLongitude);
+        dest.writeDouble(startLatitude);
+        dest.writeDouble(destinationLongitude);
+        dest.writeDouble(destinationLatitude);
     }
 }

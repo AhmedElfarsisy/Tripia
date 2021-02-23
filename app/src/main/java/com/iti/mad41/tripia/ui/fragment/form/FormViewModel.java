@@ -3,6 +3,7 @@ package com.iti.mad41.tripia.ui.fragment.form;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -14,13 +15,17 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.iti.mad41.tripia.helper.Validations;
 import com.iti.mad41.tripia.model.Trip;
+import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
+import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
-public class FormViewModel extends ViewModel {
+public class FormViewModel extends ViewModel implements FirebaseDelegate {
 
     Calendar calendar;
     Context context;
@@ -28,13 +33,15 @@ public class FormViewModel extends ViewModel {
     Trip  trip = new Trip();
     String checkDayOfMonth = "";
     String checkSelectedHour = "";
-    public MutableLiveData<Boolean> mutableLiveData = new MutableLiveData<>();
+    IFirebaseRepo firebaseRepo;
+    public MutableLiveData<Boolean> isNavigateToNotes = new MutableLiveData<>();
     public MutableLiveData<Double> startLongitude = new MutableLiveData<>();
     public MutableLiveData<Double> startLatitude = new MutableLiveData<>();
     public MutableLiveData<String> startAddress = new MutableLiveData<>();
     public MutableLiveData<Double> destinationLongitude = new MutableLiveData<>();
     public MutableLiveData<Double> destinationLatitude = new MutableLiveData<>();
     public MutableLiveData<String> destinationAddress = new MutableLiveData<>();
+    public MutableLiveData<String> addressImageB64 = new MutableLiveData<>();
     public MutableLiveData<Boolean> isNavigateFromStartAddress = new MutableLiveData<>();
     public MutableLiveData<Boolean> isNavigateFromDestinationAddress = new MutableLiveData<>();
     public MutableLiveData<Pair<Boolean,Trip>> mutableLiveDataDate = new MutableLiveData<>();
@@ -46,14 +53,16 @@ public class FormViewModel extends ViewModel {
     public MutableLiveData<String> startTime = new MutableLiveData<>();
 
     public MutableLiveData<Long> timeStamp = new MutableLiveData<>();
-    public FormViewModel() {
-        mutableLiveData.setValue(false);
+    public FormViewModel(IFirebaseRepo firebaseRepo) {
+        isNavigateToNotes.setValue(false);
+        this.firebaseRepo = firebaseRepo;
+        firebaseRepo.setDelegate(this);
     }
     public void setContext(Context context) {
         this.context = context;
     }
     public void navigateToNotes() {
-        mutableLiveData.setValue(true);
+        isNavigateToNotes.setValue(true);
     }
 
     public void navigateFromStartAddress() {
@@ -130,5 +139,14 @@ public class FormViewModel extends ViewModel {
         calendar.setTimeInMillis(postDate);
         String date = DateFormat.format("dd-MM-yyy ,hh:mm", calendar).toString();
         return date;
+    }
+
+    public void fetchPhoto(List<PhotoMetadata> metadata){
+        firebaseRepo.fetchPhoto(metadata);
+    }
+
+    @Override
+    public void onHandleImageB64Success(String imageB64) {
+        addressImageB64.setValue(imageB64);
     }
 }

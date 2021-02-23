@@ -1,5 +1,6 @@
 package com.iti.mad41.tripia.ui.activity.main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -14,6 +15,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.widget.Switch;
 
 import com.google.android.material.tabs.TabLayout;
 import com.iti.mad41.tripia.R;
@@ -62,5 +65,18 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new PreviousTripsFragment(), "Previous");
         tripViewPager.setAdapter(adapter);
         tripTabLayout.setupWithViewPager(tripViewPager);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuHome:
+                break;
+            case R.id.menuMore:
+                //startActivity(this, SettingsActivity.class);
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
