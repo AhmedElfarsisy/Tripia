@@ -80,8 +80,8 @@ public class NotesFragment extends Fragment {
         });
         mViewModel.isClickDone.observe(getViewLifecycleOwner(),isClickDone -> {
             if (isClickDone) {
-                trip.setNoteList(noteList);
                 mViewModel.setTrip(trip);
+                mViewModel.setNote(trip.getId(), noteList);
 
                 Toast.makeText(getActivity(), "Trip saved ", Toast.LENGTH_SHORT).show();
                 getActivity().finish();

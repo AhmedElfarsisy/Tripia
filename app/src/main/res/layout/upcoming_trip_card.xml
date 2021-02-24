@@ -9,10 +9,6 @@
             name="upcomingTrips"
             type="com.iti.mad41.tripia.model.Trip"/>
 
-        <variable
-            name="tripBindingAdapter"
-            type="com.iti.mad41.tripia.adapters.TripBindingAdapter"/>
-
     </data>
 
     <androidx.cardview.widget.CardView
@@ -42,7 +38,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"
-                    android:loadImage="@{upcomingTrips.imageUrl}"
+                    android:loadImageBitmap="@{upcomingTrips.imageUrl}"
                     tools:srcCompat="@tools:sample/avatars" />
             </androidx.cardview.widget.CardView>
 
@@ -72,7 +68,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="8"
                             android:gravity="center_vertical"
-
+                            android:text="@{upcomingTrips.tripTitle}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/paragraph"
                             tools:text="Business trip" />
@@ -164,7 +160,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="9"
-                            android:text="@{upcomingTrips.dateTime.toString()}"
+                            android:getDateTime="@{upcomingTrips.dateTime}"
                             android:textColor="@color/dark_gray"
                             android:textSize="@dimen/tiny_text"
                             tools:text="12 May 2020 08:03 PM" />

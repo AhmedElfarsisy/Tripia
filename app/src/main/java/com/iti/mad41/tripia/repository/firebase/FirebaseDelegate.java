@@ -1,6 +1,9 @@
 package com.iti.mad41.tripia.repository.firebase;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.iti.mad41.tripia.model.Trip;
+
+import java.util.ArrayList;
 
 public interface FirebaseDelegate {
     default void onSigninSuccess() {
@@ -37,6 +40,14 @@ public interface FirebaseDelegate {
     }
 
     default void onHandleImageB64Error(Exception exception){
+
+    }
+
+    default void onSubscribeToTripsSuccess(ArrayList<Trip> tripsList){
+
+    }
+
+    default void onSubscribeToTripsCancel(){
 
     }
 

@@ -18,16 +18,19 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.iti.mad41.tripia.model.Note;
 import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.model.User;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -135,7 +138,14 @@ public class FirebaseRepo implements IFirebaseRepo {
     public void writeTrip(Trip trip) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(currentUser.getUid()).child("trips").push().setValue(trip);
+        mDatabase.child("users").child(currentUser.getUid()).child("trips").child(trip.getId()).setValue(trip);
+    }
+
+    @Override
+    public void writeNotes(String tripId, List<Note> note) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("notes").child(tripId).setValue(note);
     }
 
     @Override
@@ -182,6 +192,33 @@ public class FirebaseRepo implements IFirebaseRepo {
         byte[] decodedString = Base64.decode(imageB64, Base64.URL_SAFE);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;
+    }
+
+    public void subscribeToTrips(){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Query tripsQuery = mDatabase.child("users").child(currentUser.getUid()).child("trips");
+        tripsQuery.addValueEventListener(new ValueEventListener() {
+            ArrayList<Trip> tripsList = new ArrayList<>();
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i("subscribeToTrips", "Inside onDataChange() method!");
+                for (DataSnapshot tripSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+                    tripsList.add(tripSnapshot.getValue(Trip.class));
+                    Log.i("subscribeToTrips", tripSnapshot.getValue(Trip.class).getTripTitle());
+                }
+                Log.i("subscribeToTrips", String.valueOf(tripsList.size()));
+                delegate.onSubscribeToTripsSuccess(tripsList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                delegate.onSubscribeToTripsCancel();
+                // Getting Post failed, log a message
+                Log.w("OnCancelled", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
     }
 
 }

@@ -6,27 +6,25 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class Trip implements Parcelable {
-    private int id;
+    private String id;
     private String tripTitle;
     private String startAddress;
     private String destinationAddress;
 
     private Long dateTime;
     private String imageUrl;
-
-
     private Double startLongitude;
     private Double startLatitude;
 
     private Double destinationLongitude;
     private Double destinationLatitude;
-    private List<Note> noteList;
 
 
     public Trip() {
     }
 
-    public Trip(String tripTitle, String startAddress, Double startLongitude, Double startLatitude, String destinationAddress, Double destinationLongitude, Double destinationLatitude, Long dateTime, String imageUrl) {
+    public Trip(String id, String tripTitle, String startAddress, Double startLongitude, Double startLatitude, String destinationAddress, Double destinationLongitude, Double destinationLatitude, Long dateTime, String imageUrl) {
+        this.id = id;
         this.tripTitle = tripTitle;
         this.startAddress = startAddress;
         this.startLongitude = startLongitude;
@@ -38,7 +36,7 @@ public class Trip implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    public Trip(int id, String tripTitle, String startAddress, String destinationAddress, Long dateTime, String imageUrl) {
+    public Trip(String id, String tripTitle, String startAddress, String destinationAddress, Long dateTime, String imageUrl) {
         this.id = id;
         this.tripTitle = tripTitle;
         this.startAddress = startAddress;
@@ -49,7 +47,7 @@ public class Trip implements Parcelable {
 
 
     protected Trip(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         tripTitle = in.readString();
         startAddress = in.readString();
         destinationAddress = in.readString();
@@ -76,11 +74,11 @@ public class Trip implements Parcelable {
             return new Trip[size];
         }
     };
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -156,15 +154,6 @@ public class Trip implements Parcelable {
         this.destinationLatitude = destinationLatitude;
     }
 
-
-    public List<Note> getNoteList() {
-        return noteList;
-    }
-
-    public void setNoteList(List<Note> noteList) {
-        this.noteList = noteList;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -172,7 +161,7 @@ public class Trip implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(tripTitle);
         dest.writeString(startAddress);
         dest.writeString(destinationAddress);

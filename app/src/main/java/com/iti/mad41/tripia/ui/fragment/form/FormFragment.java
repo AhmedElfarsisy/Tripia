@@ -39,6 +39,7 @@ import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModelFactory;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -180,7 +181,7 @@ public class FormFragment extends Fragment {
                         Validations.isNull(startAddress) &&
                         Validations.isNull(destinationAddress);
                 if (!Validations.isEmpty(title) && isFormComplete) {
-                    trip = new Trip(title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, timeStampValue, imgB64);
+                    trip = new Trip(UUID.randomUUID().toString(), title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, timeStampValue, imgB64);
                     NotesFragment notesFragment = NotesFragment.newInstance();
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("Trip", trip);

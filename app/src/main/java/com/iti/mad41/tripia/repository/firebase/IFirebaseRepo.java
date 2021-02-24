@@ -5,9 +5,11 @@ import android.graphics.Bitmap;
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
+import com.iti.mad41.tripia.model.Note;
 import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface IFirebaseRepo {
@@ -28,6 +30,10 @@ public interface IFirebaseRepo {
 
     void writeTrip(Trip trip);
 
+    void writeNotes(String tripId, List<Note> note);
+
     void fetchPhoto(List<PhotoMetadata> metadata);
+
+    void subscribeToTrips();
 
 }

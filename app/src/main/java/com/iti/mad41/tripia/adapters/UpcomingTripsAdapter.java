@@ -17,11 +17,12 @@ import java.util.List;
 
 public class UpcomingTripsAdapter extends RecyclerView.Adapter<UpcomingTripHolder> {
     private List<Trip> tripsList;
-    private Context context;
     private onUpcomingTripsClickCallback onUpcomingTripsClickCallback;
 
-    public UpcomingTripsAdapter(Context _context, List<Trip> tripsList) {
-        this.context = _context;
+    public UpcomingTripsAdapter() {
+    }
+
+    public void setData(List<Trip> tripsList){
         this.tripsList = tripsList;
     }
 
@@ -56,7 +57,7 @@ public class UpcomingTripsAdapter extends RecyclerView.Adapter<UpcomingTripHolde
 
     @Override
     public int getItemCount() {
-        return tripsList.size();
+        return tripsList!=null?tripsList.size():0;
     }
 }
 
