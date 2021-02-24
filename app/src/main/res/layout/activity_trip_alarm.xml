@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/trip_alarm"
-    tools:context=".ui.activity.tripservice.TripAlarm">
+    tools:context=".ui.activity.tripservice.TripAlarmActivity">
 
     <Button
         android:id="@+id/stratTripBtn"
@@ -13,27 +13,42 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
         android:layout_marginEnd="@dimen/margin_16"
-        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/btn_with_border_blue"
         android:text="start"
         android:textColor="@color/blue"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/alarmIcon"
-        app:layout_constraintVertical_bias="0.85" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:background="@drawable/btn_with_border_blue"
+        android:backgroundTint="@color/dark_gray"
+        android:onClick="onCancelTrip"
+        android:text="cancel"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/alarmIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_16"
-        android:layout_marginTop="@dimen/margin_64"
+        android:layout_marginTop="@dimen/margin_16"
         android:layout_marginEnd="@dimen/margin_16"
-        app:layout_constraintBottom_toTopOf="@+id/button_skip"
+        app:layout_constraintBottom_toTopOf="@+id/stratTripBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.50"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_baseline_alarm_24" />

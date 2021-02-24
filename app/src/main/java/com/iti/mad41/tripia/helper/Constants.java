@@ -17,7 +17,8 @@ public class Constants {
     public static final String TRIP_START_Log_KEY = "tripStartLog";
     public static final String TRIP_DESTINATION_Log_KEY = "tripDestinationLog";
     public static final String TRIP_DESTINATION_Lat_KEY = "tripDestinationLat";
-
+    public static final String TRIP_START_ADDRESS_KEY = "tripStartAddress";
+    public static final String TRIP_DESTINATION_ADDRESS_KEY = "tripDestinationAddress";
 
     public static final int GALLERY_PERMISSION_REQUSET_CODE = 2;
     public static final int GAllery_INTENT_REQUSET_CODE = 2;

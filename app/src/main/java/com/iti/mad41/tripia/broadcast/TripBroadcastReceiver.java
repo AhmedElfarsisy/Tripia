@@ -8,13 +8,13 @@ import android.util.Log;
 
 import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.services.AlarmTripService;
-import com.iti.mad41.tripia.ui.activity.tripservice.TripAlarm;
+import com.iti.mad41.tripia.ui.activity.tripservice.TripAlarmActivity;
 
 public class TripBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("myTrip", Constants.TRIP_TITLE_KEY+" ::::::onReceive ALARM: " + intent.getStringExtra(Constants.TRIP_TITLE_KEY));
+        Log.i("myTrip", Constants.TRIP_TITLE_KEY + " ::::::onReceive ALARM: " + intent.getStringExtra(Constants.TRIP_TITLE_KEY));
 
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             startRescheduleTripAlarmsService(context);
@@ -38,20 +38,22 @@ public class TripBroadcastReceiver extends BroadcastReceiver {
             context.startService(intentService);
         }
 
-        Intent activityIntent = new Intent(context, TripAlarm.class);
-        setDataOnIntent(activityIntent,intent);
+        Intent activityIntent = new Intent(context, TripAlarmActivity.class);
+        setDataOnIntent(activityIntent, intent);
         activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(activityIntent);
     }
 
     public void setDataOnIntent(Intent intentService, Intent intent) {
-        Log.i("myTrip", Constants.TRIP_TITLE_KEY+" ::::::setDataOnIntent ALARM: " + intent.getStringExtra(Constants.TRIP_TITLE_KEY));
+        Log.i("myTrip", Constants.TRIP_TITLE_KEY + " ::::::setDataOnIntent ALARM: " + intent.getStringExtra(Constants.TRIP_TITLE_KEY));
         intentService.putExtra(Constants.TRIP_TITLE_KEY, intent.getStringExtra(Constants.TRIP_TITLE_KEY));
-        intentService.putExtra(Constants.TRIP_START_LAT_KEY, intent.getStringExtra(Constants.TRIP_START_LAT_KEY));
-        intentService.putExtra(Constants.TRIP_START_Log_KEY, intent.getStringExtra(Constants.TRIP_START_Log_KEY));
-        intentService.putExtra(Constants.TRIP_DESTINATION_Lat_KEY, intent.getStringExtra(Constants.TRIP_DESTINATION_Lat_KEY));
-        intentService.putExtra(Constants.TRIP_DESTINATION_Log_KEY, intent.getStringExtra(Constants.TRIP_DESTINATION_Log_KEY));
-        intentService.putExtra(Constants.TRIP_DATE_KEY, intent.getLongExtra(Constants.TRIP_DATE_KEY, 1898006708));
+        intentService.putExtra(Constants.TRIP_START_LAT_KEY, intent.getDoubleExtra(Constants.TRIP_START_LAT_KEY, 0.0));
+        intentService.putExtra(Constants.TRIP_START_Log_KEY, intent.getDoubleExtra(Constants.TRIP_START_Log_KEY, 0.0));
+        intentService.putExtra(Constants.TRIP_DESTINATION_Lat_KEY, intent.getDoubleExtra(Constants.TRIP_DESTINATION_Lat_KEY, 0.0));
+        intentService.putExtra(Constants.TRIP_DESTINATION_Log_KEY, intent.getDoubleExtra(Constants.TRIP_DESTINATION_Log_KEY, 0.0));
+        intentService.putExtra(Constants.TRIP_DATE_KEY, intent.getLongExtra(Constants.TRIP_DATE_KEY, 0));
+        intentService.putExtra(Constants.TRIP_DATE_KEY, intent.getStringExtra(Constants.TRIP_START_ADDRESS_KEY));
+        intentService.putExtra(Constants.TRIP_DESTINATION_ADDRESS_KEY, intent.getStringExtra(Constants.TRIP_DESTINATION_ADDRESS_KEY));
     }
 
 }

@@ -1,6 +1,5 @@
 package com.iti.mad41.tripia.services;
 
-import android.app.IntentService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -11,14 +10,12 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.JobIntentService;
 import androidx.core.app.NotificationCompat;
 
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.helper.Constants;
-import com.iti.mad41.tripia.ui.activity.tripservice.TripAlarm;
+import com.iti.mad41.tripia.ui.activity.tripservice.TripAlarmActivity;
 
 
 public class AlarmTripService extends Service {
@@ -50,7 +47,7 @@ public class AlarmTripService extends Service {
     }
 
     private void showNotification(String tripTitle) {
-        Intent notificationIntent = new Intent(this, TripAlarm.class);
+        Intent notificationIntent = new Intent(this, TripAlarmActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
             String channelName = "Tripia";

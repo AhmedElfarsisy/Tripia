@@ -17,9 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tripia">
-        <activity android:name=".ui.activity.settings.SettingsActivity"></activity>
         <activity
-            android:name=".ui.activity.tripservice.TripAlarm"
+            android:name=".ui.activity.settings.SettingsActivity"
+            android:theme="@style/FullScreen"></activity>
+        <activity
+            android:name=".ui.activity.tripservice.TripAlarmActivity"
             android:theme="@style/FullScreen" />
 
         <service
@@ -71,8 +73,7 @@
         </activity>
         <activity
             android:name=".ui.activity.main.MainActivity"
-            android:theme="@style/MainScreenThem">
-        </activity>
+            android:theme="@style/MainScreenThem"></activity>
     </application>
 
 </manifest>

@@ -42,17 +42,18 @@ public class NotesFragment extends Fragment {
     NotesFragmentBinding binding;
     private NotesViewModel mViewModel;
     List<Note> noteList = new ArrayList<>();
-    NotesAdapter  notesAdapter;
+    NotesAdapter notesAdapter;
     Trip trip;
     FirebaseRepo firebaseRepo;
 
     public static NotesFragment newInstance() {
         return new NotesFragment();
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        trip = (Trip)getArguments().getParcelable("Trip");
+        trip = (Trip) getArguments().getParcelable("Trip");
         binding = DataBindingUtil.inflate(inflater, R.layout.notes_fragment, container, false);
         return binding.getRoot();
     }
@@ -71,18 +72,21 @@ public class NotesFragment extends Fragment {
                     .replace(R.id.fragment_container_view, new FormFragment())
                     .commit();
         });
-        mViewModel.isClickSkip.observe(getViewLifecycleOwner(),isClickSkip -> {
+        mViewModel.isClickSkip.observe(getViewLifecycleOwner(), isClickSkip -> {
             if (isClickSkip) {
                 mViewModel.setTrip(trip);
+                //schedule trip
+                trip.schedule(getActivity());
                 Toast.makeText(getActivity(), "Trip saved without notes", Toast.LENGTH_SHORT).show();
                 getActivity().finish();
             }
         });
-        mViewModel.isClickDone.observe(getViewLifecycleOwner(),isClickDone -> {
+        mViewModel.isClickDone.observe(getViewLifecycleOwner(), isClickDone -> {
             if (isClickDone) {
                 mViewModel.setTrip(trip);
                 mViewModel.setNote(trip.getId(), noteList);
-
+                //schedule trip
+                trip.schedule(getActivity());
                 Toast.makeText(getActivity(), "Trip saved ", Toast.LENGTH_SHORT).show();
                 getActivity().finish();
             }
@@ -90,9 +94,9 @@ public class NotesFragment extends Fragment {
         });
 
 
-        mViewModel.addTitle.observe(getViewLifecycleOwner(),aBoolean ->{
+        mViewModel.addTitle.observe(getViewLifecycleOwner(), aBoolean -> {
             if (aBoolean) {
-                noteList.add(new Note(1,binding.editTextAddNote.getText().toString()));
+                noteList.add(new Note(1, binding.editTextAddNote.getText().toString()));
                 addNotesToAdapter(noteList);
                 binding.editTextAddNote.setText("");
             }
@@ -104,7 +108,7 @@ public class NotesFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         binding.recyclerViewNotes.setLayoutManager(layoutManager);
-        notesAdapter= new NotesAdapter(getActivity(),noteList);
+        notesAdapter = new NotesAdapter(getActivity(), noteList);
         binding.recyclerViewNotes.setAdapter(notesAdapter);
         notesAdapter.notifyDataSetChanged();
     }
