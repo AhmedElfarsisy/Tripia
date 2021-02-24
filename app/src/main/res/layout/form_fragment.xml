@@ -214,14 +214,15 @@
             android:backgroundTint="@color/white"
             android:drawableEnd="@drawable/ic_pin"
             android:hint="@string/hint_endPoint"
+            android:text="@{formViewModel.destinationAddress}"
             android:textSize="@dimen/edit_text"
+            android:onClick="@{() -> formViewModel.navigateFromDestinationAddress()}"
             app:layout_constraintBottom_toTopOf="@+id/textView_startDate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/startPointTextView"
-            android:textColor="@color/black"
-            android:text="@{formViewModel.destinationAddress}"/>
+            android:textColor="@color/black"/>
 
         <TextView
 
@@ -236,14 +237,14 @@
             android:backgroundTint="@color/white"
             android:drawableEnd="@drawable/ic_pin"
             android:hint="@string/hint_startPoint"
-
+            android:text="@{formViewModel.startAddress}"
             android:textSize="@dimen/edit_text"
+            android:onClick="@{() -> formViewModel.navigateFromStartAddress()}"
             app:layout_constraintBottom_toTopOf="@+id/textView_endPoint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@+id/editText_tripTitle"
-            android:text="@{formViewModel.startAddress}"/>
+            app:layout_constraintTop_toBottomOf="@+id/editText_tripTitle"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

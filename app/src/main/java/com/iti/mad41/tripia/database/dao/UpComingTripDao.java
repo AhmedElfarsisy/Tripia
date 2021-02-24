@@ -6,8 +6,6 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
-import com.iti.mad41.tripia.database.dto.Notes;
-import com.iti.mad41.tripia.database.dto.TripHistory;
 import com.iti.mad41.tripia.database.dto.TripWithNotes;
 import com.iti.mad41.tripia.database.dto.UpComingTrip;
 
@@ -16,7 +14,7 @@ import java.util.List;
 @Dao
 public interface UpComingTripDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(UpComingTrip trip);
 
     @Query("DELETE FROM upcoming_trip")
@@ -27,7 +25,7 @@ public interface UpComingTripDao {
 
     @Transaction
     @Query("SELECT * FROM upcoming_trip")
-    public List<TripWithNotes> getAllTripsWithNotes();
+     List<TripWithNotes> getAllTripsWithNotes();
 
 //    @Transaction
 //    @Query("SELECT * FROM upcoming_trip WHERE upcoming_id =:upcomingId")

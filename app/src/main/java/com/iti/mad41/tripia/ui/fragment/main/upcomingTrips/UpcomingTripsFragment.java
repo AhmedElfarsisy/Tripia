@@ -1,5 +1,7 @@
 package com.iti.mad41.tripia.ui.fragment.main.upcomingTrips;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +14,8 @@ import android.view.ViewGroup;
 
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.adapters.UpcomingTripsAdapter;
+import com.iti.mad41.tripia.adapters.onUpcomingTripsClickCallback;
+import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.model.TripsRepo;
 
 public class UpcomingTripsFragment extends Fragment {
@@ -37,7 +41,21 @@ public class UpcomingTripsFragment extends Fragment {
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         upcomingRecyclerView.setLayoutManager(linearLayoutManager);
         tripsAdapter = new UpcomingTripsAdapter(getActivity(), tripsRepo.getTripsList());
+        tripsAdapter.setOnUpcomingTripClickCallback(new onUpcomingTripsClickCallback() {
+            @Override
+            public void onStartClick(Trip trip) {
+                displayTrack(trip.getStartAddress(), trip.getDestinationAddress());
+            }
+        });
         upcomingRecyclerView.setAdapter(tripsAdapter);
         return view;
+    }
+
+    private void displayTrack(String Start, String destination){
+        Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=" + Start + "&destination=" + destination + "&travelmode=car");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setPackage("com.google.android.apps.maps");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

@@ -24,12 +24,15 @@ import com.iti.mad41.tripia.adapters.TripTabsPagerAdapter;
 import com.iti.mad41.tripia.databinding.NotesFragmentBinding;
 import com.iti.mad41.tripia.model.Note;
 import com.iti.mad41.tripia.model.Trip;
+import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.ui.activity.form.FormActivity;
 import com.iti.mad41.tripia.ui.activity.main.MainActivity;
 import com.iti.mad41.tripia.ui.fragment.form.FormFragment;
 import com.iti.mad41.tripia.ui.fragment.main.previousTrips.PreviousTripsFragment;
 import com.iti.mad41.tripia.ui.fragment.main.upcomingTrips.UpcomingTripsFragment;
+import com.iti.mad41.tripia.ui.fragment.signin.SiginViewModelFactory;
+import com.iti.mad41.tripia.ui.fragment.signin.SigninViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,24 +42,26 @@ public class NotesFragment extends Fragment {
     NotesFragmentBinding binding;
     private NotesViewModel mViewModel;
     List<Note> noteList = new ArrayList<>();
-    NotesAdapter  notesAdapter ;
+    NotesAdapter  notesAdapter;
     Trip trip;
-    FirebaseRepo firebaseRepo  ;
+    FirebaseRepo firebaseRepo;
+
     public static NotesFragment newInstance() {
         return new NotesFragment();
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-       trip =(Trip) getArguments().getParcelable("Trip");
-        Log.i(TAG, "onCreateView "+ trip.getTripTitle() + trip.getDestinationAddress() + " timeStamp"+ trip.getDateTime());
+        trip = (Trip)getArguments().getParcelable("Trip");
         binding = DataBindingUtil.inflate(inflater, R.layout.notes_fragment, container, false);
         return binding.getRoot();
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(NotesViewModel.class);
+        firebaseRepo = new FirebaseRepo(getActivity());
+        mViewModel = new ViewModelProvider(this, new NotesViewModelFactory(firebaseRepo)).get(NotesViewModel.class);
         binding.setNoteViewModel(mViewModel);
         binding.setLifecycleOwner(this);
         binding.toolbar.setNavigationOnClickListener(v -> {
@@ -80,7 +85,6 @@ public class NotesFragment extends Fragment {
 
                 Toast.makeText(getActivity(), "Trip saved ", Toast.LENGTH_SHORT).show();
                 getActivity().finish();
-
             }
 
         });
@@ -90,8 +94,9 @@ public class NotesFragment extends Fragment {
             if (aBoolean) {
                 noteList.add(new Note(1,binding.editTextAddNote.getText().toString()));
                 addNotesToAdapter(noteList);
+                binding.editTextAddNote.setText("");
             }
-        } );
+        });
 
     }
 
@@ -103,20 +108,5 @@ public class NotesFragment extends Fragment {
         binding.recyclerViewNotes.setAdapter(notesAdapter);
         notesAdapter.notifyDataSetChanged();
     }
-
-    public void onFragmentInteraction(Trip trip)
-    {
-        Log.i(TAG, "onFragmentInteraction: "+trip.getTripTitle());
-    }
-    /*notesToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            getActivity().onBackPressed();
-        }
-    });
-*/
-
-    // notesToolbar.setNavigationOnClickListener(v -> {getActivity().onBackPressed(); });
-
 
 }

@@ -32,4 +32,12 @@ public interface FirebaseDelegate {
 
     }
 
+    default void onHandleImageB64Success(String imageB64){
+
+    }
+
+    default void onHandleImageB64Error(Exception exception){
+
+    }
+
 }
