@@ -1,7 +1,16 @@
 package com.iti.mad41.tripia.model;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import com.iti.mad41.tripia.broadcast.TripBroadcastReceiver;
+import com.iti.mad41.tripia.helper.Constants;
 
 import java.util.List;
 
@@ -76,6 +85,7 @@ public class Trip implements Parcelable {
             return new Trip[size];
         }
     };
+
     public int getId() {
         return id;
     }
@@ -187,5 +197,39 @@ public class Trip implements Parcelable {
         dest.writeDouble(startLatitude);
         dest.writeDouble(destinationLongitude);
         dest.writeDouble(destinationLatitude);
+    }
+
+
+    public void schedule(Context context) {
+        Log.i("myTrip", "onscheduleFrist: onClick ");
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+        Intent intent = new Intent(context, TripBroadcastReceiver.class);
+        intent.putExtra(Constants.TRIP_TITLE_KEY, tripTitle);
+        intent.putExtra(Constants.TRIP_START_LAT_KEY, startLatitude);
+        intent.putExtra(Constants.TRIP_START_Log_KEY, startLongitude);
+        intent.putExtra(Constants.TRIP_DESTINATION_Lat_KEY, destinationLatitude);
+        intent.putExtra(Constants.TRIP_DESTINATION_Log_KEY, destinationLongitude);
+        intent.putExtra(Constants.TRIP_DATE_KEY, dateTime);
+        intent.putExtra(Constants.TRIP_START_ADDRESS_KEY, startAddress);
+        intent.putExtra(Constants.TRIP_DESTINATION_ADDRESS_KEY, destinationAddress);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, 0);
+
+        Log.i("myTrip", "====: ==== after BroadCast  ");
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Log.i("myTrip", "====:before ====  setExact  ");
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, dateTime, pendingIntent);
+            Log.i("myTrip", "====: ==== after setExact  ");
+
+        }
+    }
+
+    public void cancelAlarm(Context context,int alarmID) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, TripBroadcastReceiver.class);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmID, intent, 0);
+        alarmManager.cancel(alarmPendingIntent);
+
     }
 }

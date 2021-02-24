@@ -81,10 +81,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_24"
+            android:onClick="@{()->profileViewModel.navigateToGallary()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{profileViewModel}"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
             tools:src="@tools:sample/avatars" />
 
