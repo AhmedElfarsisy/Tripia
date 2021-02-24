@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name="androidx.multidex.MultiDexApplication"
@@ -16,9 +17,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Tripia">
+        <activity android:name=".ui.activity.settings.SettingsActivity"></activity>
         <activity
             android:name=".ui.activity.tripservice.TripAlarm"
-            android:theme="@style/FullScreen"></activity>
+            android:theme="@style/FullScreen" />
 
         <service
             android:name=".services.AlarmTripService"

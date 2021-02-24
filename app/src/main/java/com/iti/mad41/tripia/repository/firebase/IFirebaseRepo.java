@@ -23,6 +23,9 @@ public interface IFirebaseRepo {
 
     void setDelegate(FirebaseDelegate delegate);
 
+
+    void signOut();
+
     void writeTrip(Trip trip);
 
     void fetchPhoto(List<PhotoMetadata> metadata);
