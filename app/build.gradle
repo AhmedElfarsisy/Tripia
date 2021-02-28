@@ -80,11 +80,7 @@ dependencies {
     //lifecycle dependancy
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
-    def room_version = "2.2.6"
 
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-//
     //Login with Facebook
     implementation 'com.facebook.android:facebook-android-sdk:8.1.0'
 
@@ -104,4 +100,15 @@ dependencies {
     //circleimageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     def fragment_version = "1.2.5"
+
+
+    implementation'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    def room_version = "2.2.6"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+// optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
 }

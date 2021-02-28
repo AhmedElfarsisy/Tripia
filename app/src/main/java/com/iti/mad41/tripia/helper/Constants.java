@@ -27,4 +27,13 @@ public class Constants {
     public static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 102;
 
 
+
+
+    public static final String TRIP_STATE_RUNNING = "run";
+    public static final String TRIP_STATE_CANCELED = "canceled";
+    public static final String TRIP_STATE_DONE = "done";
+
+    public static final String REPEATE_DAILY = "daily";
+    public static final String REPEATE_MONTHLY = "monthly";
+
 }

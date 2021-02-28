@@ -1,55 +1,20 @@
 package com.iti.mad41.tripia.repository.localrepo;
 
 import android.content.Context;
-import android.os.Build;
-import android.util.Log;
+
 
 import com.iti.mad41.tripia.database.DatabaseRoom;
-import com.iti.mad41.tripia.database.dto.TripHistory;
-import com.iti.mad41.tripia.database.dto.TripWithNotes;
-import com.iti.mad41.tripia.database.dto.UpComingTrip;
+import com.iti.mad41.tripia.database.dto.LocalTrip;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Completable;
+import io.reactivex.Single;
 
 public class TripsDataRepository implements ITripDataRepo {
     private static TripsDataRepository INSTANCE;
     static Context context;
     private DatabaseRoom databaseRoom;
-
-    public void insertDummyData() {
-
-        List<TripHistory> list = new ArrayList<>();
-        List<UpComingTrip> upcomminglist = new ArrayList<>();
-
-//        upcomminglist.add(new UpComingTrip(0, "Trip1", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", , false, false, false));
-//        upcomminglist.add(new UpComingTrip(1, "myTrip2", "32.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", false, true, false));
-//        upcomminglist.add(new UpComingTrip(2, "upcomingTitle2", "33.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", false, false, false));
-//        upcomminglist.add(new UpComingTrip(3, "upcomingTitle3", "34.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", true, true, true));
-//        upcomminglist.add(new UpComingTrip(4, "upcomingTitle4", "35.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", true, true, false));
-
-
-//        list.add(new TripHistory(0, "HistTitle1", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", "Canceld", false));
-//        list.add(new TripHistory(1, "HistTite2", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", "Canceld", false));
-//        list.add(new TripHistory(2, "HistTitle3", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", "Canceld", false));
-//        list.add(new TripHistory(3, "HistTitle4", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", "Canceld", false));
-//        list.add(new TripHistory(4, "HistTitle5", "31.00000", "131.1245", "15.01111", "124.12345", "ElmoezStreet", "the kingdom of no where", "12/3/2021", "Canceld", false));
-
-
-        for (UpComingTrip trip : upcomminglist) {
-            insertUpComingTrip(trip);
-            Log.i("myDatabase", "insertDummyData: ====================   loooooop" + "id:   " + trip.getUpComingTripId() + " title :  " + trip.getTripTitle());
-        }
-    }
-
-    public void getUpComingTripDummy() {
-        List<TripWithNotes> allUpcomingTripsWithNotes = getAllUpcomingTripsWithNotes();
-        for (TripWithNotes trip : allUpcomingTripsWithNotes) {
-            getAllUpcomingTripsWithNotes();
-            Log.i("myDatabase", "getDummyData: ====================   loooooop" + "id:   " +
-                    trip.getUpComingTrip().getUpComingTripId() + " title :  " + trip.getUpComingTrip().getTripTitle());
-        }
-    }
 
     private TripsDataRepository(Context context) {
         this.context = context;
@@ -67,47 +32,45 @@ public class TripsDataRepository implements ITripDataRepo {
         return INSTANCE;
     }
 
-    //UpComing Trips DATABASE METHODS
-    ///////////////////////////////////////////////////////////////////////////////////
-    public void insertUpComingTrip(UpComingTrip trip) {
-        databaseRoom.upComingTripDao().insert(trip);
+
+    @Override
+    public Completable createTrip(Object obj) {
+        Completable insert = databaseRoom.tripDao().insert((LocalTrip) obj);
+        return insert;
     }
 
-    public List<TripWithNotes> getAllUpcomingTripsWithNotes() {
-        List<TripWithNotes> allTripsWithNotes = databaseRoom.upComingTripDao().getAllTripsWithNotes();
-        return allTripsWithNotes;
+
+    //GET Trips on running state
+    @Override
+    public Single<List<LocalTrip>> getUpComingTrip(String tripState) {
+        Single<List<LocalTrip>> upComingTrips = databaseRoom.tripDao().getUpComingTrips(tripState);
+        return upComingTrips;
     }
 
-    public void deleteUpcomingTrip(int tripId) {
-        databaseRoom.upComingTripDao().deleteTrip(tripId);
+    @Override
+    public Single<List<LocalTrip>> getHistoryTrips(String done, String canceledState) {
+        Single<List<LocalTrip>> historyTrips = databaseRoom.tripDao().getHistoryTrips(done, canceledState);
+        return historyTrips;
     }
 
-    public void deleteAllUpcomingTrip() {
-        databaseRoom.upComingTripDao().deleteAll();
-    }
-/////////////////////////////////////////////////////////////////////////
-
-    //History of Trips  DEAL with DB METHODS
-    public void insertTripHistory(TripHistory trip) {
-        databaseRoom.databaseWriteExecutor.execute(() -> {
-            databaseRoom.tripHistoryDao().insert(trip);
-        });
+    @Override
+    public Single<LocalTrip> getTripById(int tripId) {
+        Single<LocalTrip> tripById = databaseRoom.tripDao().getTripById(tripId);
+        return tripById;
     }
 
-    public List<TripHistory> getAllTripsHistory() {
-        List<TripHistory> allTripsHistory = databaseRoom.tripHistoryDao().getAllTripsHistory();
-        return allTripsHistory;
+    @Override
+    public Completable updateTrip(Object obj) {
+        Completable updateTrip = databaseRoom.tripDao().updateTrip((LocalTrip) obj);
+        return updateTrip;
     }
 
-    public void deleteTripFromHistory(int tripId) {
-        databaseRoom.tripHistoryDao().deleteTripFromHistory(tripId);
+    @Override
+    public Completable deleteTrip(int tripId) {
+        Completable deleteTrip = databaseRoom.tripDao().deleteTrip(tripId);
+        return deleteTrip;
     }
 
-    public void deleteAllHistoryTrip() {
-        databaseRoom.tripHistoryDao().deleteAll();
-    }
-/////////////////////////////////////////////////////////////////////////
-//Notes of Trips  DEAL with DB METHODS
 
 
 }

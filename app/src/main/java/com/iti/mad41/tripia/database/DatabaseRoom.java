@@ -5,29 +5,25 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
-import com.iti.mad41.tripia.database.dao.NoteDao;
-import com.iti.mad41.tripia.database.dao.TripHistoryDao;
-import com.iti.mad41.tripia.database.dao.UpComingTripDao;
-import com.iti.mad41.tripia.database.dto.TripHistory;
-import com.iti.mad41.tripia.database.dto.Notes;
-import com.iti.mad41.tripia.database.dto.UpComingTrip;
+import com.iti.mad41.tripia.database.dao.LocalTripDao;
+import com.iti.mad41.tripia.database.dto.LocalTrip;
+import com.iti.mad41.tripia.database.dto.NoteConverter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {UpComingTrip.class, TripHistory.class, Notes.class}, version = 1)
+
+@TypeConverters(NoteConverter.class)
+@Database(entities = {LocalTrip.class}, version = 1, exportSchema = false)
 public abstract class DatabaseRoom extends RoomDatabase {
     private static volatile DatabaseRoom INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public abstract NoteDao NoteDao();
-
-    public abstract TripHistoryDao tripHistoryDao();
-
-    public abstract UpComingTripDao upComingTripDao();
+    public abstract LocalTripDao tripDao();
 
     public static DatabaseRoom getInstance(Context context) {
         if (INSTANCE == null) {
@@ -43,4 +39,5 @@ public abstract class DatabaseRoom extends RoomDatabase {
         }
         return INSTANCE;
     }
+
 }
