@@ -8,20 +8,22 @@ import android.os.Bundle;
 
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.ActivityFormBinding;
+import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.ui.activity.main.MainViewModel;
 import com.iti.mad41.tripia.ui.fragment.form.FormFragment;
 
 public class FormActivity extends AppCompatActivity {
 
-    ActivityFormBinding binding ;
+    ActivityFormBinding binding;
     FormActivityViewModel formActivityViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_form);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_form);
         formActivityViewModel = new ViewModelProvider(this).get(FormActivityViewModel.class);
         binding.setFormViewModel(formActivityViewModel);
         binding.setLifecycleOwner(this);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container_view,new FormFragment()).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container_view, new FormFragment(), Constants.FORM_FRAGMENT).commit();
     }
 }

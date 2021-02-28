@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Tripia</string>
-    <string name="tripForm">Trip Form</string>
-    <string name="hint_tripTitle">Enter trip title</string>
-    <string name="hint_startPoint">Enter start point</string>
-    <string name="hint_endPoint">Enter end point</string>
-    <string name="hint_startDate">Enter start date</string>
-    <string name="text_repeat">Repeat</string>
-    <string name="hint_startTime">Enter start time</string>
-    <string name="btn_onWayTrip">on way trip</string>
-    <string name="btn_roundTrip">Round trip</string>
-    <string name="btn_next">Next</string>
-    <string name="note_header">Notes</string>
-    <string name="skip">Skip</string>
-    <string name="done">Done</string>
-    <string name="more">More</string>
-    <string name="welcome">Welcome</string>
-    <string name="text_editprofile">Edit Profile</string>
-    <string name="text_logout">Logout</string>
-    <string name="profile">Profile</string>
-    <string name="hint_changeName">Enter your name</string>
+    <string name="tripForm">"رحلة من "</string>
+    <string name="hint_tripTitle">"عنوان الرحلة "</string>
+    <string name="hint_startPoint">نقطة الانطلاق</string>
+    <string name="hint_endPoint">نقطة الوصول</string>
+    <string name="hint_startDate">تاريخ الرحلة</string>
+    <string name="text_repeat">تكرار</string>
+    <string name="hint_startTime">وقت الرحلة</string>
+    <string name="btn_onWayTrip">ذهاب</string>
+    <string name="btn_roundTrip">ذهاب و عودة</string>
+    <string name="btn_next">"التالى "</string>
+    <string name="note_header">ملاحظات</string>
+    <string name="skip">تخطى</string>
+    <string name="done">تم</string>
+    <string name="more">اكثر</string>
+    <string name="welcome">مرحبا</string>
+    <string name="text_editprofile">تعديل الصفحة الشخصية</string>
+    <string name="text_logout">تسجيل الخروج</string>
+    <string name="profile">الحساب الشخصى</string>
+    <string name="hint_changeName">"اسم المستخدم "</string>
     <string name="bottom_tab_home_title">الرئيسية</string>
     <string name="bottom_tab_menu_title">المزيد</string>
     <string name="trip_canceled_label">ألغيت</string>
@@ -27,10 +27,13 @@
     <string name="top_tab_upcoming_title">القادم</string>
     <string name="top_tab_previous_title">السابق</string>
     <string name="home_screen_header_title">الرئيسية</string>
-    <string name="hint_addNewNote">Add new note</string>
-    <string name="password_hint">Enter your Password</string>
-    <string name="email_hint">Enter your Email</string>
-    <string name="login">Login</string>
-    <string name="sign_up">Sign up</string>
-    <string name="signup_here">Signup here</string>
+    <string name="hint_addNewNote">إضافة ملاحظات</string>
+    <string name="password_hint">" كلمة المرور"</string>
+    <string name="email_hint">ايميل</string>
+    <string name="login">الدخول</string>
+    <string name="sign_up">"تسجيل الدخول "</string>
+    <string name="signup_here">"تسجيل الدخول من هنا "</string>
+    <string name="sign_up_with_facebook">"تسجيل الدخول بحساب فيس بوك "</string>
+    <string name="sign_up_with_google">"تسجيل الدخول بحساب جوجل "</string>
+
 </resources>

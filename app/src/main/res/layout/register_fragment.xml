@@ -108,7 +108,7 @@
                 android:background="@drawable/auth_rounded_btns"
                 android:backgroundTint="@color/blue"
                 android:onClick="@{() -> registerViewModel.signuppressed()}"
-                android:text="@string/login"
+                android:text="@string/sign_up"
                 android:textAllCaps="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/passwordInputLayout" />
@@ -129,7 +129,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="OR"
                 android:textColor="@color/dark_gray"
                 android:textSize="@dimen/edit_text"
@@ -139,10 +139,11 @@
 
             <View
                 android:id="@+id/divider2"
-                android:layout_width="171dp"
+                android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="33dp"
-
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_24"
+                android:layout_marginEnd="@dimen/margin_16"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -156,7 +157,7 @@
                 android:backgroundTint="@color/dark_blue"
                 android:drawableLeft="@drawable/ic_facebook"
                 android:onClick="@{() -> registerViewModel.handleUseFacebookRegistration()}"
-                android:text="Sign in with Facebook"
+                android:text="@string/sign_up_with_facebook"
                 android:textAllCaps="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +173,7 @@
                 android:backgroundTint="@color/red"
                 android:drawableLeft="@drawable/ic_plus"
                 android:onClick="@{() -> registerViewModel.handleUseGoogleRegistration()}"
-                android:text="Sign in with Google"
+                android:text="@string/sign_up_with_google"
                 android:textAllCaps="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +196,7 @@
                     style="@style/text_input_edit_text_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter your name "
+                    android:hint="User name "
                     android:shadowColor="@color/dark_gray" />
             </com.google.android.material.textfield.TextInputLayout>
 

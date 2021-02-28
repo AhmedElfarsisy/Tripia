@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.services.AlarmTripService;
+import com.iti.mad41.tripia.services.FloatingAppIconService;
 
 public class TripAlarmActivity extends AppCompatActivity {
     Button startTrip;
@@ -26,6 +27,7 @@ public class TripAlarmActivity extends AppCompatActivity {
     String destinationAddress;
     Double destinationLat;
     Double destinationLong;
+    String tripNotesID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +35,12 @@ public class TripAlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trip_alarm);
         startTrip = findViewById(R.id.stratTripBtn);
         alrmIcon = findViewById(R.id.alarmIcon);
+
+        startService(new Intent(TripAlarmActivity.this, FloatingAppIconService.class));
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(Constants.TRIP_TITLE_KEY)) {
             Log.i("myTrip", Constants.TRIP_TITLE_KEY + " ::::::onCreate: ");
-
+            tripNotesID = intent.getStringExtra(Constants.TRIP_Firebase_ID_KEY);
             TripTitle = intent.getStringExtra(Constants.TRIP_TITLE_KEY);
 
             startLong = intent.getDoubleExtra(Constants.TRIP_START_Log_KEY, 0.0);
@@ -54,6 +58,7 @@ public class TripAlarmActivity extends AppCompatActivity {
             Intent intentService = new Intent(getApplicationContext(), AlarmTripService.class);
             getApplicationContext().stopService(intentService);
             displayTrack(startAddress, destinationAddress);
+            startService(new Intent(TripAlarmActivity.this, FloatingAppIconService.class).putExtra(Constants.TRIP_Firebase_ID_KEY, tripNotesID));
             finish();
         });
         animateClock();

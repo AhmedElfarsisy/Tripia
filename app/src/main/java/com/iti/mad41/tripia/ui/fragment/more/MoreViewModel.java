@@ -20,6 +20,10 @@ public class MoreViewModel extends ViewModel {
         isNavigateToProfile.setValue(true);
     }
 
+    public void navigationToProfileCompleted() {
+        isNavigateToProfile.setValue(false);
+    }
+
     public void signOut() {
         firebaseRepo.signOut();
         isSignedOut.setValue(true);

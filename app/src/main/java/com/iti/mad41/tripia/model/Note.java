@@ -3,6 +3,10 @@ package com.iti.mad41.tripia.model;
 public class Note {
     private int notesId;
     private String noteBody;
+
+    public Note() {
+    }
+
     public Note(int notesId, String noteBody) {
         this.notesId = notesId;
         this.noteBody = noteBody;

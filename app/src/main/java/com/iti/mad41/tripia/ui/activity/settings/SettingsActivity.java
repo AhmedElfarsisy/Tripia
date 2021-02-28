@@ -26,8 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             moreFragment = new MoreFragment();
             fragmentTransaction = fragmentManager.beginTransaction()
-                    .add(R.id.settings_fragment_container_view, moreFragment, Constants.MORE_FRAGMENT)
-                    .addToBackStack(Constants.MORE_FRAGMENT);
+                    .add(R.id.settings_fragment_container_view, moreFragment, Constants.MORE_FRAGMENT);
             fragmentTransaction.commit();
         } else {
             moreFragment = (MoreFragment) fragmentManager.findFragmentByTag(Constants.MORE_FRAGMENT);

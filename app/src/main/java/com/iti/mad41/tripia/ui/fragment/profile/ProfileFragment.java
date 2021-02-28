@@ -1,5 +1,6 @@
 package com.iti.mad41.tripia.ui.fragment.profile;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
@@ -40,6 +41,11 @@ public class ProfileFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.profile_fragment, container, false);
         firebaseRepo = new FirebaseRepo(getActivity());
+        Toolbar signupToolbar = binding.profileToolbar;
+        signupToolbar.setNavigationIcon(R.drawable.ic_arrow);
+        signupToolbar.setNavigationOnClickListener(v -> {
+            getActivity().onBackPressed();
+        });
         return binding.getRoot();
     }
 

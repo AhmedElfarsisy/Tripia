@@ -87,6 +87,7 @@ public class Trip implements Parcelable {
             return new Trip[size];
         }
     };
+
     public String getId() {
         return id;
     }
@@ -197,14 +198,7 @@ public class Trip implements Parcelable {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
         Intent intent = new Intent(context, TripBroadcastReceiver.class);
-        intent.putExtra(Constants.TRIP_TITLE_KEY, tripTitle);
-        intent.putExtra(Constants.TRIP_START_LAT_KEY, startLatitude);
-        intent.putExtra(Constants.TRIP_START_Log_KEY, startLongitude);
-        intent.putExtra(Constants.TRIP_DESTINATION_Lat_KEY, destinationLatitude);
-        intent.putExtra(Constants.TRIP_DESTINATION_Log_KEY, destinationLongitude);
-        intent.putExtra(Constants.TRIP_DATE_KEY, dateTime);
-        intent.putExtra(Constants.TRIP_START_ADDRESS_KEY, startAddress);
-        intent.putExtra(Constants.TRIP_DESTINATION_ADDRESS_KEY, destinationAddress);
+        loadDataToIntent(intent);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, integerId, intent, 0);
 
         Log.i("myTrip", "====: ==== after BroadCast  ");
@@ -217,7 +211,19 @@ public class Trip implements Parcelable {
         }
     }
 
-    public void cancelAlarm(Context context,int alarmID) {
+    private void loadDataToIntent(Intent intent) {
+        intent.putExtra(Constants.TRIP_Firebase_ID_KEY, id);
+        intent.putExtra(Constants.TRIP_TITLE_KEY, tripTitle);
+        intent.putExtra(Constants.TRIP_START_LAT_KEY, startLatitude);
+        intent.putExtra(Constants.TRIP_START_Log_KEY, startLongitude);
+        intent.putExtra(Constants.TRIP_DESTINATION_Lat_KEY, destinationLatitude);
+        intent.putExtra(Constants.TRIP_DESTINATION_Log_KEY, destinationLongitude);
+        intent.putExtra(Constants.TRIP_DATE_KEY, dateTime);
+        intent.putExtra(Constants.TRIP_START_ADDRESS_KEY, startAddress);
+        intent.putExtra(Constants.TRIP_DESTINATION_ADDRESS_KEY, destinationAddress);
+    }
+
+    public void cancelAlarm(Context context, int alarmID) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, TripBroadcastReceiver.class);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmID, intent, 0);

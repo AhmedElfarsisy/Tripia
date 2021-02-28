@@ -26,7 +26,6 @@
             android:background="@drawable/btn_radius"
             android:backgroundTint="@color/blue"
             android:text="@string/done"
-
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -41,39 +40,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/profileTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_16"
-                    android:layout_marginStart="@dimen/margin_16"
-                    android:layout_marginTop="@dimen/margin_32"
-                    android:layout_marginBottom="@dimen/margin_16"
-                    android:text="@string/profile"
-                    android:textColor="@color/black"
-                    android:textScaleX="@dimen/header_height"
-                    android:textSize="@dimen/big_title_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
+                    android:id="@+id/profileToolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/light_gray"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:backgroundTint="@color/white"
                     android:minHeight="?attr/actionBarSize"
-                    android:theme="?attr/actionBarTheme"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:navigationIcon="@drawable/ic_arrow" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:theme="?attr/actionBarTheme" />
 
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/margin_16"
+                    android:layout_marginBottom="@dimen/padding_8"
+                    android:text="@string/profile"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/big_title_size" />
+
+
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -81,12 +75,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_24"
+            android:onClick="@{() -> profileViewModel.navigateToGallary()}"
+            android:src="@drawable/ic_avater"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{() -> profileViewModel.navigateToGallary()}"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
-            tools:src="@tools:sample/avatars" />
+            tools:ignore="VectorDrawableCompat" />
 
         <EditText
             android:id="@+id/changeNameEditText"

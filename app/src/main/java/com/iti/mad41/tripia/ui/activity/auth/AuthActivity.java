@@ -6,7 +6,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.widget.Toast;
 
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.ActivityAuthBinding;
@@ -26,9 +30,8 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth);
-
         fragmentManager = getSupportFragmentManager();
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             signinFragment = new SigninFragment();
             fragmentTransaction = fragmentManager.beginTransaction().add(R.id.auth_fragment_container_view, signinFragment, Constants.SIGNIN_FRAGMENT);
             fragmentTransaction.commit();
@@ -44,4 +47,6 @@ public class AuthActivity extends AppCompatActivity {
         if (fragmentManager.findFragmentByTag(Constants.SIGNUP_FRAGMENT) != null)
             fragmentManager.findFragmentByTag(Constants.SIGNUP_FRAGMENT).onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

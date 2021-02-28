@@ -30,7 +30,7 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
     Calendar calendar;
     Context context;
     private static final String TAG = "FormViewModel";
-    Trip  trip = new Trip();
+    Trip trip = new Trip();
     String checkDayOfMonth = "";
     String checkSelectedHour = "";
     IFirebaseRepo firebaseRepo;
@@ -44,8 +44,8 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
     public MutableLiveData<String> addressImageB64 = new MutableLiveData<>();
     public MutableLiveData<Boolean> isNavigateFromStartAddress = new MutableLiveData<>();
     public MutableLiveData<Boolean> isNavigateFromDestinationAddress = new MutableLiveData<>();
-    public MutableLiveData<Pair<Boolean,Trip>> mutableLiveDataDate = new MutableLiveData<>();
-    int yearV,monthV,dayV,hourV,minutesV;
+    public MutableLiveData<Pair<Boolean, Trip>> mutableLiveDataDate = new MutableLiveData<>();
+    int yearV, monthV, dayV, hourV, minutesV;
 
     Calendar selectedDate = Calendar.getInstance();
 
@@ -53,14 +53,17 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
     public MutableLiveData<String> startTime = new MutableLiveData<>();
 
     public MutableLiveData<Long> timeStamp = new MutableLiveData<>();
+
     public FormViewModel(IFirebaseRepo firebaseRepo) {
         isNavigateToNotes.setValue(false);
         this.firebaseRepo = firebaseRepo;
         firebaseRepo.setDelegate(this);
     }
+
     public void setContext(Context context) {
         this.context = context;
     }
+
     public void navigateToNotes() {
         isNavigateToNotes.setValue(true);
     }
@@ -73,32 +76,33 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
         isNavigateFromDestinationAddress.setValue(true);
     }
 
-    public void setStartAddressData(String address, Double latitude, Double longitude){
+    public void setStartAddressData(String address, Double latitude, Double longitude) {
         startAddress.setValue(address);
         startLatitude.setValue(latitude);
         startLongitude.setValue(longitude);
     }
 
-    public void setDestinationAddressData(String address, Double latitude, Double longitude){
+    public void setDestinationAddressData(String address, Double latitude, Double longitude) {
         destinationAddress.setValue(address);
         destinationLatitude.setValue(latitude);
         destinationLongitude.setValue(longitude);
     }
+
     public void onDisplayTimerDialogClick() {
-         calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         TimePickerDialog mTimePicker;
         mTimePicker = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 Log.i(TAG, "onTimeSet: " + selectedHour + ":" + selectedMinute);
-                checkSelectedHour = ""+selectedHour;
-                hourV=selectedHour;
-                minutesV=selectedMinute;
+                checkSelectedHour = "" + selectedHour;
+                hourV = selectedHour;
+                minutesV = selectedMinute;
                 selectedDate.set(yearV, monthV, dayV, hourV, minutesV);
-                startTime.setValue( String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
+                startTime.setValue(String.valueOf(selectedHour) + ":" + String.valueOf(selectedMinute));
                 if (!Validations.isEmpty(checkDayOfMonth)) {
                     calendar.set(yearV, monthV, dayV, hourV, minutesV);
-                    Log.i(TAG, "onTimeSet:if valid and set  Calender and time stamp is  "+calendar.getTimeInMillis()+" "+yearV+ " "+monthV+ " "+dayV+ " "+hourV + " "+minutesV);
+                    Log.i(TAG, "onTimeSet:if valid and set  Calender and time stamp is  " + calendar.getTimeInMillis() + " " + yearV + " " + monthV + " " + dayV + " " + hourV + " " + minutesV);
                     timeStamp.setValue(calendar.getTimeInMillis());
                 }
             }
@@ -109,31 +113,33 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onDisplayDateDialogClick() {
-        calendar =Calendar.getInstance();
+        calendar = Calendar.getInstance();
         DatePickerDialog dd = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Log.i(TAG, "onDateSet: " + year + " " + month + " " + dayOfMonth);
                 startDate.setValue(dayOfMonth + " / " + month + " / " + year);
-                dayV=dayOfMonth;
-                monthV=month;
-                yearV=year;
-                calendar.set(Calendar.YEAR,yearV);
-                calendar.set(Calendar.MONTH,monthV);
-                calendar.set(Calendar.DAY_OF_MONTH,dayV);
-                checkDayOfMonth = ""+month;
+                dayV = dayOfMonth;
+                monthV = month;
+                yearV = year;
+                calendar.set(Calendar.YEAR, yearV);
+                calendar.set(Calendar.MONTH, monthV);
+                calendar.set(Calendar.DAY_OF_MONTH, dayV);
+                checkDayOfMonth = "" + month;
                 selectedDate.set(yearV, monthV, dayV);
                 if (!Validations.isEmpty(checkSelectedHour)) {
                     calendar.set(yearV, monthV, dayV, hourV, minutesV);
-                    String r =parseTimeStamp(calendar.getTimeInMillis());
-                    Log.i(TAG, "onDateSet:if valid and set Calender and time stamp is  "+r+" " +calendar.getTimeInMillis()+" "+yearV+ " "+monthV+ " "+dayV+ " "+hourV + " "+minutesV);
+                    String r = parseTimeStamp(calendar.getTimeInMillis());
+                    Log.i(TAG, "onDateSet:if valid and set Calender and time stamp is  " + r + " " + calendar.getTimeInMillis() + " " + yearV + " " + monthV + " " + dayV + " " + hourV + " " + minutesV);
                     timeStamp.setValue(calendar.getTimeInMillis());
                 }
             }
-        },selectedDate.get(Calendar.YEAR),selectedDate.get(Calendar.MONTH),selectedDate.get(Calendar.DATE));
+        }, selectedDate.get(Calendar.YEAR), selectedDate.get(Calendar.MONTH), selectedDate.get(Calendar.DATE));
+        dd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         dd.show();
 
     }
+
     private String parseTimeStamp(long postDate) {
         Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(postDate);
@@ -141,7 +147,7 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
         return date;
     }
 
-    public void fetchPhoto(List<PhotoMetadata> metadata){
+    public void fetchPhoto(List<PhotoMetadata> metadata) {
         firebaseRepo.fetchPhoto(metadata);
     }
 

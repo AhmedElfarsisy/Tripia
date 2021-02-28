@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.services.AlarmTripService;
+import com.iti.mad41.tripia.services.FloatingAppIconService;
 import com.iti.mad41.tripia.ui.activity.tripservice.TripAlarmActivity;
 
 public class TripBroadcastReceiver extends BroadcastReceiver {
@@ -20,7 +21,9 @@ public class TripBroadcastReceiver extends BroadcastReceiver {
             startRescheduleTripAlarmsService(context);
         } else {
             Log.i("myTrip", "createTrip: onRecciver ");
+            startFloatAppIconService(context, intent);
             startTripAlarmService(context, intent);
+
         }
     }
 
@@ -28,6 +31,20 @@ public class TripBroadcastReceiver extends BroadcastReceiver {
 
     }
 
+    private void startFloatAppIconService(Context context, Intent intent) {
+        Log.i("myTrip", "startFloatAppIconService:  From Broadcast ++++++ ");
+
+        Intent startFloatIconService = new Intent(context, FloatingAppIconService.class);
+        setDataOnIntent(startFloatIconService, intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(startFloatIconService);
+        } else {
+            Log.i("myTrip", "startFloatAppIconService:  From Broadcast ++++++ startService");
+            context.startService(startFloatIconService);
+            Log.i("myTrip", "startFloatAppIconService:  From Broadcast ++++++ startService");
+
+        }
+    }
 
     private void startTripAlarmService(Context context, Intent intent) {
         Intent intentService = new Intent(context, AlarmTripService.class);
@@ -46,6 +63,7 @@ public class TripBroadcastReceiver extends BroadcastReceiver {
 
     public void setDataOnIntent(Intent intentService, Intent intent) {
         Log.i("myTrip", Constants.TRIP_TITLE_KEY + " ::::::setDataOnIntent ALARM: " + intent.getStringExtra(Constants.TRIP_TITLE_KEY));
+        intentService.putExtra(Constants.TRIP_Firebase_ID_KEY, intent.getStringExtra(Constants.TRIP_Firebase_ID_KEY));
         intentService.putExtra(Constants.TRIP_TITLE_KEY, intent.getStringExtra(Constants.TRIP_TITLE_KEY));
         intentService.putExtra(Constants.TRIP_START_LAT_KEY, intent.getDoubleExtra(Constants.TRIP_START_LAT_KEY, 0.0));
         intentService.putExtra(Constants.TRIP_START_Log_KEY, intent.getDoubleExtra(Constants.TRIP_START_Log_KEY, 0.0));

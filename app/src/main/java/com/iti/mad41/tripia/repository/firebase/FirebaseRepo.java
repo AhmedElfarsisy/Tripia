@@ -111,7 +111,7 @@ public class FirebaseRepo implements IFirebaseRepo {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()) {
+                if (!dataSnapshot.exists()) {
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     mDatabase = FirebaseDatabase.getInstance().getReference();
                     mDatabase.child("users").child(currentUser.getUid()).setValue(user);
@@ -124,7 +124,6 @@ public class FirebaseRepo implements IFirebaseRepo {
         };
         queries.addListenerForSingleValueEvent(eventListener);
     }
-
 
 
     @Override
@@ -194,16 +193,17 @@ public class FirebaseRepo implements IFirebaseRepo {
         return decodedByte;
     }
 
-    public void subscribeToTrips(){
+    public void subscribeToTrips() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         Query tripsQuery = mDatabase.child("users").child(currentUser.getUid()).child("trips");
         tripsQuery.addValueEventListener(new ValueEventListener() {
             ArrayList<Trip> tripsList = new ArrayList<>();
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.i("subscribeToTrips", "Inside onDataChange() method!");
-                for (DataSnapshot tripSnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot tripSnapshot : dataSnapshot.getChildren()) {
                     // TODO: handle the post
                     tripsList.add(tripSnapshot.getValue(Trip.class));
                     Log.i("subscribeToTrips", tripSnapshot.getValue(Trip.class).getTripTitle());
@@ -220,5 +220,35 @@ public class FirebaseRepo implements IFirebaseRepo {
             }
         });
     }
+
+
+    public void getTripNotes(String tripId, FirebaseDelegate NoteCallBack) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Query tripsQuery = mDatabase.child("notes").child(tripId);
+        tripsQuery.addValueEventListener(new ValueEventListener() {
+            ArrayList<Note> NotesList = new ArrayList<>();
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i("subscribeToTrips", "Inside onDataChange() method!");
+                for (DataSnapshot tripSnapshot : dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+                    NotesList.add(tripSnapshot.getValue(Note.class));
+                    Log.i("subscribeToTrips", tripSnapshot.getValue(Note.class).getNoteBody());
+                }
+                Log.i("subscribeToTrips", String.valueOf(NotesList.size()));
+                NoteCallBack.onGetNotesSuccess(NotesList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                NoteCallBack.onGetNotesFailure(databaseError.getMessage());
+                // Getting Post failed, log a message
+                Log.w("OnCancelled", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
+    }
+
 
 }

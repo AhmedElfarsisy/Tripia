@@ -1,6 +1,7 @@
 package com.iti.mad41.tripia.repository.firebase;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.iti.mad41.tripia.model.Note;
 import com.iti.mad41.tripia.model.Trip;
 
 import java.util.ArrayList;
@@ -48,6 +49,15 @@ public interface FirebaseDelegate {
     }
 
     default void onSubscribeToTripsCancel(){
+
+    }
+
+
+    default void onGetNotesSuccess(ArrayList<Note> notesList){
+
+    }
+
+    default void onGetNotesFailure(String message){
 
     }
 

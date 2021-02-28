@@ -50,14 +50,14 @@ public class FormFragment extends Fragment {
     private static final int DESTINATION_ADDRESS_REQUEST_CODE = 2;
     private String API_KEY;
     private FormViewModel mViewModel;
-    private FormFragmentBinding binding ;
+    private FormFragmentBinding binding;
     private PlacesClient placesClient;
     private List<Place.Field> fields;
     private Place place;
     private boolean isFormComplete = false;
-    private String startDate ;
-    private String startTime ;
-    private Trip trip ;
+    private String startDate;
+    private String startTime;
+    private Trip trip;
     private String title;
     private Double startLatitude;
     private Double startLongitude;
@@ -110,17 +110,17 @@ public class FormFragment extends Fragment {
             }
         });
 
-        mViewModel.startDate.observe(getViewLifecycleOwner(),s -> {
+        mViewModel.startDate.observe(getViewLifecycleOwner(), s -> {
             if (!Validations.isEmpty(s))
-                startDate= s;
+                startDate = s;
         });
 
-        mViewModel.startTime.observe(getViewLifecycleOwner(),s -> {
+        mViewModel.startTime.observe(getViewLifecycleOwner(), s -> {
             if (!Validations.isEmpty(s))
-                startTime= s;
+                startTime = s;
         });
 
-        mViewModel.timeStamp.observe(getViewLifecycleOwner(),aLong -> {
+        mViewModel.timeStamp.observe(getViewLifecycleOwner(), aLong -> {
 
             timeStampValue = aLong;
         });
@@ -181,7 +181,7 @@ public class FormFragment extends Fragment {
                         Validations.isNull(startAddress) &&
                         Validations.isNull(destinationAddress);
                 if (!Validations.isEmpty(title) && isFormComplete) {
-                    trip = new Trip(UUID.randomUUID().toString(), title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, timeStampValue, imgB64);
+                    trip = new Trip(UUID.randomUUID().toString(), title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, (timeStampValue - 45), imgB64);
                     NotesFragment notesFragment = NotesFragment.newInstance();
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("Trip", trip);
@@ -251,7 +251,7 @@ public class FormFragment extends Fragment {
         liveData.postValue(data);
     }
 
-    private void initGooglePlaces(){
+    private void initGooglePlaces() {
         Log.i(TAG, API_KEY);
         Places.initialize(getActivity(), API_KEY);
 
@@ -261,8 +261,8 @@ public class FormFragment extends Fragment {
         // return after the user has made a selection.
         fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.PHOTO_METADATAS);
     }
-    
-    private void navigateToGooglePlacesAutoComplete(int requestCode){
+
+    private void navigateToGooglePlacesAutoComplete(int requestCode) {
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(getActivity());
         startActivityForResult(intent, requestCode);

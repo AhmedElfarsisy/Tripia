@@ -2,31 +2,31 @@
     <string name="app_name">Tripia</string>
     <string name="facebook_app_id" translatable="false">263992315198396</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb263992315198396</string>
-    <string name="password_hint">Enter your Password</string>
-    <string name="email_hint">Enter your Email</string>
-    <string name="login">Login</string>
-    <string name="sign_up">Sign up</string>
-    <string name="signup_here">Signup here</string>
-    <string name="tripForm">Trip Form</string>
-    <string name="hint_tripTitle">Enter trip title</string>
-    <string name="hint_startPoint">Enter start point</string>
-    <string name="hint_endPoint">Enter end point</string>
-    <string name="hint_startDate">Enter start date</string>
+    <string name="password_hint"> Password</string>
+    <string name="email_hint"> Email</string>
+    <string name="login"> Login</string>
+    <string name="sign_up"> Sign up</string>
+    <string name="signup_here"> Signup here</string>
+    <string name="tripForm"> Trip Form</string>
+    <string name="hint_tripTitle"> trip title</string>
+    <string name="hint_startPoint"> start point</string>
+    <string name="hint_endPoint"> end point</string>
+    <string name="hint_startDate"> start date</string>
     <string name="text_repeat">Repeat</string>
-    <string name="hint_startTime">Enter start time</string>
+    <string name="hint_startTime"> start time</string>
     <string name="btn_onWayTrip">on way trip</string>
     <string name="btn_roundTrip">Round trip</string>
-    <string name="btn_next">Next</string>
-    <string name="note_header">Notes</string>
-    <string name="hint_addNewNote">Add new note</string>
-    <string name="skip">Skip</string>
-    <string name="done">Done</string>
+    <string name="btn_next"> Next</string>
+    <string name="note_header"> Notes</string>
+    <string name="hint_addNewNote"> Add new note</string>
+    <string name="skip"> Skip</string>
+    <string name="done"> Done</string>
     <string name="more">More</string>
     <string name="welcome">Welcome</string>
     <string name="text_editprofile">Edit Profile</string>
     <string name="text_logout">Logout</string>
     <string name="profile">Profile</string>
-    <string name="hint_changeName">Enter your name</string>
+    <string name="hint_changeName">User name</string>
 
     <string name="bottom_tab_home_title">Home</string>
     <string name="bottom_tab_menu_title">More</string>
@@ -35,13 +35,8 @@
     <string name="top_tab_upcoming_title">Upcoming</string>
     <string name="top_tab_previous_title">Previous</string>
     <string name="home_screen_header_title">Home</string>
-    <string name="title_activity_form">FormActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="sign_up_with_facebook">Sign up with Facebook</string>
+    <string name="sign_up_with_google">Sign up with Google</string>
 </resources>

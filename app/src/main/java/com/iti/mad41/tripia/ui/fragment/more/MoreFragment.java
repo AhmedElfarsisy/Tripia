@@ -1,5 +1,7 @@
 package com.iti.mad41.tripia.ui.fragment.more;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -37,6 +39,11 @@ public class MoreFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.more_fragment, container, false);
         firebaseRepo = new FirebaseRepo(getActivity());
+        Toolbar moreToolbar = binding.moreToolbar;
+        moreToolbar.setNavigationIcon(R.drawable.ic_arrow);
+        moreToolbar.setNavigationOnClickListener(v -> {
+            getActivity().finish();
+        });
         return binding.getRoot();
 
     }
@@ -49,9 +56,11 @@ public class MoreFragment extends Fragment {
         binding.setLifecycleOwner(this);
 
         mViewModel.isNavigateToProfile.observe(getViewLifecycleOwner(), isNavigate -> {
-            if (isNavigate)
+            if (isNavigate) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.settings_fragment_container_view,
                         new ProfileFragment(), Constants.PROFILE_FRAGMENT).addToBackStack(Constants.PROFILE_FRAGMENT).commit();
+                mViewModel.navigationToProfileCompleted();
+            }
         });
 
         mViewModel.isSignedOut.observe(getViewLifecycleOwner(), isSignedOut -> {
@@ -62,5 +71,10 @@ public class MoreFragment extends Fragment {
 
         });
     }
-
+//
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        getActivity().finish();
+//    }
 }

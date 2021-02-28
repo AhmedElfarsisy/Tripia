@@ -67,6 +67,7 @@ public class UpcomingTripsFragment extends Fragment {
             @Override
             public void onStartClick(Trip trip) {
                 displayTrack(trip.getStartAddress(), trip.getDestinationAddress());
+
             }
         });
         upcomingRecyclerView.setAdapter(tripsAdapter);
