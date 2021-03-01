@@ -6,6 +6,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,9 @@ import com.iti.mad41.tripia.repository.google.GoogleRepo;
 import com.iti.mad41.tripia.ui.activity.auth.AuthActivity;
 import com.iti.mad41.tripia.ui.fragment.profile.ProfileFragment;
 import com.iti.mad41.tripia.ui.fragment.register.RegisterFragment;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 public class MoreFragment extends Fragment {
 
@@ -54,7 +59,7 @@ public class MoreFragment extends Fragment {
         mViewModel = new ViewModelProvider(this, new MoreViewModelFactory(firebaseRepo)).get(MoreViewModel.class);
         binding.setMViewModel(mViewModel);
         binding.setLifecycleOwner(this);
-
+        setupProfileIamge();
         mViewModel.isNavigateToProfile.observe(getViewLifecycleOwner(), isNavigate -> {
             if (isNavigate) {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.settings_fragment_container_view,
@@ -71,10 +76,15 @@ public class MoreFragment extends Fragment {
 
         });
     }
-//
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        getActivity().finish();
-//    }
+
+
+    private void setupProfileIamge() {
+        try {
+            FileInputStream input = getActivity().openFileInput(Constants.PROFILE_IMAGE_KEY);
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            binding.profilePictureImageView.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }

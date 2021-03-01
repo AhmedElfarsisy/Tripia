@@ -22,11 +22,10 @@ public class Constants {
     public static final String TRIP_DESTINATION_Lat_KEY = "tripDestinationLat";
     public static final String TRIP_START_ADDRESS_KEY = "tripStartAddress";
     public static final String TRIP_DESTINATION_ADDRESS_KEY = "tripDestinationAddress";
+    public static final String PROFILE_IMAGE_KEY = "profileImage";
     public static final int GALLERY_PERMISSION_REQUSET_CODE = 2;
     public static final int GAllery_INTENT_REQUSET_CODE = 2;
     public static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 102;
-
-
 
 
     public static final String TRIP_STATE_RUNNING = "run";
