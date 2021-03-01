@@ -24,6 +24,7 @@ import com.iti.mad41.tripia.databinding.ActivityMainBinding;
 
 
 import com.iti.mad41.tripia.ui.activity.form.FormActivity;
+import com.iti.mad41.tripia.ui.activity.settings.SettingsActivity;
 import com.iti.mad41.tripia.ui.fragment.form.FormFragment;
 import com.iti.mad41.tripia.ui.fragment.notes.NotesFragment;
 
@@ -71,10 +72,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuHome:
-                break;
+                return true;
             case R.id.menuMore:
-                //startActivity(this, SettingsActivity.class);
-                break;
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
 
         }
         return super.onOptionsItemSelected(item);

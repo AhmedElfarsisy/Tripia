@@ -47,6 +47,10 @@ public class UpcomingTripsAdapter extends RecyclerView.Adapter<UpcomingTripHolde
                 onUpcomingTripsClickCallback.onStartClick(trip);
             }
         });
+        holder.upcomingTripCardBinding.deleteIcon.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) { onUpcomingTripsClickCallback.onDeleteClick(trip); }
+        });
     }
 
     @Override
@@ -57,7 +61,7 @@ public class UpcomingTripsAdapter extends RecyclerView.Adapter<UpcomingTripHolde
 
     @Override
     public int getItemCount() {
-        return tripsList!=null?tripsList.size():0;
+        return tripsList != null ? tripsList.size() : 0;
     }
 }
 

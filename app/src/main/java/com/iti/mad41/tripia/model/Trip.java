@@ -31,6 +31,24 @@ public class Trip implements Parcelable {
 
     private int integerId;
 
+    public int getIntegerId() {
+        return integerId;
+    }
+
+    public void setIntegerId(int integerId) {
+        this.integerId = integerId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
+
 
     public Trip() {
     }
@@ -46,6 +64,7 @@ public class Trip implements Parcelable {
         this.destinationLatitude = destinationLatitude;
         this.dateTime = dateTime;
         this.imageUrl = imageUrl;
+        status = Constants.TRIP_RUNNING;
         integerId = new Random().nextInt(Integer.MAX_VALUE);
     }
 
@@ -74,6 +93,7 @@ public class Trip implements Parcelable {
         startLatitude = in.readDouble();
         destinationLongitude = in.readDouble();
         destinationLatitude = in.readDouble();
+        status = in.readString();
     }
 
     public static final Creator<Trip> CREATOR = new Creator<Trip>() {
@@ -189,6 +209,7 @@ public class Trip implements Parcelable {
         dest.writeDouble(startLatitude);
         dest.writeDouble(destinationLongitude);
         dest.writeDouble(destinationLatitude);
+        dest.writeString(status);
     }
 
 
@@ -197,6 +218,7 @@ public class Trip implements Parcelable {
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
         Intent intent = new Intent(context, TripBroadcastReceiver.class);
+        intent.putExtra(Constants.TRIP_ID_KEY, id);
         intent.putExtra(Constants.TRIP_TITLE_KEY, tripTitle);
         intent.putExtra(Constants.TRIP_START_LAT_KEY, startLatitude);
         intent.putExtra(Constants.TRIP_START_Log_KEY, startLongitude);
@@ -223,5 +245,21 @@ public class Trip implements Parcelable {
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmID, intent, 0);
         alarmManager.cancel(alarmPendingIntent);
 
+    }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "id='" + id + '\'' +
+                ", tripTitle='" + tripTitle + '\'' +
+                ", startAddress='" + startAddress + '\'' +
+                ", destinationAddress='" + destinationAddress + '\'' +
+                ", dateTime=" + dateTime +
+                ", startLongitude=" + startLongitude +
+                ", startLatitude=" + startLatitude +
+                ", destinationLongitude=" + destinationLongitude +
+                ", destinationLatitude=" + destinationLatitude +
+                ", integerId=" + integerId +
+                '}';
     }
 }

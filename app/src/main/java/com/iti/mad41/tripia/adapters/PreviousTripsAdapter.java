@@ -2,29 +2,38 @@ package com.iti.mad41.tripia.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.PreviousTripCardBinding;
+import com.iti.mad41.tripia.databinding.UpcomingTripCardBinding;
 import com.iti.mad41.tripia.model.Trip;
 
 import java.util.List;
 
 public class PreviousTripsAdapter extends RecyclerView.Adapter<PreviousTripHolder> {
     private List<Trip> tripsList;
-    private Context context;
+    private onPreviousTripsClickCallback onPreviousTripsClickCallback;
 
-    public PreviousTripsAdapter(Context _context, List<Trip> tripsList) {
-            this.context = _context;
-            this.tripsList = tripsList;
+    public PreviousTripsAdapter() {}
+
+    public void setData(List<Trip> tripsList){
+        this.tripsList = tripsList;
     }
+
+    public void setPreviousTripClickCallback(onPreviousTripsClickCallback onPreviousTripsClickCallback){
+        this.onPreviousTripsClickCallback = onPreviousTripsClickCallback;
+    }
+
     @NonNull
     @Override
     public PreviousTripHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        PreviousTripCardBinding previousTripCardBinding = PreviousTripCardBinding.inflate(layoutInflater, parent, false);
+        PreviousTripCardBinding previousTripCardBinding  = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.previous_trip_card, parent, false);
         return new PreviousTripHolder(previousTripCardBinding);
     }
 
@@ -32,6 +41,11 @@ public class PreviousTripsAdapter extends RecyclerView.Adapter<PreviousTripHolde
     public void onBindViewHolder(@NonNull PreviousTripHolder holder, int position) {
         Trip trip = tripsList.get(position);
         holder.bind(trip);
+
+        holder.previousTripCardBinding.deleteIcon.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) { onPreviousTripsClickCallback.onDeleteClick(trip); }
+        });
     }
     @Override
     public void onViewDetachedFromWindow(@NonNull PreviousTripHolder holder) {
@@ -41,7 +55,7 @@ public class PreviousTripsAdapter extends RecyclerView.Adapter<PreviousTripHolde
 
     @Override
     public int getItemCount() {
-            return tripsList.size();
+        return tripsList != null? tripsList.size() : 0;
     }
 }
 

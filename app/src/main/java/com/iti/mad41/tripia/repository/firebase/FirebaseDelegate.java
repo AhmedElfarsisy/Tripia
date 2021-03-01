@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.iti.mad41.tripia.model.Trip;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface FirebaseDelegate {
     default void onSigninSuccess() {
@@ -43,7 +44,7 @@ public interface FirebaseDelegate {
 
     }
 
-    default void onSubscribeToTripsSuccess(ArrayList<Trip> tripsList){
+    default void onSubscribeToTripsSuccess(List<Trip> tripsList){
 
     }
 
