@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
+import com.iti.mad41.tripia.model.Note;
+import com.iti.mad41.tripia.model.Notes;
 import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.model.User;
 
@@ -27,7 +29,9 @@ public interface IFirebaseRepo {
     void signOut();
 
     void writeTrip(Trip trip);
+    void updateTrip(Trip trip);
 
     void fetchPhoto(List<PhotoMetadata> metadata);
 
+    void updateNote(Notes notes);
 }

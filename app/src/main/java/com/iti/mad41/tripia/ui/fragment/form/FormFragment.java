@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,16 +30,18 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.FormFragmentBinding;
+import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.helper.Validations;
+import com.iti.mad41.tripia.model.Notes;
 import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.ui.activity.main.MainActivity;
 import com.iti.mad41.tripia.ui.fragment.notes.NotesFragment;
-import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModel;
-import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModelFactory;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -49,14 +52,14 @@ public class FormFragment extends Fragment {
     private static final int DESTINATION_ADDRESS_REQUEST_CODE = 2;
     private String API_KEY;
     private FormViewModel mViewModel;
-    private FormFragmentBinding binding ;
+    private FormFragmentBinding binding;
     private PlacesClient placesClient;
     private List<Place.Field> fields;
     private Place place;
     private boolean isFormComplete = false;
-    private String startDate ;
-    private String startTime ;
-    private Trip trip ;
+    private String startDate;
+    private String startTime;
+    private Trip trip;
     private String title;
     private Double startLatitude;
     private Double startLongitude;
@@ -66,15 +69,24 @@ public class FormFragment extends Fragment {
     private String destinationAddress;
     private String imgB64;
     private FirebaseRepo firebaseRepo;
-    long timeStampValue;
+    private long timeStampValue;
+    private Trip updateTripObject;
+    private Notes updateNotesObject;
 
-    public static FormFragment newInstance() {
-        return new FormFragment();
+
+    public static FormFragment newInstance(Trip trip, Notes notes)   {
+        FormFragment formFragment = new FormFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.UPDATE_TRIP, trip);
+        bundle.putParcelable(Constants.UPDATE_NOTE, notes);
+        formFragment.setArguments(bundle);
+        return formFragment;
     }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+
         binding = DataBindingUtil.inflate(inflater, R.layout.form_fragment, container, false);
         ApplicationInfo app = null;
         try {
@@ -95,6 +107,13 @@ public class FormFragment extends Fragment {
         binding.setFormViewModel(mViewModel);
         mViewModel.setContext(getActivity());
         binding.setLifecycleOwner(this);
+        if (getArguments() != null) {
+            updateTripObject =  getArguments().getParcelable(Constants.UPDATE_TRIP);
+            updateNotesObject = getArguments().getParcelable(Constants.UPDATE_NOTE);
+            setDataToFormOnUpdateMode(updateTripObject);
+
+
+        }
         initGooglePlaces();
 
         mViewModel.isNavigateFromStartAddress.observe(getViewLifecycleOwner(), isNavigate -> {
@@ -109,17 +128,17 @@ public class FormFragment extends Fragment {
             }
         });
 
-        mViewModel.startDate.observe(getViewLifecycleOwner(),s -> {
+        mViewModel.startDate.observe(getViewLifecycleOwner(), s -> {
             if (!Validations.isEmpty(s))
-                startDate= s;
+                startDate = s;
         });
 
-        mViewModel.startTime.observe(getViewLifecycleOwner(),s -> {
+        mViewModel.startTime.observe(getViewLifecycleOwner(), s -> {
             if (!Validations.isEmpty(s))
-                startTime= s;
+                startTime = s;
         });
 
-        mViewModel.timeStamp.observe(getViewLifecycleOwner(),aLong -> {
+        mViewModel.timeStamp.observe(getViewLifecycleOwner(), aLong -> {
 
             timeStampValue = aLong;
         });
@@ -170,8 +189,8 @@ public class FormFragment extends Fragment {
 
         binding.textViewEndPoint.setOnClickListener(v -> binding.textViewEndPoint.setText("sss"));
 
-        mViewModel.isNavigateToNotes.observe(getViewLifecycleOwner(), isNavigate -> {
-            if (isNavigate) {
+        mViewModel.isNavigateToNotes.observe(getViewLifecycleOwner(), isNavigateToNotes -> {
+            if (isNavigateToNotes) {
 
                 title = binding.editTextTripTitle.getText().toString();
                 isFormComplete = Validations.isNull(startTime) &&
@@ -180,17 +199,16 @@ public class FormFragment extends Fragment {
                         Validations.isNull(startAddress) &&
                         Validations.isNull(destinationAddress);
                 if (!Validations.isEmpty(title) && isFormComplete) {
-                    trip = new Trip(title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, timeStampValue, imgB64);
-                    NotesFragment notesFragment = NotesFragment.newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("Trip", trip);
-                    notesFragment.setArguments(bundle);
-
-                    getActivity()
-                            .getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container_view, notesFragment)
-                            .commit();
+                    if (updateTripObject!=null) {
+                        trip = new Trip(title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, timeStampValue, imgB64);
+                        if (updateTripObject!=null)
+                        Log.i(TAG, "onActivityCreated: updateTripObject "+trip.getTripTitle() + " "+trip.getDateTime() + " "+trip.getDateTime() + " "+trip.getDestinationAddress() );
+                        navigateWithTripAndNotesObject(trip,updateNotesObject);
+                    }
+                        else{
+                        Log.i(TAG, "onActivityCreated: TripObject "+trip.getTripTitle());
+                        trip = new Trip(title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, timeStampValue, imgB64);
+                    }
                 } else {
                     if (Validations.isEmpty(binding.editTextTripTitle.getText().toString()))
                         binding.editTextTripTitle.setError("Title field is empty");
@@ -199,6 +217,20 @@ public class FormFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void navigateWithTripAndNotesObject(Trip _trip , Notes notes) {
+        NotesFragment notesFragment = NotesFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("Trip", _trip);
+        bundle.putParcelable("Notes",notes);
+        notesFragment.setArguments(bundle);
+
+        getActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container_view, notesFragment)
+                .commit();
     }
 
     @Override
@@ -250,7 +282,7 @@ public class FormFragment extends Fragment {
         liveData.postValue(data);
     }
 
-    private void initGooglePlaces(){
+    private void initGooglePlaces() {
         Log.i(TAG, API_KEY);
         Places.initialize(getActivity(), API_KEY);
 
@@ -260,11 +292,30 @@ public class FormFragment extends Fragment {
         // return after the user has made a selection.
         fields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.PHOTO_METADATAS);
     }
-    
-    private void navigateToGooglePlacesAutoComplete(int requestCode){
+
+    private void navigateToGooglePlacesAutoComplete(int requestCode) {
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(getActivity());
         startActivityForResult(intent, requestCode);
     }
+
+
+    private void setDataToFormOnUpdateMode(Trip trip){
+        binding.editTextTripTitle.setText(trip.getTripTitle());
+        mViewModel.startAddress.setValue(trip.getStartAddress());
+        mViewModel.destinationAddress.setValue(trip.getDestinationAddress());
+        String date = parseTimeStamp(trip.getDateTime());
+        String [] arrayToGetDate= date.split(",");
+        mViewModel.startDate.setValue(""+arrayToGetDate[0]);
+        mViewModel.startTime.setValue(""+arrayToGetDate[1]);
+    }
+
+    private String parseTimeStamp(long postDate) {
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(postDate);
+        String date = DateFormat.format("dd-MM-yyy ,hh:mm", calendar).toString();
+        return date;
+    }
+
 
 }

@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.iti.mad41.tripia.model.Note;
+import com.iti.mad41.tripia.model.Notes;
 import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.model.User;
 
@@ -108,7 +110,7 @@ public class FirebaseRepo implements IFirebaseRepo {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists()) {
+                if (!dataSnapshot.exists()) {
                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                     mDatabase = FirebaseDatabase.getInstance().getReference();
                     mDatabase.child("users").child(currentUser.getUid()).setValue(user);
@@ -121,22 +123,51 @@ public class FirebaseRepo implements IFirebaseRepo {
         };
         queries.addListenerForSingleValueEvent(eventListener);
     }
-
-
+    @Override
+    public void writeTrip(Trip trip) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //mDatabase.child("users").child(currentUser.getUid()).child("trips").push().setValue(trip);
+        mDatabase.child("users").child("48e33ff4-41b2-41b5-aae5-d47595027488").child("trips").push().setValue(trip);
+    }
+    @Override
+    public void updateTrip(Trip trip) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //mDatabase.child("users").child(currentUser.getUid()).child("trips").child("9316313b-22d5-4c14-8b70-67fb0df5ad54").setValue(trip);
+        mDatabase.child("users").child("9GiJ0pF8srgTMC6aITptq68zic22").child("trips").child("9316313b-22d5-4c14-8b70-67fb0df5ad54").setValue(trip);
+    }
+    @Override
+    public void updateNote(Notes notes) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //mDatabase.child("notes").child(""+trip.getId()).push().setValue(trip.getNoteList());
+        mDatabase.child("notes").child("9316313b-22d5-4c14-8b70-67fb0df5ad54").setValue(notes);
+    }
 
     @Override
     public void signOut() {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         firebaseAuth.signOut();
     }
-
+/*
 
     @Override
     public void writeTrip(Trip trip) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(currentUser.getUid()).child("trips").push().setValue(trip);
+        mDatabase.child("users").child(currentUser.getUid()).child("trips").child(""+trip.getId()).setValue(trip);
     }
+
+    @Override
+    public void writeNotes(String tripId, List<Note> note) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("notes").child(tripId).setValue(note);
+    }
+
+
+    */
 
     @Override
     public void fetchPhoto(List<PhotoMetadata> metadata) {

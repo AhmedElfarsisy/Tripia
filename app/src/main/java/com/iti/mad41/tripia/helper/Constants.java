@@ -19,7 +19,11 @@ public class Constants {
     public static final String TRIP_DESTINATION_Lat_KEY = "tripDestinationLat";
 
 
+    public static final String  UPDATE_TRIP= "updateTrip";
+    public static final String  UPDATE_NOTE= "updateNote";
+
     public static final int GALLERY_PERMISSION_REQUSET_CODE = 2;
     public static final int GAllery_INTENT_REQUSET_CODE = 2;
+
 
 }

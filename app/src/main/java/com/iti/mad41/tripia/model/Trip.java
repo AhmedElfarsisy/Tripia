@@ -65,6 +65,7 @@ public class Trip implements Parcelable {
         destinationLatitude = in.readDouble();
     }
 
+
     public static final Creator<Trip> CREATOR = new Creator<Trip>() {
         @Override
         public Trip createFromParcel(Parcel in) {
@@ -76,6 +77,7 @@ public class Trip implements Parcelable {
             return new Trip[size];
         }
     };
+
     public int getId() {
         return id;
     }
@@ -165,6 +167,7 @@ public class Trip implements Parcelable {
         this.noteList = noteList;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -183,9 +186,29 @@ public class Trip implements Parcelable {
             dest.writeLong(dateTime);
         }
         dest.writeString(imageUrl);
-        dest.writeDouble(startLongitude);
-        dest.writeDouble(startLatitude);
-        dest.writeDouble(destinationLongitude);
-        dest.writeDouble(destinationLatitude);
+        if (startLongitude == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(startLongitude);
+        }
+        if (startLatitude == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(startLatitude);
+        }
+        if (destinationLongitude == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(destinationLongitude);
+        }
+        if (destinationLatitude == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(destinationLatitude);
+        }
     }
 }

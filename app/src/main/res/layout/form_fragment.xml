@@ -172,7 +172,8 @@
             app:layout_constraintTop_toBottomOf="@+id/textView_startDate"
             android:onClick="@{()->formViewModel.onDisplayTimerDialogClick()}"
              android:textColor="@color/black"
-             android:text="@{formViewModel.startTime}"/>
+             android:text="@{formViewModel.startTime}"
+             />
 
         <TextView
             android:id="@+id/textView7"

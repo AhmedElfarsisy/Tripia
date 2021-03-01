@@ -3,9 +3,13 @@ package com.iti.mad41.tripia.ui.fragment.notes;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.iti.mad41.tripia.model.Note;
+import com.iti.mad41.tripia.model.Notes;
 import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
+
+import java.util.List;
 
 public class NotesViewModel extends ViewModel {
     MutableLiveData<Boolean> addTitle = new MutableLiveData<>();
@@ -26,7 +30,7 @@ public class NotesViewModel extends ViewModel {
     }
 
     public void clickSkip() {
-        addTitle.setValue(true);
+        isClickSkip.setValue(true);
 
     }
 
@@ -34,10 +38,16 @@ public class NotesViewModel extends ViewModel {
         isClickDone.setValue(true);
     }
 
-
-    public void setTrip(Trip trip) {
+    public void setTripToUploadOnFirebase(Trip trip) {
         firebaseRepo.writeTrip(trip);
     }
 
+    public void setTripToUpdateTripOnFirebase(Trip trip) {
+        firebaseRepo.updateTrip(trip);
+    }
+
+    public void setTripToUpdateNotesOnFirebase(Notes notes) {
+        firebaseRepo.updateNote(notes);
+    }
 
 }
