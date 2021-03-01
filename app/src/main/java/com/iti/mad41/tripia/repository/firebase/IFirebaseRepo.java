@@ -34,6 +34,12 @@ public interface IFirebaseRepo {
 
     void fetchPhoto(List<PhotoMetadata> metadata);
 
-    void subscribeToTrips();
+    void changeTripState(String state, String tripId);
+
+    void subscribeToUpcomingTrips();
+
+    void subscribeToPreviousTrips();
+
+    void deleteTrip(String tripId);
 
 }

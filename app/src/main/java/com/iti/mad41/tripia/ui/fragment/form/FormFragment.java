@@ -29,7 +29,7 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.FormFragmentBinding;
-import com.iti.mad41.tripia.helper.Validations;
+import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.ui.activity.main.MainActivity;
@@ -181,7 +181,10 @@ public class FormFragment extends Fragment {
                         Validations.isNull(startAddress) &&
                         Validations.isNull(destinationAddress);
                 if (!Validations.isEmpty(title) && isFormComplete) {
+
                     trip = new Trip(UUID.randomUUID().toString(), title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, (timeStampValue - 45), imgB64);
+
+                    Log.i("myTrip", trip.toString());
                     NotesFragment notesFragment = NotesFragment.newInstance();
                     Bundle bundle = new Bundle();
                     bundle.putParcelable("Trip", trip);

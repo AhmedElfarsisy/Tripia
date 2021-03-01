@@ -19,12 +19,16 @@ public class UpcomingTripsViewModel extends ViewModel implements FirebaseDelegat
 
     public UpcomingTripsViewModel(IFirebaseRepo firebaseRepo) {
         this.firebaseRepo = firebaseRepo;
-        firebaseRepo.subscribeToTrips();
+        firebaseRepo.subscribeToUpcomingTrips();
         firebaseRepo.setDelegate(this);
     }
 
+    public void deleteTrip(Trip trip){
+        firebaseRepo.deleteTrip(trip.getId());
+    }
+
     @Override
-    public void onSubscribeToTripsSuccess(ArrayList<Trip> tripsList) {
+    public void onSubscribeToTripsSuccess(List<Trip> tripsList) {
         liveUpcomingTripsList.setValue(tripsList);
     }
 

@@ -1,5 +1,6 @@
 package com.iti.mad41.tripia.ui.fragment.main.upcomingTrips;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.iti.mad41.tripia.model.TripsRepo;
 import com.iti.mad41.tripia.repository.facebook.FacebookRepo;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.repository.google.GoogleRepo;
+import com.iti.mad41.tripia.ui.dialog.ConfirmDialog;
+import com.iti.mad41.tripia.ui.dialog.onConfirmDialogClickCallback;
 import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModel;
 import com.iti.mad41.tripia.ui.fragment.register.RegisterViewModel;
 import com.iti.mad41.tripia.ui.fragment.register.RegisterViewModelFactory;
@@ -33,7 +36,6 @@ import com.iti.mad41.tripia.ui.fragment.register.RegisterViewModelFactory;
 public class UpcomingTripsFragment extends Fragment {
     private static final String TAG = UpcomingTripsFragment.class.getSimpleName();
     private RecyclerView upcomingRecyclerView;
-    private TripsRepo tripsRepo;
     private UpcomingTripsAdapter tripsAdapter;
     private FirebaseRepo firebaseRepo;
     private UpcomingTripsViewModel mViewModel;
@@ -57,7 +59,6 @@ public class UpcomingTripsFragment extends Fragment {
         firebaseRepo = new FirebaseRepo();
         mViewModel = new ViewModelProvider(this, new UpcomingTripsViewModelFactory(firebaseRepo)).get(UpcomingTripsViewModel.class);
         upcomingRecyclerView = binding.upcomingRecyclerView;
-        tripsRepo = new TripsRepo();
         upcomingRecyclerView.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
@@ -69,6 +70,23 @@ public class UpcomingTripsFragment extends Fragment {
                 displayTrack(trip.getStartAddress(), trip.getDestinationAddress());
 
             }
+
+            @Override
+            public void onDeleteClick(Trip trip) {
+                ConfirmDialog confirmDialog = new ConfirmDialog("Are you sure you want to delete this trip?", "Delete", "Cancel");
+                confirmDialog.setConfirmDialogClickCallback(new onConfirmDialogClickCallback() {
+                    @Override
+                    public void onPositiveButtonClick(DialogInterface dialog, int id) {
+                        mViewModel.deleteTrip(trip);
+                    }
+
+                    @Override
+                    public void onNegativeButtonClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+                confirmDialog.show(getFragmentManager(), "Delete Trip");
+            }
         });
         upcomingRecyclerView.setAdapter(tripsAdapter);
 
@@ -79,7 +97,8 @@ public class UpcomingTripsFragment extends Fragment {
     }
 
     private void displayTrack(String Start, String destination){
-        Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=" + Start + "&destination=" + destination + "&travelmode=car");
+        //Uri uri = Uri.parse("https://www.google.com/maps/dir/?api=1&origin=" + Start + "&destination=" + destination + "&travelmode=car");
+        Uri uri = Uri.parse("http://maps.google.com/maps?daddr=" + destination);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setPackage("com.google.android.apps.maps");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -173,7 +173,12 @@ public class FirebaseRepo implements IFirebaseRepo {
         });
 
     }
-
+    @Override
+    public void changeTripState(String state, String tripId){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(currentUser.getUid()).child("trips").child(tripId).child("status").setValue(state);
+    }
     public String incodeFromBitmapToImg64(Bitmap bmp) {
 
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
@@ -192,23 +197,21 @@ public class FirebaseRepo implements IFirebaseRepo {
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;
     }
-
-    public void subscribeToTrips() {
+    @Override
+    public void subscribeToUpcomingTrips(){
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Query tripsQuery = mDatabase.child("users").child(currentUser.getUid()).child("trips");
+        Query tripsQuery = mDatabase.child("users").child(currentUser.getUid()).child("trips").orderByChild("status").equalTo(Constants.TRIP_RUNNING);
         tripsQuery.addValueEventListener(new ValueEventListener() {
             ArrayList<Trip> tripsList = new ArrayList<>();
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.i("subscribeToTrips", "Inside onDataChange() method!");
-                for (DataSnapshot tripSnapshot : dataSnapshot.getChildren()) {
+                tripsList.clear();
+                for (DataSnapshot tripSnapshot: dataSnapshot.getChildren()) {
                     // TODO: handle the post
                     tripsList.add(tripSnapshot.getValue(Trip.class));
                     Log.i("subscribeToTrips", tripSnapshot.getValue(Trip.class).getTripTitle());
                 }
-                Log.i("subscribeToTrips", String.valueOf(tripsList.size()));
                 delegate.onSubscribeToTripsSuccess(tripsList);
             }
 
@@ -220,6 +223,43 @@ public class FirebaseRepo implements IFirebaseRepo {
             }
         });
     }
+
+    @Override
+    public void subscribeToPreviousTrips() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Query tripsQuery = mDatabase.child("users").child(currentUser.getUid()).child("trips");
+        tripsQuery.addValueEventListener(new ValueEventListener() {
+            List<Trip> tripsList = new ArrayList<>();
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                tripsList.clear();
+                for (DataSnapshot tripSnapshot : dataSnapshot.getChildren()) {
+                    Trip trip = tripSnapshot.getValue(Trip.class);
+                    if(trip.getStatus().equals(Constants.TRIP_FINISHED) || trip.getStatus().equals(Constants.TRIP_CANCELLED))
+                        tripsList.add(tripSnapshot.getValue(Trip.class));
+                }
+                delegate.onSubscribeToTripsSuccess(tripsList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                delegate.onSubscribeToTripsCancel();
+                // Getting Post failed, log a message
+                Log.w("OnCancelled", "loadPost:onCancelled", databaseError.toException());
+            }
+        });
+    }
+
+    @Override
+    public void deleteTrip(String tripId){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference tripRef = mDatabase.child("users").child(currentUser.getUid()).child("trips").child(tripId);
+        tripRef.removeValue();
+    }
+
 
 
     public void getTripNotes(String tripId, FirebaseDelegate NoteCallBack) {
