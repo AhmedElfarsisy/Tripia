@@ -30,9 +30,13 @@ public class Constants {
     public static final String TRIP_CANCELLED = "Cancel";
     public static final String TRIP_RUNNING = "Run";
 
+
+    public static final String PROFILE_IMAGE_KEY = "profileImage";
+
     public static final int GALLERY_PERMISSION_REQUSET_CODE = 2;
     public static final int GAllery_INTENT_REQUSET_CODE = 2;
     public static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 102;
+
 
 
 

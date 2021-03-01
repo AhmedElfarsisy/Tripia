@@ -67,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tripViewPager = binding.tripViewPager;
             tripTabLayout = binding.tripTabLayout;
-            startService(new Intent(this, FloatingAppIconService.class));
 
             mainViewModel.isNavigateToForm.observe(this, navigateResult -> {
                 if (navigateResult) {
                     Log.i(TAG, "onCreate: ********" + navigateResult);
+                    startActivity(new Intent(MainActivity.this, FormActivity.class));
                 }
             });
             setAdapters();
