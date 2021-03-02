@@ -3,7 +3,7 @@ package com.iti.mad41.tripia.ui.fragment.main.previousTrips;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.iti.mad41.tripia.model.Trip;
+import com.iti.mad41.tripia.database.dto.Trip;
 import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
 import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
 
@@ -21,7 +21,7 @@ public class PreviousTripsViewModel extends ViewModel implements FirebaseDelegat
     }
 
     public void deleteTrip(Trip trip){
-        firebaseRepo.deleteTrip(trip.getId());
+        firebaseRepo.deleteTrip(trip.getFirebaseId());
     }
 
     @Override

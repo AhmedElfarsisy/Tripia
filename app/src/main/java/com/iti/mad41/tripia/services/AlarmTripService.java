@@ -31,15 +31,13 @@ public class AlarmTripService extends Service {
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mediaPlayer = MediaPlayer.create(this, R.raw.alarmsound);
         mediaPlayer.setLooping(true);
-//        Intent activityIntent = new Intent(this, TripAlarmActivity.class);
-//        //setDataOnIntent(activityIntent, intent);
-//        activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(activityIntent);
+
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i("myTrip", Constants.TRIP_TITLE_KEY + " ::::::onstartCommand: " + intent.getStringExtra(Constants.TRIP_TITLE_KEY));
 
         showNotification(intent.getStringExtra(Constants.TRIP_TITLE_KEY));
 
@@ -67,19 +65,6 @@ public class AlarmTripService extends Service {
             startForeground(1, builder.build());
 
         }
-    }
-
-    public void setDataOnIntent(Intent intentService, Intent intent) {
-        Log.i("myTrip", Constants.TRIP_TITLE_KEY + " ::::::setDataOnIntent ALARM: " + intent.getStringExtra(Constants.TRIP_TITLE_KEY));
-        intentService.putExtra(Constants.TRIP_ID_KEY, intent.getStringExtra(Constants.TRIP_ID_KEY));
-        intentService.putExtra(Constants.TRIP_TITLE_KEY, intent.getStringExtra(Constants.TRIP_TITLE_KEY));
-        intentService.putExtra(Constants.TRIP_START_LAT_KEY, intent.getDoubleExtra(Constants.TRIP_START_LAT_KEY, 0.0));
-        intentService.putExtra(Constants.TRIP_START_Log_KEY, intent.getDoubleExtra(Constants.TRIP_START_Log_KEY, 0.0));
-        intentService.putExtra(Constants.TRIP_DESTINATION_Lat_KEY, intent.getDoubleExtra(Constants.TRIP_DESTINATION_Lat_KEY, 0.0));
-        intentService.putExtra(Constants.TRIP_DESTINATION_Log_KEY, intent.getDoubleExtra(Constants.TRIP_DESTINATION_Log_KEY, 0.0));
-        intentService.putExtra(Constants.TRIP_DATE_KEY, intent.getLongExtra(Constants.TRIP_DATE_KEY, 0));
-        intentService.putExtra(Constants.TRIP_START_ADDRESS_KEY, intent.getStringExtra(Constants.TRIP_START_ADDRESS_KEY));
-        intentService.putExtra(Constants.TRIP_DESTINATION_ADDRESS_KEY, intent.getStringExtra(Constants.TRIP_DESTINATION_ADDRESS_KEY));
     }
 
     @Override

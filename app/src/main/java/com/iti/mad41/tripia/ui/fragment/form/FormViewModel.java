@@ -3,7 +3,6 @@ package com.iti.mad41.tripia.ui.fragment.form;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -16,8 +15,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.libraries.places.api.model.PhotoMetadata;
+import com.iti.mad41.tripia.database.dto.Trip;
 import com.iti.mad41.tripia.helper.Validations;
-import com.iti.mad41.tripia.model.Trip;
 import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
 import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
 

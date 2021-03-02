@@ -16,22 +16,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.facebook.CallbackManager;
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.adapters.UpcomingTripsAdapter;
 import com.iti.mad41.tripia.adapters.onUpcomingTripsClickCallback;
+import com.iti.mad41.tripia.database.dto.Trip;
 import com.iti.mad41.tripia.databinding.FragmentUpcomingTripBinding;
-import com.iti.mad41.tripia.databinding.RegisterFragmentBinding;
-import com.iti.mad41.tripia.model.Trip;
-import com.iti.mad41.tripia.model.TripsRepo;
-import com.iti.mad41.tripia.repository.facebook.FacebookRepo;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
-import com.iti.mad41.tripia.repository.google.GoogleRepo;
 import com.iti.mad41.tripia.ui.dialog.ConfirmDialog;
 import com.iti.mad41.tripia.ui.dialog.onConfirmDialogClickCallback;
-import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModel;
-import com.iti.mad41.tripia.ui.fragment.register.RegisterViewModel;
-import com.iti.mad41.tripia.ui.fragment.register.RegisterViewModelFactory;
 
 public class UpcomingTripsFragment extends Fragment {
     private static final String TAG = UpcomingTripsFragment.class.getSimpleName();
@@ -68,7 +60,6 @@ public class UpcomingTripsFragment extends Fragment {
             @Override
             public void onStartClick(Trip trip) {
                 displayTrack(trip.getStartAddress(), trip.getDestinationAddress());
-
             }
 
             @Override

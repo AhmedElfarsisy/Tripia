@@ -4,7 +4,8 @@ import android.content.Context;
 
 
 import com.iti.mad41.tripia.database.DatabaseRoom;
-import com.iti.mad41.tripia.database.dto.LocalTrip;
+import com.iti.mad41.tripia.database.dto.Trip;
+import com.iti.mad41.tripia.helper.Constants;
 
 import java.util.List;
 
@@ -35,33 +36,33 @@ public class TripsDataRepository implements ITripDataRepo {
 
     @Override
     public Completable createTrip(Object obj) {
-        Completable insert = databaseRoom.tripDao().insert((LocalTrip) obj);
+        Completable insert = databaseRoom.tripDao().insert((Trip) obj);
         return insert;
     }
 
 
     //GET Trips on running state
     @Override
-    public Single<List<LocalTrip>> getUpComingTrip(String tripState) {
-        Single<List<LocalTrip>> upComingTrips = databaseRoom.tripDao().getUpComingTrips(tripState);
+    public Single<List<Trip>> getUpComingTrip() {
+        Single<List<Trip>> upComingTrips = databaseRoom.tripDao().getUpComingTrips(Constants.TRIP_RUNNING);
         return upComingTrips;
     }
 
     @Override
-    public Single<List<LocalTrip>> getHistoryTrips(String done, String canceledState) {
-        Single<List<LocalTrip>> historyTrips = databaseRoom.tripDao().getHistoryTrips(done, canceledState);
+    public Single<List<Trip>> getHistoryTrips() {
+        Single<List<Trip>> historyTrips = databaseRoom.tripDao().getHistoryTrips(Constants.TRIP_FINISHED, Constants.TRIP_CANCELLED);
         return historyTrips;
     }
 
     @Override
-    public Single<LocalTrip> getTripById(int tripId) {
-        Single<LocalTrip> tripById = databaseRoom.tripDao().getTripById(tripId);
+    public Single<Trip> getTripById(int tripId) {
+        Single<Trip> tripById = databaseRoom.tripDao().getTripById(tripId);
         return tripById;
     }
 
     @Override
     public Completable updateTrip(Object obj) {
-        Completable updateTrip = databaseRoom.tripDao().updateTrip((LocalTrip) obj);
+        Completable updateTrip = databaseRoom.tripDao().updateTrip((Trip) obj);
         return updateTrip;
     }
 

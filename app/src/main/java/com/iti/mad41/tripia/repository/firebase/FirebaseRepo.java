@@ -18,21 +18,20 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.iti.mad41.tripia.model.Note;
-import com.iti.mad41.tripia.model.Trip;
+import com.iti.mad41.tripia.database.dto.Note;
+import com.iti.mad41.tripia.database.dto.Trip;
+import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.model.User;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class FirebaseRepo implements IFirebaseRepo {
     private FirebaseDelegate delegate;
@@ -137,7 +136,7 @@ public class FirebaseRepo implements IFirebaseRepo {
     public void writeTrip(Trip trip) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(currentUser.getUid()).child("trips").child(trip.getId()).setValue(trip);
+        mDatabase.child("users").child(currentUser.getUid()).child("trips").child(trip.getFirebaseId()).setValue(trip);
     }
 
     @Override
@@ -237,7 +236,7 @@ public class FirebaseRepo implements IFirebaseRepo {
                 tripsList.clear();
                 for (DataSnapshot tripSnapshot : dataSnapshot.getChildren()) {
                     Trip trip = tripSnapshot.getValue(Trip.class);
-                    if(trip.getStatus().equals(Constants.TRIP_FINISHED) || trip.getStatus().equals(Constants.TRIP_CANCELLED))
+                    if(trip.getStatus().equals("Finish") || trip.getStatus().equals("Cancel"))
                         tripsList.add(tripSnapshot.getValue(Trip.class));
                 }
                 delegate.onSubscribeToTripsSuccess(tripsList);

@@ -7,7 +7,7 @@
 
         <variable
             name="previousTrips"
-            type="com.iti.mad41.tripia.model.Trip"/>
+            type="com.iti.mad41.tripia.database.dto.Trip" />
 
     </data>
 
@@ -16,14 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/margin_8"
         android:layout_marginRight="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/margin_8"
         app:cardCornerRadius="@dimen/_15sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_5sdp"
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
@@ -37,8 +37,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:scaleType="fitXY"
                     android:loadImageBitmap="@{previousTrips.imageUrl}"
+                    android:scaleType="fitXY"
                     tools:srcCompat="@tools:sample/avatars" />
             </androidx.cardview.widget.CardView>
 
@@ -79,6 +79,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:layout_marginEnd="@dimen/margin_8"
                             android:layout_weight="2"
                             app:srcCompat="@drawable/ic_close" />
                     </LinearLayout>
@@ -119,8 +120,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
-                                android:textFlag="@{previousTrips.status}"
                                 android:textColor="@color/maroon"
+                                android:textFlag="@{previousTrips.status}"
                                 android:textSize="@dimen/small_text" />
 
                             <TextView

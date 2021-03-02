@@ -1,6 +1,5 @@
 package com.iti.mad41.tripia.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +9,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.iti.mad41.tripia.R;
+import com.iti.mad41.tripia.database.dto.Trip;
 import com.iti.mad41.tripia.databinding.PreviousTripCardBinding;
 import com.iti.mad41.tripia.databinding.UpcomingTripCardBinding;
-import com.iti.mad41.tripia.model.Trip;
 
 import java.util.List;
 

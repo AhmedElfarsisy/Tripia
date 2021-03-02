@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
 
         <variable
@@ -18,7 +19,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/upcomingRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_8" />
     </FrameLayout>
 
 </layout>

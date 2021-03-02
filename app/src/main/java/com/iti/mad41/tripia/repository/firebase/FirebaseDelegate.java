@@ -1,8 +1,8 @@
 package com.iti.mad41.tripia.repository.firebase;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.iti.mad41.tripia.model.Note;
-import com.iti.mad41.tripia.model.Trip;
+import com.iti.mad41.tripia.database.dto.Note;
+import com.iti.mad41.tripia.database.dto.Trip;
 
 import java.util.ArrayList;
 import java.util.List;

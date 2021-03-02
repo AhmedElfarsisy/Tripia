@@ -1,6 +1,6 @@
 package com.iti.mad41.tripia.adapters;
 
-import com.iti.mad41.tripia.model.Trip;
+import com.iti.mad41.tripia.database.dto.Trip;
 
 public interface onUpcomingTripsClickCallback {
     void onStartClick(Trip trip);

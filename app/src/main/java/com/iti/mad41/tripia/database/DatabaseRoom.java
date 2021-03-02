@@ -8,15 +8,15 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.iti.mad41.tripia.database.dao.LocalTripDao;
-import com.iti.mad41.tripia.database.dto.LocalTrip;
 import com.iti.mad41.tripia.database.dto.NoteConverter;
+import com.iti.mad41.tripia.database.dto.Trip;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
 @TypeConverters(NoteConverter.class)
-@Database(entities = {LocalTrip.class}, version = 1, exportSchema = false)
+@Database(entities = {Trip.class}, version = 1, exportSchema = false)
 public abstract class DatabaseRoom extends RoomDatabase {
     private static volatile DatabaseRoom INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

@@ -18,8 +18,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
@@ -28,15 +26,8 @@ import com.iti.mad41.tripia.databinding.ActivityMainBinding;
 
 
 import com.iti.mad41.tripia.helper.Constants;
-import com.iti.mad41.tripia.services.FloatingAppIconService;
 import com.iti.mad41.tripia.ui.activity.form.FormActivity;
 import com.iti.mad41.tripia.ui.activity.settings.SettingsActivity;
-<<<<<<< HEAD
-import com.iti.mad41.tripia.ui.activity.tripservice.TripAlarmActivity;
-=======
->>>>>>> 05d21d961bdd5d6f5cc32a972cba014d7eabadce
-import com.iti.mad41.tripia.ui.fragment.form.FormFragment;
-import com.iti.mad41.tripia.ui.fragment.notes.NotesFragment;
 
 
 import com.iti.mad41.tripia.ui.fragment.main.previousTrips.PreviousTripsFragment;
@@ -103,17 +94,6 @@ public class MainActivity extends AppCompatActivity {
         tripTabLayout.setupWithViewPager(tripViewPager);
     }
 
-<<<<<<< HEAD
-=======
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menuHome:
-                return true;
-            case R.id.menuMore:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
->>>>>>> 05d21d961bdd5d6f5cc32a972cba014d7eabadce
 
 
     @Override

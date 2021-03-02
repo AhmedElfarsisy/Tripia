@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -19,8 +20,8 @@ import android.widget.TextView;
 import androidx.core.app.NotificationCompat;
 
 import com.iti.mad41.tripia.R;
+import com.iti.mad41.tripia.database.dto.Note;
 import com.iti.mad41.tripia.helper.Constants;
-import com.iti.mad41.tripia.model.Note;
 import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.ui.activity.main.MainActivity;
@@ -149,9 +150,10 @@ public class FloatingAppIconService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i("myTrip", "IN FLOAT ICON Class: ++++++ TRIP_ID_KEY"+ intent.getStringExtra(Constants.TRIP_ID_KEY));
+
         FirebaseRepo firebaseRepo = new FirebaseRepo();
-//        intent.getStringExtra(Constants.TRIP_Firebase_ID_KEY)
-        firebaseRepo.getTripNotes("fbd8608e-6976-4165-85f0-c06c816159ca"
+        firebaseRepo.getTripNotes(intent.getStringExtra(Constants.TRIP_ID_KEY)
                 , new FirebaseDelegate() {
                     @Override
                     public void onGetNotesSuccess(ArrayList<Note> notesList) {
