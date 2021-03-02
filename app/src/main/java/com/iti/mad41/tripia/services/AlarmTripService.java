@@ -61,7 +61,8 @@ public class AlarmTripService extends Service {
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .setContentTitle(tripTitle)
                     .setContentText("Start your Trip now With Tripia")
-                    .setContentIntent(pendingIntent);
+                    .setContentIntent(pendingIntent)
+                    .setFullScreenIntent(pendingIntent, true);
             startForeground(1, builder.build());
 
         }
