@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.databinding.MoreFragmentBinding;
@@ -24,6 +25,7 @@ import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.repository.facebook.FacebookRepo;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.repository.google.GoogleRepo;
+import com.iti.mad41.tripia.repository.localrepo.TripsDataRepository;
 import com.iti.mad41.tripia.ui.activity.auth.AuthActivity;
 import com.iti.mad41.tripia.ui.fragment.profile.ProfileFragment;
 import com.iti.mad41.tripia.ui.fragment.register.RegisterFragment;
@@ -37,6 +39,7 @@ public class MoreFragment extends Fragment {
     private MoreFragmentBinding binding;
 
     private FirebaseRepo firebaseRepo;
+    private TripsDataRepository tripsDataRepository;
 
 
     @Override
@@ -44,6 +47,7 @@ public class MoreFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.more_fragment, container, false);
         firebaseRepo = new FirebaseRepo(getActivity());
+        tripsDataRepository = TripsDataRepository.getINSTANCE(getActivity());
         Toolbar moreToolbar = binding.moreToolbar;
         moreToolbar.setNavigationIcon(R.drawable.ic_arrow);
         moreToolbar.setNavigationOnClickListener(v -> {
@@ -56,7 +60,7 @@ public class MoreFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this, new MoreViewModelFactory(firebaseRepo)).get(MoreViewModel.class);
+        mViewModel = new ViewModelProvider(this, new MoreViewModelFactory(firebaseRepo, tripsDataRepository)).get(MoreViewModel.class);
         binding.setMViewModel(mViewModel);
         binding.setLifecycleOwner(this);
         setupProfileIamge();
@@ -74,6 +78,12 @@ public class MoreFragment extends Fragment {
                 getActivity().finish();
             }
 
+        });
+
+        mViewModel.operationResult.observe(getViewLifecycleOwner(), s -> {
+            if (!s.isEmpty()) {
+                Toast.makeText(getActivity(), s, Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

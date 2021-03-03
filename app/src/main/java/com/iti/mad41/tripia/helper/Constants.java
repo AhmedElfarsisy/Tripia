@@ -36,10 +36,9 @@ public class Constants {
     public static final int GAllery_INTENT_REQUSET_CODE = 2;
     public static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 102;
 
+    public static final String UPDATE_TRIP= "updateTrip";
 
-
-
-
+    public static final String IS_NAVIGATE_TO_UPDATE = "navigateToUpdate";
 
     public static final String REPEATE_DAILY = "daily";
     public static final String REPEATE_MONTHLY = "monthly";

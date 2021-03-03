@@ -26,6 +26,7 @@ import com.iti.mad41.tripia.databinding.ActivityMainBinding;
 
 
 import com.iti.mad41.tripia.helper.Constants;
+import com.iti.mad41.tripia.repository.localrepo.TripsDataRepository;
 import com.iti.mad41.tripia.ui.activity.form.FormActivity;
 import com.iti.mad41.tripia.ui.activity.settings.SettingsActivity;
 
@@ -37,17 +38,20 @@ import com.iti.mad41.tripia.ui.fragment.main.upcomingTrips.UpcomingTripsFragment
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     ActivityMainBinding binding;
-    MainViewModel mainViewModel;
+    MainViewModel mViewModel;
 
     ViewPager tripViewPager;
     TabLayout tripTabLayout;
+
+    TripsDataRepository tripsDataRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        binding.setMainViewModel(mainViewModel);
+        tripsDataRepository = TripsDataRepository.getINSTANCE(this);
+        mViewModel = new ViewModelProvider(this, new MainViewModelFactory(tripsDataRepository)).get(MainViewModel.class);
+        binding.setMainViewModel(mViewModel);
         binding.setLifecycleOwner(this);
         //Check if the application has draw over other apps permission or not?
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
@@ -59,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             tripViewPager = binding.tripViewPager;
             tripTabLayout = binding.tripTabLayout;
 
-            mainViewModel.isNavigateToForm.observe(this, navigateResult -> {
+            mViewModel.isNavigateToForm.observe(this, navigateResult -> {
                 if (navigateResult) {
                     Log.i(TAG, "onCreate: ********" + navigateResult);
                     startActivity(new Intent(MainActivity.this, FormActivity.class));

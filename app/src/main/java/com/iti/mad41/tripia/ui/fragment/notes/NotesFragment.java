@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.iti.mad41.tripia.database.dto.Note;
 import com.iti.mad41.tripia.database.dto.NotesListOwner;
 import com.iti.mad41.tripia.database.dto.Trip;
 import com.iti.mad41.tripia.databinding.NotesFragmentBinding;
+import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 import com.iti.mad41.tripia.repository.localrepo.TripsDataRepository;
 import com.iti.mad41.tripia.ui.fragment.form.FormFragment;
@@ -38,17 +40,27 @@ public class NotesFragment extends Fragment {
     Trip trip;
     FirebaseRepo firebaseRepo;
     TripsDataRepository tripsDataRepository;
+    private boolean isNavigateToUpdate;
+    private Trip updateTripObject;
 
     public static NotesFragment newInstance() {
         return new NotesFragment();
     }
 
+
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        trip = (Trip) getArguments().getParcelable("Trip");
         binding = DataBindingUtil.inflate(inflater, R.layout.notes_fragment, container, false);
         tripsDataRepository = TripsDataRepository.getINSTANCE(getActivity());
+        //TODO: update it's name to work for both
+        trip = getArguments().getParcelable(Constants.UPDATE_TRIP);
+        isNavigateToUpdate = getArguments().getBoolean(Constants.IS_NAVIGATE_TO_UPDATE);
+        if (isNavigateToUpdate) {
+            trip = getArguments().getParcelable(Constants.UPDATE_TRIP);
+            Log.i(TAG, "onCreateView: " + trip.toString());
+        }
         return binding.getRoot();
     }
 
@@ -59,6 +71,12 @@ public class NotesFragment extends Fragment {
         mViewModel = new ViewModelProvider(this, new NotesViewModelFactory(firebaseRepo, tripsDataRepository)).get(NotesViewModel.class);
         binding.setNoteViewModel(mViewModel);
         binding.setLifecycleOwner(this);
+
+        if (trip.getNotesListOwner() != null) {
+            noteList = trip.getNotesListOwner().getNotesList();
+            addNotesToAdapter(noteList);
+        }
+
         binding.toolbar.setNavigationOnClickListener(v -> {
             getActivity()
                     .getSupportFragmentManager()
@@ -78,14 +96,19 @@ public class NotesFragment extends Fragment {
         mViewModel.isClickDone.observe(getViewLifecycleOwner(), isClickDone -> {
             if (isClickDone) {
 
-                mViewModel.setTrip(trip);
                 trip.setNotesListOwner(new NotesListOwner(noteList));
-                mViewModel.createLocalTrip(trip);
+                if(isNavigateToUpdate){
+                    mViewModel.updateLocalTrip(trip);
+                } else {
+                    mViewModel.createLocalTrip(trip);
+                }
 
+                mViewModel.setTrip(trip);
                 mViewModel.setNote(trip.getFirebaseId(), noteList);
                 //schedule trip
-                trip.schedule(getActivity());
-                Toast.makeText(getActivity(), "Trip saved ", Toast.LENGTH_SHORT).show();
+                if (trip.getDateTime() > System.currentTimeMillis())
+                    trip.schedule(getActivity());
+
                 getActivity().finish();
             }
 

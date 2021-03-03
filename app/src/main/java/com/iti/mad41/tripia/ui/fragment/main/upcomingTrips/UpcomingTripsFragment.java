@@ -15,21 +15,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.iti.mad41.tripia.R;
 import com.iti.mad41.tripia.adapters.UpcomingTripsAdapter;
 import com.iti.mad41.tripia.adapters.onUpcomingTripsClickCallback;
 import com.iti.mad41.tripia.database.dto.Trip;
 import com.iti.mad41.tripia.databinding.FragmentUpcomingTripBinding;
+import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
+import com.iti.mad41.tripia.repository.localrepo.TripsDataRepository;
+import com.iti.mad41.tripia.ui.activity.form.FormActivity;
+import com.iti.mad41.tripia.ui.activity.main.MainActivity;
 import com.iti.mad41.tripia.ui.dialog.ConfirmDialog;
 import com.iti.mad41.tripia.ui.dialog.onConfirmDialogClickCallback;
+import com.iti.mad41.tripia.ui.fragment.form.FormFragment;
 
 public class UpcomingTripsFragment extends Fragment {
     private static final String TAG = UpcomingTripsFragment.class.getSimpleName();
     private RecyclerView upcomingRecyclerView;
     private UpcomingTripsAdapter tripsAdapter;
     private FirebaseRepo firebaseRepo;
+    private TripsDataRepository tripsDataRepository;
     private UpcomingTripsViewModel mViewModel;
     private FragmentUpcomingTripBinding binding;
 
@@ -49,7 +56,8 @@ public class UpcomingTripsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         firebaseRepo = new FirebaseRepo();
-        mViewModel = new ViewModelProvider(this, new UpcomingTripsViewModelFactory(firebaseRepo)).get(UpcomingTripsViewModel.class);
+        tripsDataRepository = TripsDataRepository.getINSTANCE(getContext());
+        mViewModel = new ViewModelProvider(this, new UpcomingTripsViewModelFactory(firebaseRepo, tripsDataRepository)).get(UpcomingTripsViewModel.class);
         upcomingRecyclerView = binding.upcomingRecyclerView;
         upcomingRecyclerView.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -60,6 +68,14 @@ public class UpcomingTripsFragment extends Fragment {
             @Override
             public void onStartClick(Trip trip) {
                 displayTrack(trip.getStartAddress(), trip.getDestinationAddress());
+            }
+
+            @Override
+            public void onUpdateClick(Trip trip) {
+                Intent intent = new Intent(getActivity(), FormActivity.class);
+                intent.putExtra(Constants.TRIP_ID_KEY, trip.getId());
+                intent.putExtra(Constants.IS_NAVIGATE_TO_UPDATE, true);
+                startActivity(intent);
             }
 
             @Override

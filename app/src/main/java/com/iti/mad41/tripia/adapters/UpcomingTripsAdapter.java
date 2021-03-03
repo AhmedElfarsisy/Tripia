@@ -41,15 +41,14 @@ public class UpcomingTripsAdapter extends RecyclerView.Adapter<UpcomingTripHolde
     public void onBindViewHolder(@NonNull UpcomingTripHolder holder, int position) {
         Trip trip = tripsList.get(position);
         holder.bind(trip);
-        holder.upcomingTripCardBinding.startButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                onUpcomingTripsClickCallback.onStartClick(trip);
-            }
+        holder.upcomingTripCardBinding.startButton.setOnClickListener(view -> {
+            onUpcomingTripsClickCallback.onStartClick(trip);
         });
-        holder.upcomingTripCardBinding.deleteIcon.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) { onUpcomingTripsClickCallback.onDeleteClick(trip); }
+        holder.upcomingTripCardBinding.editIcon.setOnClickListener(view -> {
+            onUpcomingTripsClickCallback.onUpdateClick(trip);
+        });
+        holder.upcomingTripCardBinding.deleteIcon.setOnClickListener(view -> {
+            onUpcomingTripsClickCallback.onDeleteClick(trip);
         });
     }
 

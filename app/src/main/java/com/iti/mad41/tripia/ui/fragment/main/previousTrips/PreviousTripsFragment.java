@@ -21,6 +21,7 @@ import com.iti.mad41.tripia.adapters.onUpcomingTripsClickCallback;
 import com.iti.mad41.tripia.database.dto.Trip;
 import com.iti.mad41.tripia.databinding.FragmentPreviousTripBinding;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
+import com.iti.mad41.tripia.repository.localrepo.TripsDataRepository;
 import com.iti.mad41.tripia.ui.dialog.ConfirmDialog;
 import com.iti.mad41.tripia.ui.dialog.onConfirmDialogClickCallback;
 import com.iti.mad41.tripia.ui.fragment.main.upcomingTrips.UpcomingTripsFragment;
@@ -30,6 +31,7 @@ public class PreviousTripsFragment extends Fragment {
     private PreviousTripsAdapter tripsAdapter;
     private RecyclerView previousRecyclerView;
     private FirebaseRepo firebaseRepo;
+    private TripsDataRepository tripsDataRepository;
     private PreviousTripsViewModel mViewModel;
     private FragmentPreviousTripBinding binding;
 
@@ -49,7 +51,8 @@ public class PreviousTripsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         firebaseRepo = new FirebaseRepo();
-        mViewModel = new ViewModelProvider(this, new PreviousTripsViewModelFactory(firebaseRepo)).get(PreviousTripsViewModel.class);
+        tripsDataRepository = TripsDataRepository.getINSTANCE(getActivity());
+        mViewModel = new ViewModelProvider(this, new PreviousTripsViewModelFactory(firebaseRepo, tripsDataRepository)).get(PreviousTripsViewModel.class);
         previousRecyclerView = binding.previousRecyclerView;
         previousRecyclerView.setHasFixedSize(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -76,7 +79,7 @@ public class PreviousTripsFragment extends Fragment {
         });
         previousRecyclerView.setAdapter(tripsAdapter);
 
-        mViewModel.liveUpcomingTripsList.observe(getViewLifecycleOwner(), trips -> {
+        mViewModel.livePreviousTripsList.observe(getViewLifecycleOwner(), trips -> {
             tripsAdapter.setData(trips);
             tripsAdapter.notifyDataSetChanged();
         });

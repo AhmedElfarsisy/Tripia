@@ -5,15 +5,19 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,13 +37,14 @@ import com.iti.mad41.tripia.databinding.FormFragmentBinding;
 import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.helper.Validations;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
+import com.iti.mad41.tripia.repository.localrepo.TripsDataRepository;
 import com.iti.mad41.tripia.ui.activity.main.MainActivity;
 import com.iti.mad41.tripia.ui.fragment.notes.NotesFragment;
-import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModel;
-import com.iti.mad41.tripia.ui.fragment.notes.NotesViewModelFactory;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -68,10 +73,19 @@ public class FormFragment extends Fragment {
     private String destinationAddress;
     private String imgB64;
     private FirebaseRepo firebaseRepo;
+    private TripsDataRepository tripsDataRepository;
+    private Trip updateTripObject;
+    private int tripId;
+    private boolean isNavigateToUpdate;
     long timeStampValue;
 
-    public static FormFragment newInstance() {
-        return new FormFragment();
+    public static FormFragment newInstance(int tripId, boolean isNavigateToUpdate) {
+        FormFragment formFragment = new FormFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.TRIP_ID_KEY, tripId);
+        bundle.putBoolean(Constants.IS_NAVIGATE_TO_UPDATE, isNavigateToUpdate);
+        formFragment.setArguments(bundle);
+        return formFragment;
     }
 
     @Override
@@ -89,15 +103,24 @@ public class FormFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         firebaseRepo = new FirebaseRepo(getActivity());
-        mViewModel = new ViewModelProvider(this, new FormViewModelFactory(firebaseRepo)).get(FormViewModel.class);
+        tripsDataRepository = TripsDataRepository.getINSTANCE(getActivity());
+        mViewModel = new ViewModelProvider(this, new FormViewModelFactory(firebaseRepo, tripsDataRepository)).get(FormViewModel.class);
+        isNavigateToUpdate = getArguments().getBoolean(Constants.IS_NAVIGATE_TO_UPDATE);
         binding.setFormViewModel(mViewModel);
         mViewModel.setContext(getActivity());
         binding.setLifecycleOwner(this);
         initGooglePlaces();
+
+        if (isNavigateToUpdate) {
+            tripId = getArguments().getInt(Constants.TRIP_ID_KEY);
+            Log.i(TAG, "onActivityCreated: " + tripId);
+            mViewModel.getTrip(tripId);
+        }
 
         mViewModel.isNavigateFromStartAddress.observe(getViewLifecycleOwner(), isNavigate -> {
             if (isNavigate) {
@@ -166,6 +189,25 @@ public class FormFragment extends Fragment {
             imgB64 = img;
         });
 
+        mViewModel.isRoundTrip.observe(getViewLifecycleOwner(), isRoundTrip -> {
+            if(isRoundTrip){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    binding.buttonRoundTrip.setBackgroundTintList(ColorStateList.valueOf(R.color.sky_blue));
+                    binding.buttonOnWayTrip.setBackgroundTintList(ColorStateList.valueOf(R.color.white));
+                }
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    binding.buttonRoundTrip.setBackgroundTintList(ColorStateList.valueOf(R.color.white));
+                    binding.buttonOnWayTrip.setBackgroundTintList(ColorStateList.valueOf(R.color.sky_blue));
+                }
+            }
+        });
+
+        mViewModel.liveTrip.observe(getViewLifecycleOwner(), trip -> {
+            setDataToFormOnUpdateMode(trip);
+            updateTripObject = trip;
+        });
+
         binding.toolbar.setNavigationOnClickListener(v -> {
             startActivity(new Intent(getActivity(), MainActivity.class));
         });
@@ -182,20 +224,32 @@ public class FormFragment extends Fragment {
                         Validations.isNull(startAddress) &&
                         Validations.isNull(destinationAddress);
                 if (!Validations.isEmpty(title) && isFormComplete) {
-
-                    trip = new Trip(UUID.randomUUID().toString(), title, startAddress, startLongitude, startLatitude, destinationAddress, destinationLongitude, destinationLatitude, (timeStampValue - 45), imgB64);
-
-                    Log.i("myTrip", trip.toString());
-                    NotesFragment notesFragment = NotesFragment.newInstance();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("Trip", trip);
-                    notesFragment.setArguments(bundle);
-
-                    getActivity()
-                            .getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragment_container_view, notesFragment)
-                            .commit();
+                    if (updateTripObject != null) {
+                        updateTripObject.setId(tripId);
+                        updateTripObject.setTripTitle(title);
+                        updateTripObject.setStartAddress(startAddress);
+                        updateTripObject.setStartLatitude(startLatitude);
+                        updateTripObject.setStartLongitude(startLongitude);
+                        updateTripObject.setDestinationAddress(destinationAddress);
+                        updateTripObject.setDestinationLatitude(destinationLatitude);
+                        updateTripObject.setDestinationLongitude(destinationLongitude);
+                        updateTripObject.setDateTime(timeStampValue - 45);
+                        updateTripObject.setImageUrl(imgB64);
+                        navigateToNotes(updateTripObject);
+                    } else {
+                        trip = new Trip(
+                            UUID.randomUUID().toString(),
+                            title,
+                            startAddress,
+                            startLongitude,
+                            startLatitude,
+                            destinationAddress,
+                            destinationLongitude,
+                            destinationLatitude,
+                            (timeStampValue - 45),
+                            imgB64);
+                        navigateToNotes(trip);
+                    }
                 } else {
                     if (Validations.isEmpty(binding.editTextTripTitle.getText().toString()))
                         binding.editTextTripTitle.setError("Title field is empty");
@@ -204,6 +258,8 @@ public class FormFragment extends Fragment {
                 }
             }
         });
+
+
     }
 
     @Override
@@ -270,6 +326,43 @@ public class FormFragment extends Fragment {
         Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
                 .build(getActivity());
         startActivityForResult(intent, requestCode);
+    }
+
+    private void setDataToFormOnUpdateMode(Trip trip) {
+        binding.editTextTripTitle.setText(trip.getTripTitle());
+        mViewModel.startAddress.setValue(trip.getStartAddress());
+        mViewModel.addressImageB64.setValue(trip.getImageUrl());
+        mViewModel.startLatitude.setValue(trip.getStartLatitude());
+        mViewModel.startLongitude.setValue(trip.getStartLongitude());
+        mViewModel.destinationAddress.setValue(trip.getDestinationAddress());
+        mViewModel.destinationLatitude.setValue(trip.getDestinationLatitude());
+        mViewModel.destinationLongitude.setValue(trip.getDestinationLongitude());
+        String date = parseTimeStamp(trip.getDateTime());
+        String[] arrayToGetDate = date.split(",");
+        mViewModel.startDate.setValue("" + arrayToGetDate[0]);
+        mViewModel.startTime.setValue("" + arrayToGetDate[1]);
+    }
+
+    private String parseTimeStamp(long postDate) {
+        Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
+        calendar.setTimeInMillis(postDate);
+        String date = DateFormat.format("dd-MM-yyy ,hh:mm", calendar).toString();
+        return date;
+    }
+
+    private void navigateToNotes(Trip trip){
+        Log.i("myTrip", trip.toString());
+        NotesFragment notesFragment = NotesFragment.newInstance();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.UPDATE_TRIP, trip);
+        bundle.putBoolean(Constants.IS_NAVIGATE_TO_UPDATE, isNavigateToUpdate);
+        notesFragment.setArguments(bundle);
+
+        getActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container_view, notesFragment)
+                .commit();
     }
 
 }

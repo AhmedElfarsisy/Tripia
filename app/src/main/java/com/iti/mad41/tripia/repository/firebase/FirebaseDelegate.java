@@ -45,6 +45,10 @@ public interface FirebaseDelegate {
 
     }
 
+    default void onCheckForTripsFailure(){
+
+    }
+
     default void onSubscribeToTripsSuccess(List<Trip> tripsList){
 
     }
@@ -59,6 +63,10 @@ public interface FirebaseDelegate {
     }
 
     default void onGetNotesFailure(String message){
+
+    }
+
+    default void onWriteTripSuccess(Trip trip){
 
     }
 

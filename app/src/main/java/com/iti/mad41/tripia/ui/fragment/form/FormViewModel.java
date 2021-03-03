@@ -19,10 +19,18 @@ import com.iti.mad41.tripia.database.dto.Trip;
 import com.iti.mad41.tripia.helper.Validations;
 import com.iti.mad41.tripia.repository.firebase.FirebaseDelegate;
 import com.iti.mad41.tripia.repository.firebase.IFirebaseRepo;
+import com.iti.mad41.tripia.repository.localrepo.ITripDataRepo;
 
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import io.reactivex.SingleObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class FormViewModel extends ViewModel implements FirebaseDelegate {
 
@@ -33,6 +41,8 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
     String checkDayOfMonth = "";
     String checkSelectedHour = "";
     IFirebaseRepo firebaseRepo;
+    private ITripDataRepo tripsDataRepository;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     public MutableLiveData<Boolean> isNavigateToNotes = new MutableLiveData<>();
     public MutableLiveData<Double> startLongitude = new MutableLiveData<>();
     public MutableLiveData<Double> startLatitude = new MutableLiveData<>();
@@ -41,9 +51,11 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
     public MutableLiveData<Double> destinationLatitude = new MutableLiveData<>();
     public MutableLiveData<String> destinationAddress = new MutableLiveData<>();
     public MutableLiveData<String> addressImageB64 = new MutableLiveData<>();
+    public MutableLiveData<Boolean> isRoundTrip = new MutableLiveData<>();
     public MutableLiveData<Boolean> isNavigateFromStartAddress = new MutableLiveData<>();
     public MutableLiveData<Boolean> isNavigateFromDestinationAddress = new MutableLiveData<>();
     public MutableLiveData<Pair<Boolean, Trip>> mutableLiveDataDate = new MutableLiveData<>();
+    public MutableLiveData<Trip> liveTrip = new MutableLiveData<>();
     int yearV, monthV, dayV, hourV, minutesV;
 
     Calendar selectedDate = Calendar.getInstance();
@@ -53,9 +65,10 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
 
     public MutableLiveData<Long> timeStamp = new MutableLiveData<>();
 
-    public FormViewModel(IFirebaseRepo firebaseRepo) {
+    public FormViewModel(IFirebaseRepo firebaseRepo, ITripDataRepo tripsDataRepository) {
         isNavigateToNotes.setValue(false);
         this.firebaseRepo = firebaseRepo;
+        this.tripsDataRepository = tripsDataRepository;
         firebaseRepo.setDelegate(this);
     }
 
@@ -85,6 +98,14 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
         destinationAddress.setValue(address);
         destinationLatitude.setValue(latitude);
         destinationLongitude.setValue(longitude);
+    }
+
+    public void toggleRoundTrip(){
+        isRoundTrip.setValue(true);
+    }
+
+    public void toggleOnWayTrip(){
+        isRoundTrip.setValue(false);
     }
 
     public void onDisplayTimerDialogClick() {
@@ -150,8 +171,37 @@ public class FormViewModel extends ViewModel implements FirebaseDelegate {
         firebaseRepo.fetchPhoto(metadata);
     }
 
+    public void getTrip(int tripId) {
+        tripsDataRepository
+                .getTripById(tripId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        compositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(@NonNull Object o) {
+                        liveTrip.setValue((Trip)o);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.i(TAG, "onError: " + e.getMessage());
+                    }
+                });
+    }
+
     @Override
     public void onHandleImageB64Success(String imageB64) {
         addressImageB64.setValue(imageB64);
+    }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        compositeDisposable.dispose();
     }
 }

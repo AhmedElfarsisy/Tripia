@@ -20,6 +20,8 @@ import com.iti.mad41.tripia.services.FloatingAppIconService;
 
 public class TripAlarmActivity extends AppCompatActivity {
     Button startTrip;
+    Button cancelTrip;
+    Button snoozeTrip;
     ImageView alrmIcon;
     String TripTitle;
     Double startLong;
@@ -37,6 +39,8 @@ public class TripAlarmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_alarm);
         startTrip = findViewById(R.id.startTripBtn);
+        snoozeTrip = findViewById(R.id.snoozeTripBtn);
+        cancelTrip = findViewById(R.id.cancelTripBtn);
         alrmIcon = findViewById(R.id.alarmIcon);
         firebaseRepo = new FirebaseRepo();
         Intent intent = getIntent();
@@ -58,15 +62,21 @@ public class TripAlarmActivity extends AppCompatActivity {
             tripId = intent.getStringExtra(Constants.TRIP_ID_KEY);
         }
         startTrip.setOnClickListener(v -> {
-
-
-            Intent intentService = new Intent(getApplicationContext(), AlarmTripService.class);
-            getApplicationContext().stopService(intentService);
             displayTrack(startAddress, destinationAddress);
             startService(new Intent(TripAlarmActivity.this, FloatingAppIconService.class).putExtra(Constants.TRIP_ID_KEY, tripNotesID));
             firebaseRepo.changeTripState(Constants.TRIP_FINISHED, tripId);
-            finish();
+            stopService();
         });
+
+        snoozeTrip.setOnClickListener(v -> {
+            stopService();
+        });
+
+        cancelTrip.setOnClickListener(v -> {
+            firebaseRepo.changeTripState(Constants.TRIP_CANCELLED, tripId);
+            stopService();
+        });
+
         animateClock();
     }
 
@@ -85,7 +95,7 @@ public class TripAlarmActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onCancelTrip(View view) {
+    public void stopService() {
         Intent intentService = new Intent(getApplicationContext(), AlarmTripService.class);
         getApplicationContext().stopService(intentService);
         finish();

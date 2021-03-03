@@ -6,9 +6,15 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.facebook.AccessToken;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.PhotoMetadata;
 import com.google.android.libraries.places.api.net.FetchPhotoRequest;
@@ -37,6 +43,7 @@ public class FirebaseRepo implements IFirebaseRepo {
     private FirebaseDelegate delegate;
     private Activity activity;
     private DatabaseReference mDatabase;
+    private Object QuerySnapshot;
 
     public FirebaseRepo(Activity activity) {
         this.activity = activity;
@@ -136,12 +143,15 @@ public class FirebaseRepo implements IFirebaseRepo {
     public void writeTrip(Trip trip) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(currentUser.getUid()).child("trips").child(trip.getFirebaseId()).setValue(trip);
+        mDatabase.child("users").child(currentUser.getUid()).child("trips").child(trip.getFirebaseId()).setValue(trip).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                delegate.onWriteTripSuccess(trip);
+            }
+        });
     }
 
     @Override
     public void writeNotes(String tripId, List<Note> note) {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("notes").child(tripId).setValue(note);
     }
@@ -196,6 +206,24 @@ public class FirebaseRepo implements IFirebaseRepo {
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         return decodedByte;
     }
+
+    public void checkForTrips(){
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase
+                .child("users")
+                .child(currentUser.getUid())
+                .child("trips")
+                .get()
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("CHECK_FOR_TRIPS", "onFailure: " + e.getMessage());
+                        delegate.onCheckForTripsFailure();
+                    }
+                });
+    }
+
     @Override
     public void subscribeToUpcomingTrips(){
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

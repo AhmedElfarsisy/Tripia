@@ -9,6 +9,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -16,11 +18,16 @@ import androidx.room.PrimaryKey;
 import com.iti.mad41.tripia.broadcast.TripBroadcastReceiver;
 import com.iti.mad41.tripia.helper.Constants;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 
 @Entity(tableName = "local_trip")
 public class Trip implements Parcelable {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     private int id;
     private String tripTitle;
     private String startAddress;
@@ -35,7 +42,6 @@ public class Trip implements Parcelable {
     private boolean isUpload;
     private String repeate;
     private String tripState;
-    @Ignore
     private String firebaseId;
     private String status;
     private int alarmId;
@@ -45,6 +51,7 @@ public class Trip implements Parcelable {
 
     }
 
+    @Ignore
     public Trip(String tripTitle, String startAddress, Double startLongitude, Double startLatitude, String destinationAddress, Double destinationLongitude, Double destinationLatitude, Long dateTime, String repeate, boolean isUpload) {
         this.tripTitle = tripTitle;
         this.startAddress = startAddress;
@@ -56,6 +63,7 @@ public class Trip implements Parcelable {
         this.dateTime = dateTime;
         this.isUpload = isUpload();
         this.repeate = repeate;
+        this.notesListOwner = new NotesListOwner(new ArrayList<>());
         status = Constants.TRIP_RUNNING;
     }
 
@@ -70,6 +78,8 @@ public class Trip implements Parcelable {
         this.destinationLatitude = destinationLatitude;
         this.dateTime = dateTime;
         this.imageUrl = imageUrl;
+        this.notesListOwner = new NotesListOwner(new ArrayList<>());
+        id = new Random().nextInt(Integer.MAX_VALUE);
         status = Constants.TRIP_RUNNING;
         alarmId = new Random().nextInt(Integer.MAX_VALUE);
     }
@@ -359,15 +369,22 @@ public class Trip implements Parcelable {
     @Override
     public String toString() {
         return "Trip{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", tripTitle='" + tripTitle + '\'' +
                 ", startAddress='" + startAddress + '\'' +
                 ", destinationAddress='" + destinationAddress + '\'' +
                 ", dateTime=" + dateTime +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", startLongitude=" + startLongitude +
                 ", startLatitude=" + startLatitude +
                 ", destinationLongitude=" + destinationLongitude +
                 ", destinationLatitude=" + destinationLatitude +
+                ", notesListOwner=" + notesListOwner +
+                ", isUpload=" + isUpload +
+                ", repeate='" + repeate + '\'' +
+                ", tripState='" + tripState + '\'' +
+                ", firebaseId='" + firebaseId + '\'' +
+                ", status='" + status + '\'' +
                 ", alarmId=" + alarmId +
                 '}';
     }

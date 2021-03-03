@@ -11,6 +11,7 @@ import com.iti.mad41.tripia.database.dto.Trip;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 @Dao
@@ -23,12 +24,12 @@ public interface LocalTripDao {
 
     //Read
     //Give it the state of the trips you want
-    @Query("SELECT * FROM local_trip WHERE tripState=:runningState")
-    Single<List<Trip>> getUpComingTrips(String runningState);
+    @Query("SELECT * FROM local_trip WHERE status=:runningState")
+    Observable<List<Trip>> getUpComingTrips(String runningState);
 
 
-    @Query("SELECT * FROM local_trip WHERE tripState=:done and tripState=:canceledState")
-    Single<List<Trip>> getHistoryTrips(String done, String canceledState);
+    @Query("SELECT * FROM local_trip WHERE status=:done OR status=:canceledState")
+    Observable<List<Trip>> getHistoryTrips(String done, String canceledState);
 
     @Query("SELECT * FROM local_trip WHERE id=:tripId")
     Single<Trip> getTripById(int tripId);
@@ -40,5 +41,8 @@ public interface LocalTripDao {
     //Delete
     @Query("DELETE FROM local_trip WHERE id=:tripId")
     Completable deleteTrip(int tripId);
+
+    @Query("SELECT * FROM local_trip WHERE isUpload=:isUploaded")
+    Observable<List<Trip>> getUploadedFailedTrips(boolean isUploaded);
 
 }

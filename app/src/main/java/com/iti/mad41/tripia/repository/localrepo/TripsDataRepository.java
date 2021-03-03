@@ -10,6 +10,7 @@ import com.iti.mad41.tripia.helper.Constants;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public class TripsDataRepository implements ITripDataRepo {
@@ -43,14 +44,14 @@ public class TripsDataRepository implements ITripDataRepo {
 
     //GET Trips on running state
     @Override
-    public Single<List<Trip>> getUpComingTrip() {
-        Single<List<Trip>> upComingTrips = databaseRoom.tripDao().getUpComingTrips(Constants.TRIP_RUNNING);
+    public Observable<List<Trip>> getUpComingTrip() {
+        Observable<List<Trip>> upComingTrips = databaseRoom.tripDao().getUpComingTrips(Constants.TRIP_RUNNING);
         return upComingTrips;
     }
 
     @Override
-    public Single<List<Trip>> getHistoryTrips() {
-        Single<List<Trip>> historyTrips = databaseRoom.tripDao().getHistoryTrips(Constants.TRIP_FINISHED, Constants.TRIP_CANCELLED);
+    public Observable<List<Trip>> getHistoryTrips() {
+        Observable<List<Trip>> historyTrips = databaseRoom.tripDao().getHistoryTrips(Constants.TRIP_FINISHED, Constants.TRIP_CANCELLED);
         return historyTrips;
     }
 
@@ -72,6 +73,11 @@ public class TripsDataRepository implements ITripDataRepo {
         return deleteTrip;
     }
 
+    @Override
+    public Observable<List<Trip>> getUploadedFailedTrips() {
+        Observable<List<Trip>> uploadedFailedTrips = databaseRoom.tripDao().getUploadedFailedTrips(false);
+        return uploadedFailedTrips;
+    }
 
 
 }

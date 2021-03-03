@@ -35,6 +35,8 @@ public interface IFirebaseRepo {
 
     void changeTripState(String state, String tripId);
 
+    void checkForTrips();
+
     void subscribeToUpcomingTrips();
 
     void subscribeToPreviousTrips();
