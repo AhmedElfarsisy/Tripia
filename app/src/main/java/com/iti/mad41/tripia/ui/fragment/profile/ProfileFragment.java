@@ -10,6 +10,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -29,6 +30,7 @@ import com.iti.mad41.tripia.databinding.ProfileFragmentBinding;
 import com.iti.mad41.tripia.helper.Constants;
 import com.iti.mad41.tripia.repository.firebase.FirebaseRepo;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -67,6 +69,7 @@ public class ProfileFragment extends Fragment {
                 checkAndRequestForPermission();
             }
         });
+        setupProfileImage();
     }
 
 
@@ -113,6 +116,16 @@ public class ProfileFragment extends Fragment {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupProfileImage() {
+        try {
+            FileInputStream input = getActivity().openFileInput(Constants.PROFILE_IMAGE_KEY);
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            binding.changeProfileImageView.setImageBitmap(bitmap);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }

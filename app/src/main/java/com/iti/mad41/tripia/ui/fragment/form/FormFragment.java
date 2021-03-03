@@ -190,17 +190,7 @@ public class FormFragment extends Fragment {
         });
 
         mViewModel.isRoundTrip.observe(getViewLifecycleOwner(), isRoundTrip -> {
-            if(isRoundTrip){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    binding.buttonRoundTrip.setBackgroundTintList(ColorStateList.valueOf(R.color.sky_blue));
-                    binding.buttonOnWayTrip.setBackgroundTintList(ColorStateList.valueOf(R.color.white));
-                }
-            } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    binding.buttonRoundTrip.setBackgroundTintList(ColorStateList.valueOf(R.color.white));
-                    binding.buttonOnWayTrip.setBackgroundTintList(ColorStateList.valueOf(R.color.sky_blue));
-                }
-            }
+
         });
 
         mViewModel.liveTrip.observe(getViewLifecycleOwner(), trip -> {

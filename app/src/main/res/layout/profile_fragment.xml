@@ -83,22 +83,5 @@
             app:layout_constraintTop_toBottomOf="@+id/cardView"
             tools:ignore="VectorDrawableCompat" />
 
-        <EditText
-            android:id="@+id/changeNameEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_16"
-            android:layout_marginTop="@dimen/margin_16"
-            android:layout_marginEnd="@dimen/margin_16"
-            android:background="@drawable/btn_radius"
-            android:backgroundTint="@color/white"
-            android:hint="@string/hint_changeName"
-            android:inputType="textPersonName"
-            android:textSize="@dimen/edit_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/changeProfileImageView" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

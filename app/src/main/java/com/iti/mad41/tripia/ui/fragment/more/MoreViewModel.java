@@ -79,6 +79,13 @@ public class MoreViewModel extends ViewModel implements FirebaseDelegate {
     public void signOut() {
         firebaseRepo.signOut();
         isSignedOut.setValue(true);
+        truncateDatabaseItems();
+    }
+
+    private void truncateDatabaseItems() {
+        tripsDataRepository.deleteAllTrips().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
+        });
     }
 
     @Override

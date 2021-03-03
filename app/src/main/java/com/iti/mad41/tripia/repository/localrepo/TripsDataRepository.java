@@ -79,5 +79,10 @@ public class TripsDataRepository implements ITripDataRepo {
         return uploadedFailedTrips;
     }
 
+    @Override
+    public Completable deleteAllTrips() {
+        Completable tripDeleted = databaseRoom.tripDao().deleteAllTrips();
+        return tripDeleted;
+    }
 
 }

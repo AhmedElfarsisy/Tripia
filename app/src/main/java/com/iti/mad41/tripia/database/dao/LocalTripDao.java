@@ -45,4 +45,7 @@ public interface LocalTripDao {
     @Query("SELECT * FROM local_trip WHERE isUpload=:isUploaded")
     Observable<List<Trip>> getUploadedFailedTrips(boolean isUploaded);
 
+    @Query("DELETE FROM local_trip ")
+    Completable deleteAllTrips();
+
 }

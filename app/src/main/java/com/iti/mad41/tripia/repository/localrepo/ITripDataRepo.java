@@ -23,4 +23,6 @@ public interface ITripDataRepo<T> {
 
     Observable<List<T>> getUploadedFailedTrips();
 
+    Completable deleteAllTrips();
+
 }
